@@ -56,21 +56,21 @@ def register(newPaths, ssh)
                 addfile = x
         end
     end
-    data = Hash["speaker_id" => speaker_id,
+    data = Hash['speaker_id' => speaker_id,
                 'series_id' => series_id,
                 'audiofile' => audiofile,
                 'videofile' => videofile,
                 'sermon_title' => $options[:title],
                 'alias' => $options[:title],
                 'addfile' => addfile,
-                'addfileDesc' => "Notizen",
+                'addfileDesc' => $options[:addfileDesc],
                 'catid' => cat_id,
-                'language' => '*',
+                'language' => $options[:lang],
                 'sermon_date' => $options[:date],
                 'sermon_time' => ""
              ]
     j = data.to_json.to_s
-    # puts "audio.rb :::: json = " + j
-    puts ssh.exec!("echo '" + j + "' > #{$options[:home]}data.txt");
-    puts ssh.exec!("php #{$options[:home]}components/com_sermonspeaker/api/insert.php");
+
+    puts ssh.exec!("echo '" + j + "' > #{$options[:home]}data.txt"); # write all the data
+    puts ssh.exec!("php #{$options[:home]}components/com_sermonspeaker/api/insert.php"); # insert in the db
 end 

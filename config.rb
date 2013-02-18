@@ -26,3 +26,4 @@ $options[:api] = "http://media.ecg-berlin.de/components/com_sermonspeaker/api/ge
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
 $options[:username] = "git_lightplanke"
 $options[:host] = "5.9.58.75"
+$options[:addfileDesc] = "Notizen"
