@@ -2,7 +2,7 @@ require 'json'
 require 'net/ssh'
 
 def near(res, name)
-    puts "audio.rb :::: got resp " + res;
+    puts "register.rb :::: got resp " + res;
     json = JSON.parse(res)
     json.each do |x|
         if(name == x[0])
@@ -19,21 +19,20 @@ def near(res, name)
             return x[0]
         end
     end
-
     return "0"
 end
 def getSpeakerID(name)
-    res = Net::HTTP.get URI($api + "action=list_speakers")
+    res = Net::HTTP.get URI($options[:api] + "action=list_speakers")
     return near(res,name)
 end
 
 def getSeriesID(name)
-    res = Net::HTTP.get URI($api + "action=list_series")
+    res = Net::HTTP.get URI($options[:api] + "action=list_series")
     return near(res,name)
 end
 
 def getCatID(name)
-    res = Net::HTTP.get URI($api + "action=list_cats")
+    res = Net::HTTP.get URI($options[:api] + "action=list_cats")
     return near(res,name)
 end
 
@@ -72,6 +71,6 @@ def register(newPaths, ssh)
              ]
     j = data.to_json.to_s
     # puts "audio.rb :::: json = " + j
-    puts ssh.exec!("echo '" + j + "' > #{$home}data.txt");
-    puts ssh.exec!("php #{$home}components/com_sermonspeaker/api/insert.php");
+    puts ssh.exec!("echo '" + j + "' > #{$options[:home]}data.txt");
+    puts ssh.exec!("php #{$options[:home]}components/com_sermonspeaker/api/insert.php");
 end 
