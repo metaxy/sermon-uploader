@@ -15,13 +15,13 @@ def error_check
             return :failed
         end
     end
-    
     $options[:files].each do |x|
-        if(! File.exists?(x)) 
+        if(!File.exists?(x)) 
             puts "Die Datei #{x} existiert nicht" 
             return :failed
         end
     end
+    puts $options
     return :ok
 end
 
@@ -36,13 +36,15 @@ def do_meta
     end
     newNames
 end
-def upload(names)
+def up(names)
+    newPaths = []
     Net::SSH.start( $options[:host], $options[:username], :auth_methods => ['publickey','password'],  :keys => [$options[:key]]) do |ssh|
         names.each do |name|
-            newPaths << upload(name, ssh)
+            newPaths << uploadFile(name, ssh)
         end
-        register(names,ssh)
+        register(newPaths, ssh)
     end
+    return newPaths
 end
 def main
 
@@ -52,6 +54,6 @@ def main
     return if error_check() == :failed
     
     names = do_meta()
-    upload(names)
+    up(names)
     
 end
