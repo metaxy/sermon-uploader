@@ -1,6 +1,6 @@
 require 'json'
 require 'net/ssh'
-
+require 'net/http'
 def near(res, name)
     puts "register.rb :::: got resp " + res;
     json = JSON.parse(res)

@@ -1,4 +1,6 @@
 require 'net/scp'
+
+
 def remotePath(local)
     ext = File.extname(local)
     cat = $paths[$options[:cat]]
@@ -25,5 +27,5 @@ def uploadFile(file, ssh)
         print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
     end
     
-    return (remotePath(file) + File.basename(file))
+    return (remotePath(file) + "/" + File.basename(file))
 end 
