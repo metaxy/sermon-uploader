@@ -26,7 +26,7 @@ def rename(old)
                 "/#{$options[:date]} #{cat} - #{ref}#{$options[:title]} (#{$options[:preacher]})" + 
                 File.extname(old)
     else
-        newName = File.dirname(old) + clean File.basename(old) + File.extname(old)
+        newName = File.dirname(old) + clean(File.basename(old)) + File.extname(old)
     end
     File.rename(old, newName)
     newName
