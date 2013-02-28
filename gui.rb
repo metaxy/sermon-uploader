@@ -1,5 +1,6 @@
 require './main.rb'
 require 'Qt4'
+require 'net/http'
 
 class MainWindow < Qt::MainWindow
     
@@ -16,7 +17,7 @@ class MainWindow < Qt::MainWindow
         
     def initialize
         super
-        self.window_title = 'Hello QtRuby v1.0'
+        self.window_title = 'Sermon Uploader'
         resize(600, 300)
         cw = Qt::Widget.new self
         self.central_widget = cw
@@ -39,15 +40,25 @@ class MainWindow < Qt::MainWindow
         
         @@title = Qt::LineEdit.new
         @@preacher = Qt::LineEdit.new
+        completer_p = Qt::Completer.new(getSpeakers, self)
+        completer_p.setCaseSensitivity(Qt::CaseInsensitive)
+        @@preacher.setCompleter(completer_p)
+        
         @@cat = Qt::ComboBox.new
         @@cat.addItems($catNames.keys)
         @@ref = Qt::LineEdit.new
         @@date = Qt::DateTimeEdit.new Qt::Date.currentDate()
         @@serie = Qt::LineEdit.new
+        completer_s = Qt::Completer.new(getSeries, self)
+        completer_s.setCaseSensitivity(Qt::CaseInsensitive)
+        completer_s.setCompletionMode(Qt::Completer::UnfilteredPopupCompletion)
+        @@serie.setCompleter(completer_s)
         
         @@audioFile = Qt::LineEdit.new
         @@videoFile = Qt::LineEdit.new
         @@extraFile = Qt::LineEdit.new
+        
+
 
         cw.layout = Qt::FormLayout.new do
             layout.addRow(tr("Titel"),  @@title);
@@ -56,12 +67,26 @@ class MainWindow < Qt::MainWindow
             layout.addRow(tr("Bibelstelle"),  @@ref);
             layout.addRow(tr("Datum"),  @@date);
             layout.addRow(tr("Serie"),  @@serie);
-            layout.addRow(tr("Audio"),  f(cw,@@audioFile));
-            layout.addRow(tr("Video"),  f(cw,@@videoFile));
-            layout.addRow(tr("Extra"),  f(cw,@@extraFile));
+            layout.addRow(tr("Audio"),  f(cw, @@audioFile));
+            layout.addRow(tr("Video"),  f(cw, @@videoFile));
+            layout.addRow(tr("Extra"),  f(cw, @@extraFile));
             layout.addRow(tr("Upload"),  button);
         end
     end
+    
+end
+
+def getSpeakers
+    res = Net::HTTP.get URI($options[:api] + "action=list_speakers")
+    json = JSON.parse(res)
+    json.map { |x| x[1]}
+    
+end
+def getSeries
+    res = Net::HTTP.get URI($options[:api] + "action=list_series")
+    json = JSON.parse(res)
+    puts json
+    json.map { |x| x[2]}
     
 end
 def f(parent, widget)

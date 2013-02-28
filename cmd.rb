@@ -20,7 +20,7 @@ def cmd
         $options[:cat] = x
     end
     
-    $options[:lang] = nil
+    $options[:lang] = "*"
     opts.on( '-l', '--lang FILETYPE', 'Sprache' ) do |x|
         $options[:lang] = x
     end

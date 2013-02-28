@@ -3,6 +3,7 @@ require 'net/ssh'
 require 'net/http'
 def near(res, name)
     puts "register.rb :::: got resp " + res;
+    # id, name, alias
     json = JSON.parse(res)
     json.each do |x|
         if(name == x[0])
@@ -10,12 +11,12 @@ def near(res, name)
         end
     end
     json.each do |x|
-        if(name == x[2])
+        if(name.downcase == x[2].downcase)
             return x[0]
         end
     end
     json.each do |x|
-        if(name == x[1])
+        if(name.downcase == x[1].downcase)
             return x[0]
         end
     end
