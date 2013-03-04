@@ -1,3 +1,4 @@
+# encoding: utf-8
 $catNames = Hash[
         "hellersdorf-predigt" => "Predigt",
         "lichtenberg-predigt" => "Predigt",

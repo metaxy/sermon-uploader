@@ -1,5 +1,6 @@
 require 'json'
 require 'net/ssh'
+# encoding: utf-8
 require 'net/http'
 
 def near(res, name)

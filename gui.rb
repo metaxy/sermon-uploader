@@ -1,3 +1,4 @@
+# encoding: utf-8
 require './main.rb'
 require 'Qt4'
 require 'net/http'

@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'optparse'
 def cmd
     optparse = OptionParser.new do|opts|
