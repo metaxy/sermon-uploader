@@ -50,10 +50,6 @@ end
 def main
 
     cmd()
-    app = Qt::Application.new ARGV
-    QtApp.new
-    app.exec
-    
     # some error checking
     return if error_check() == :failed
     
