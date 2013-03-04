@@ -1,6 +1,7 @@
 require 'json'
 require 'net/ssh'
 require 'net/http'
+
 def near(res, name)
     puts "register.rb :::: got resp " + res;
     # id, name, alias
@@ -20,21 +21,22 @@ def near(res, name)
             return x[0]
         end
     end
+    puts "didn't found #{name}"
     return "0"
 end
 def getSpeakerID(name)
     res = Net::HTTP.get URI($options[:api] + "action=list_speakers")
-    return near(res,name)
+    return near(res, name)
 end
 
 def getSeriesID(name)
     res = Net::HTTP.get URI($options[:api] + "action=list_series")
-    return near(res,name)
+    return near(res, name)
 end
 
 def getCatID(name)
     res = Net::HTTP.get URI($options[:api] + "action=list_cats")
-    return near(res,name)
+    return near(res, name)
 end
 
 

@@ -6,7 +6,8 @@ require './metadata.rb'
 require './register.rb'
 require './upload.rb'
 
-def error_check
+def error_check()
+
     neededOptions = [:title, :preacher, :date, :cat, :files]
     
     neededOptions.each do |x|
@@ -49,6 +50,9 @@ end
 def main
 
     cmd()
+    app = Qt::Application.new ARGV
+    QtApp.new
+    app.exec
     
     # some error checking
     return if error_check() == :failed
