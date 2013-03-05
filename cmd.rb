@@ -26,6 +26,7 @@ def cmd
         $options[:lang] = x
     end
     
+
     $options[:ref] = nil
     opts.on( '-r', '--ref PATH', 'Bibelstelle' ) do |x|
         $options[:ref] = x
