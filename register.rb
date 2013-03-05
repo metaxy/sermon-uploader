@@ -1,8 +1,8 @@
+# encoding: utf-8
 require 'json'
 require 'net/ssh'
-# encoding: utf-8
 require 'net/http'
-
+require './cmd.rb'
 def near(res, name)
     puts "register.rb :::: got resp " + res;
     # id, name, alias
@@ -39,7 +39,21 @@ def getCatID(name)
     res = Net::HTTP.get URI($options[:api] + "action=list_cats")
     return near(res, name)
 end
-
+def refToJson()
+    # format 
+    # BookName 1:1-2:12
+    # BookName 1:1
+    # BookName 1:1-12
+    
+    data = Hash['book' => "1",
+                'cap1' => "1",
+                'vers1' => "1",
+                'cap2' => "1",
+                'vers2' => "2"
+             ]
+    j = data.to_json.to_s
+    return j
+end
 
 def register(newPaths, ssh)
     speaker_id = getSpeakerID($options[:preacher])
@@ -76,5 +90,6 @@ def register(newPaths, ssh)
     j = data.to_json.to_s
 
     puts ssh.exec!("echo '" + j + "' > #{$options[:home]}data.txt"); # write all the data
+    puts ssh.exec!("echo '" + refToJson() + "' > #{$options[:home]}data_verse.txt"); # write all the data
     puts ssh.exec!("php #{$options[:home]}components/com_sermonspeaker/api/insert.php"); # insert in the db
 end 

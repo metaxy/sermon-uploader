@@ -38,15 +38,20 @@ def do_meta
     end
     newNames
 end
-def up(names)
+def up(names, call)
     newPaths = []
     Net::SSH.start( $options[:host], $options[:username], :auth_methods => ['publickey','password'],  :keys => [$options[:key]]) do |ssh|
         names.each do |name|
-            newPaths << uploadFile(name, ssh)
+            newPaths << uploadFile(name, ssh, call)
         end
         register(newPaths, ssh)
     end
     return newPaths
+end
+class CmdBar 
+    def update(name, sent, total)
+        print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
+    end
 end
 def main
 
@@ -55,6 +60,6 @@ def main
     return if error_check() == :failed
     
     names = do_meta()
-    up(names)
+    up(names, CmdBar.new)
     
 end

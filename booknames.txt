@@ -1,0 +1,69 @@
+[
+'1' => ['1Mo', '1.Mo', ]
+
+1 Mose  1Mo 
+2 Mose  2Mo 
+3 Mose  3Mo 
+4 Mose  4Mo 
+5 Mose  5Mo 
+Josua   Jos 
+Richter Ri  
+Rut Ru  
+1 Samuel    1Sa 
+2 Samuel    2Sa 
+1 Könige    1Kön    
+2 Könige    2Kön    
+1 Chronik   1Ch 
+2 Chronik   2Ch 
+Esra    Esr 
+Nehemia Ne  
+Ester   Es  
+Hiob    Hio 
+Psalmen Ps  
+Sprüche Spr 
+Prediger    Pre 
+Hohelied    Hoh 
+Jesaja  Jes 
+Jeremia Jer 
+Klagelieder Kla 
+Hesekiel    Hes 
+Daniel  Da  
+Hosea   Hos
+Joel    Joe
+Amos    Am
+Obadja  Ob
+Jona    Jon
+Micha   Mic
+Nahum   Na
+Habakuk Hab
+Zefanja Zef
+Haggai  Hag
+Sacharja    Sac
+Maleachi    Mal
+Matthäus    Mt
+Markus  Mr
+Lukas   Lu
+Johannes    Joh
+Apostelgeschichte   Apg
+Römer   Röm
+1Korinther  1Kor
+2Korinther  2Kor
+Galater Ga
+Epheser Eph
+Philipper   Phil
+Kolosser    Kol
+1Thessalonich   1Th
+2Thessalonich   2Th
+1 Timotheus 1Ti
+2 Timotheus 2Ti
+Titus   Tit
+Philemon    Phm
+Hebräer Heb
+Jakobus Jak
+1 Petrus    1Pe
+2 Petrus    2Pe
+1 Johannes  1Jo
+2 Johannes  2Jo
+3 Johannes  3Jo
+Judas   Juda
+Offenbarung Offb

@@ -2,6 +2,11 @@
 require './main.rb'
 require 'Qt4'
 require 'net/http'
+class GuiBar 
+    def update(name, sent, total)
+        print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
+    end
+end
 
 class MainWindow < Qt::MainWindow
     
@@ -107,7 +112,7 @@ def do_stuff
     return if error_check() == :failed
     
     names = do_meta()
-    up(names)
+    up(names, GuiBar.new)
 end
 def main
 
