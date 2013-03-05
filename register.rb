@@ -4,7 +4,7 @@ require 'net/ssh'
 require 'net/http'
 require './cmd.rb'
 def near(res, name)
-    puts "register.rb :::: got resp " + res;
+    #puts "register.rb :::: got resp " + res;
     # id, name, alias
     json = JSON.parse(res)
     json.each do |x|
@@ -40,19 +40,47 @@ def getCatID(name)
     return near(res, name)
 end
 def refToJson()
-    # format 
-    # BookName 1:1-2:12
-    # BookName 1:1
-    # BookName 1:1-12
+    if(/(\w+)\s(\d+)\:(\d+)/ =~ $options[:ref])
+        y = $options[:ref].scan(/(\w+)\s(\d+)\:(\d+)/) # BookName 1:1
+        x = y[0]
+        puts "first" + x.inspect
+        return Hash['book' => bookName(x[0]),
+                    'cap1' => x[1],
+                    'vers1' => x[2],
+                    'cap2' => x[1],
+                    'vers2' => x[2]].to_json.to_s
+    end
     
-    data = Hash['book' => "1",
-                'cap1' => "1",
-                'vers1' => "1",
-                'cap2' => "1",
-                'vers2' => "2"
-             ]
-    j = data.to_json.to_s
-    return j
+    if(/(\w+)\s(\d+)\:(\d+)-(\d+)/ =~ $options[:ref]) # BookName 1:1-12
+        y = $options[:ref].scan(/(\w+)\s(\d+)\:(\d+)/)   
+        x = y[0]
+        return Hash['book' => bookName(x[0]), 
+                'cap1' => x[1],
+                'vers1' => x[2],
+                'cap2' => x[1],
+                'vers2' => x[3]].to_json.to_s
+    end
+    
+    if(/(\w+)\s(\d+)\:(\d+)-(\d+)\:(\d+)/ =~ $options[:ref]) # BookName 1:1-2:12
+        y = $options[:ref].scan(/(\w+)\s(\d+)\:(\d+)-(\d+)\:(\d+)/)  
+        x = y[0]
+        puts "first" + x.inspect
+        return Hash['book' => bookName(x[0]),
+                'cap1' => x[1],
+                'vers1' => x[2],
+                'cap2' => x[3],
+                'vers2' => x[4]].to_json.to_s
+    end
+    
+    return nil
+end
+                                                     
+def bookName(bookName)
+    return 1
+end
+
+def haveRef?
+    return $options[:ref] != nil
 end
 
 def register(newPaths, ssh)
@@ -90,6 +118,10 @@ def register(newPaths, ssh)
     j = data.to_json.to_s
 
     puts ssh.exec!("echo '" + j + "' > #{$options[:home]}data.txt"); # write all the data
-    puts ssh.exec!("echo '" + refToJson() + "' > #{$options[:home]}data_verse.txt"); # write all the data
+    
+    if haveRef?
+        puts "ref json = " + refToJson()
+        puts ssh.exec!("echo '" + refToJson() + "' > #{$options[:home]}data_verse.txt"); # write all the data
+    end
     puts ssh.exec!("php #{$options[:home]}components/com_sermonspeaker/api/insert.php"); # insert in the db
 end 

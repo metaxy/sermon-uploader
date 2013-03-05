@@ -30,3 +30,14 @@ def uploadFile(file, ssh, call)
     
     return (remotePath(file) + "/" + File.basename(file))
 end 
+
+def up(names, call)
+    newPaths = []
+    Net::SSH.start( $options[:host], $options[:username], :auth_methods => ['publickey','password'],  :keys => [$options[:key]]) do |ssh|
+        names.each do |name|
+            newPaths << uploadFile(name, ssh, call)
+        end
+        register(newPaths, ssh)
+    end
+    return newPaths
+end
