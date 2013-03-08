@@ -1,69 +1,66 @@
-[
-'1' => ['1Mo', '1.Mo', ]
-
-1 Mose  1Mo 
-2 Mose  2Mo 
-3 Mose  3Mo 
-4 Mose  4Mo 
-5 Mose  5Mo 
-Josua   Jos 
-Richter Ri  
-Rut Ru  
-1 Samuel    1Sa 
-2 Samuel    2Sa 
-1 Könige    1Kön    
-2 Könige    2Kön    
-1 Chronik   1Ch 
-2 Chronik   2Ch 
-Esra    Esr 
-Nehemia Ne  
-Ester   Es  
-Hiob    Hio 
-Psalmen Ps  
-Sprüche Spr 
-Prediger    Pre 
-Hohelied    Hoh 
-Jesaja  Jes 
-Jeremia Jer 
-Klagelieder Kla 
-Hesekiel    Hes 
-Daniel  Da  
-Hosea   Hos
-Joel    Joe
-Amos    Am
-Obadja  Ob
-Jona    Jon
-Micha   Mic
-Nahum   Na
-Habakuk Hab
-Zefanja Zef
-Haggai  Hag
-Sacharja    Sac
-Maleachi    Mal
-Matthäus    Mt
-Markus  Mr
-Lukas   Lu
-Johannes    Joh
-Apostelgeschichte   Apg
-Römer   Röm
-1Korinther  1Kor
-2Korinther  2Kor
-Galater Ga
-Epheser Eph
-Philipper   Phil
-Kolosser    Kol
-1Thessalonich   1Th
-2Thessalonich   2Th
-1 Timotheus 1Ti
-2 Timotheus 2Ti
-Titus   Tit
-Philemon    Phm
-Hebräer Heb
-Jakobus Jak
-1 Petrus    1Pe
-2 Petrus    2Pe
-1 Johannes  1Jo
-2 Johannes  2Jo
-3 Johannes  3Jo
-Judas   Juda
-Offenbarung Offb
+[0 => ['1 Mose','1Mo'],
+1 => ['2 Mose','2Mo'],
+2 => ['3 Mose','3Mo'],
+3 => ['4 Mose','4Mo'],
+4 => ['5 Mose','5Mo'],
+5 => ['Josua',' Jos'],
+6 => ['Richter','Ri'],
+7=> ['Rut','Ru'],
+8=> ['1 Samuel','1Sa'],
+9=> ['2 Samuel',2Sa'],
+10=> ['1 Könige','1Kön'],
+11=> ['2 Könige','2Kön'],
+12=> ['1 Chronik','1Ch'],
+13=> ['2 Chronik','2Ch'],
+14=> ['Esra','Esr'],
+15=> ['Nehemia','Ne'],
+16=> ['Ester','Es'],
+17=> ['Hiob','Hio'],
+18=> ['Psalmen','Ps'],
+19=> ['Sprüche','Spr'],
+20=> ['Prediger','Pre'],
+21=> ['Hohelied','Hoh'],
+22=> ['Jesaja','Jes'],
+23=> ['Jeremia','Jer'],
+24=> ['Klagelieder','Kla'],
+25=> ['Hesekiel','Hes'],
+26=> ['Daniel','Da'],
+27=> ['Hosea','Hos'],
+28=> ['Joel','Joe'],
+29=> ['Amos','','Am'],
+30=> ['Obadja','Ob'],
+31=> ['Jona','Jon'],
+32=> ['Micha','Mic'],
+33=> ['Nahum','Na'],
+34=> ['Habakuk','Hab'],
+35=> ['Zefanja','Zef'],
+36=> ['Haggai','Hag'],
+37=> ['Sacharja','Sac'],
+38=> ['Maleachi','Mal'],
+39=> ['Matthäus','Mt'],
+40=> ['Markus','Mr'],
+41=> ['Lukas','Lu'],
+42=> ['Johannes','Joh'],
+43=> ['Apostelgeschichte','Apg'],
+44=> ['Römer','Röm'],
+45=> ['1Korinther','1Kor'],
+46=> ['2Korinther','2Kor'],
+47=> ['Galater','Ga'],
+48=> ['Epheser','Eph'],
+49=> ['Philipper','Phil'],
+50=> ['Kolosser','Kol'],
+51=> ['1Thessalonich','1Th'],
+52=> ['2Thessalonich','2Th'],
+53=> ['1 Timotheus','1Ti'],
+54=> ['2 Timotheus','2Ti'],
+55=> ['Titus','Tit'],
+56=> ['Philemon','Phm'],
+57=> ['Hebräer','Heb'],
+58=> ['Jakobus','Jak'],
+59=> ['1 Petrus','1Pe'],
+60=> ['2 Petrus','2Pe'],
+61=> ['1 Johannes','1Jo'],
+62=> ['2 Johannes','2Jo'],
+63=> ['3 Johannes','3Jo'],
+64=> ['Judas',' Juda'],
+65=> ['Offenbarung','Offb']]

@@ -43,7 +43,6 @@ def refToJson()
     if(/(\w+)\s(\d+)\:(\d+)/ =~ $options[:ref])
         y = $options[:ref].scan(/(\w+)\s(\d+)\:(\d+)/) # BookName 1:1
         x = y[0]
-        puts "first" + x.inspect
         return Hash['book' => bookName(x[0]),
                     'cap1' => x[1],
                     'vers1' => x[2],
@@ -64,7 +63,6 @@ def refToJson()
     if(/(\w+)\s(\d+)\:(\d+)-(\d+)\:(\d+)/ =~ $options[:ref]) # BookName 1:1-2:12
         y = $options[:ref].scan(/(\w+)\s(\d+)\:(\d+)-(\d+)\:(\d+)/)  
         x = y[0]
-        puts "first" + x.inspect
         return Hash['book' => bookName(x[0]),
                 'cap1' => x[1],
                 'vers1' => x[2],
