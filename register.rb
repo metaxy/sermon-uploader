@@ -23,7 +23,7 @@ $book = Hash[0 => ['1.Mose','1Mo'],
 17 => ['Hiob','Hio'],
 18 => ['Psalmen','Ps'],
 19 => ['Sprüche','Spr'],
-20 => ['Prediger','Pre'],
+20 => ['Prediger','Pred'],
 21 => ['Hohelied','Hoh'],
 22 => ['Jesaja','Jes'],
 23 => ['Jeremia','Jer'],
@@ -43,14 +43,14 @@ $book = Hash[0 => ['1.Mose','1Mo'],
 37 => ['Sacharja','Sac'],
 38 => ['Maleachi','Mal'],
 39 => ['Matthäus','Mt'],
-40 => ['Markus','Mr'],
-41 => ['Lukas','Lu'],
+40 => ['Markus','Mk'],
+41 => ['Lukas','Lk'],
 42 => ['Johannes','Joh'],
 43 => ['Apostelgeschichte','Apg'],
 44 => ['Römer','Röm'],
-45 => ['1Korinther','1Kor'],
-46 => ['2Korinther','2Kor'],
-47 => ['Galater','Ga'],
+45 => ['1.Korinther','1Kor'],
+46 => ['2.Korinther','2Kor'],
+47 => ['Galater','Gal'],
 48 => ['Epheser','Eph'],
 49 => ['Philipper','Phil'],
 50 => ['Kolosser','Kol'],
@@ -95,7 +95,7 @@ end
 def getSpeakerID(name)
     res = Net::HTTP.get URI($options[:api] + "action=list_speakers")
     return near(res, name)
-end
+endAnabaptist Music - YouTube
 
 def getSeriesID(name)
     res = Net::HTTP.get URI($options[:api] + "action=list_series")
