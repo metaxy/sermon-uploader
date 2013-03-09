@@ -27,6 +27,9 @@ class MainWindow < Qt::MainWindow
         @@cat = Qt::ComboBox.new
         @@cat.addItems($catNames.keys)
         @@ref = Qt::LineEdit.new
+        completer_r = Qt::Completer.new(getBookNames, self)
+        completer_r.setCaseSensitivity(Qt::CaseInsensitive)
+        @@ref.setCompleter(completer_r)
         @@date = Qt::DateTimeEdit.new Qt::Date.currentDate()
         @@serie = Qt::LineEdit.new
 
