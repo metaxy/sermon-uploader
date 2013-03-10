@@ -95,7 +95,7 @@ end
 def getSpeakerID(name)
     res = Net::HTTP.get URI($options[:api] + "action=list_speakers")
     return near(res, name)
-endAnabaptist Music - YouTube
+end
 
 def getSeriesID(name)
     res = Net::HTTP.get URI($options[:api] + "action=list_series")
