@@ -1,1 +1,1 @@
-ruby gui.rb --key=
+ruby gui.rb --key=key.private
