@@ -12,7 +12,7 @@ require './upload.rb'
 
 class GuiBar 
     def update(name, sent, total)
-        MainWindow.update(send.to_i, total.to_i)
+        $w.update(send.to_i, total.to_i)
         print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
     end
 end
@@ -66,8 +66,17 @@ class MainWindow < Qt::MainWindow
                 ($options[:files] << @@audioFile.text) if @@audioFile.text != ""
                 ($options[:files] << @@videoFile.text) if @@videoFile.text != ""
                 ($options[:files] << @@extraFile.text) if @@extraFile.text != ""
-                do_stuff(@@asd)
-            
+                ret = do_stuff(@@asd)
+                if ret != nil
+                    msgBox = Qt::MessageBox.new;
+                    msgBox.setText("Upload erfolgreich");
+                    msgBox.exec();
+                    $w.close()
+                else
+                    msgBox = Qt::MessageBox.new;
+                    msgBox.setText("Upload fehlgeschlagen");
+                    msgBox.exec();
+                end
             }
         end
         

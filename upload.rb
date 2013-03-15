@@ -5,7 +5,7 @@ require 'date'
 def remotePath(local)
     ext = File.extname(local)
     cat = $paths[$options[:cat]]
-    type =  case ext
+    type =  case ext.downcase
                 when ".mp3"
                     "audio"
                 when ".mp4"
@@ -48,7 +48,11 @@ def up(names, call)
     newPaths = []
     Net::SSH.start( $options[:host], $options[:username], :auth_methods => ['publickey','password'],  :keys => [$options[:key]]) do |ssh|
         names.each do |name|
-            newPaths << trying(3, method(:uploadFile), name, ssh, call)
+            n = trying(3, method(:uploadFile), name, ssh, call)
+            
+            return nil if(n == nil) 
+            
+            newPaths << n
         end
         puts newPaths
         register(newPaths, ssh)
