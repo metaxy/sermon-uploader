@@ -32,3 +32,14 @@ def rename(old)
     File.rename(old, newName)
     newName
 end
+def do_meta
+    newNames = []
+    $options[:files].each do |x|
+        puts "main.tb :::: processing filename = " + x
+            
+        newName = rename(x)
+        writeid3(newName) if File.extname(newName) == ".mp3"
+        newNames << newName
+    end
+    newNames
+end
