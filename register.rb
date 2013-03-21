@@ -169,7 +169,7 @@ def register(newPaths, ssh)
     videofile = ""
     addfile = ""
     newPaths.each do |x|
-        ext = File.extname(x)
+        ext = File.extname(x) rescue ""
         case ext
             when ".mp3"
                 audiofile = x
@@ -197,9 +197,13 @@ def register(newPaths, ssh)
 
     puts ssh.exec!("echo '" + j + "' > #{$options[:home]}data.txt"); # write all the data
     
+    
     if haveRef?
-        puts "ref json = " + refToJson()
-        puts ssh.exec!("echo '" + refToJson() + "' > #{$options[:home]}data_verse.txt"); # write all the data
+        ref = refToJson
+        if(ref != nil)
+            puts "ref json = " + refToJson()
+            puts ssh.exec!("echo '" + refToJson() + "' > #{$options[:home]}data_verse.txt"); # write all the data
+        end
     end
     puts ssh.exec!("php #{$options[:home]}components/com_sermonspeaker/api/insert.php"); # insert in the db
 end 

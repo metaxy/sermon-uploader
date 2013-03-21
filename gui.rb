@@ -1,10 +1,18 @@
 # encoding: utf-8
-require './main.rb'
 require 'Qt4'
 require 'net/http'
+require 'date'
+require 'rubygems'
+
+
+require './config.rb'
+require './metadata.rb'
+require './register.rb'
+require './upload.rb'
+
 class GuiBar 
     def update(name, sent, total)
-        MainWindow.update(send.to_i, total.to_i)
+        $w.update(send.to_i, total.to_i)
         print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
     end
 end
@@ -54,10 +62,21 @@ class MainWindow < Qt::MainWindow
                 $options[:ref] = @@ref.text
                 $options[:date] = @@date.date.toString(Qt::ISODate)
                 $options[:serie] = @@serie.text
-                ($options[:files] << @@audioFile.text) if @@audioFile.text != nil && @@audioFile.text != ""
-                ($options[:files] << @@videoFile.text) if @@videoFile.text != nil && @@videoFile.text != ""
-                ($options[:files] << @@extraFile.text) if @@extraFile.text != nil && @@extraFile.text != ""
-                do_stuff(@@asd)
+                $options[:files]  = []
+                ($options[:files] << @@audioFile.text) if @@audioFile.text != ""
+                ($options[:files] << @@videoFile.text) if @@videoFile.text != ""
+                ($options[:files] << @@extraFile.text) if @@extraFile.text != ""
+                ret = do_stuff(@@asd)
+                if ret != nil
+                    msgBox = Qt::MessageBox.new;
+                    msgBox.setText("Upload erfolgreich");
+                    msgBox.exec();
+                    $w.close()
+                else
+                    msgBox = Qt::MessageBox.new;
+                    msgBox.setText("Upload fehlgeschlagen");
+                    msgBox.exec();
+                end
             }
         end
         
@@ -105,6 +124,7 @@ def f(parent, widget)
             layout.addWidget(widget);
             layout.addWidget(button);
         end
+        w.layout.setContentsMargins(0, 0, 0, 0)
         return w
 end
   
@@ -114,14 +134,13 @@ def do_stuff(progressHandler)
     names = do_meta()
     up(names, progressHandler)
 end
-def main
 
-    cmd()
+def main
+    getOptions()
     a = Qt::Application.new(ARGV)
     $w = MainWindow.new
     $w.show
     a.exec
-    
 end
 # run programm
 main() 
