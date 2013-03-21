@@ -85,7 +85,7 @@ end
 def getSpeakers
     res = Net::HTTP.get URI($options[:api] + "action=list_speakers")
     json = JSON.parse(res)
-    json.map { |x| x[1]}
+    json.map { |x| x[2]}
     
 end
 

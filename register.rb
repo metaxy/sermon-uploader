@@ -192,6 +192,7 @@ def register(newPaths, ssh)
                 'sermon_date' => $options[:date],
                 'sermon_time' => ""
              ]
+    puts data
     j = data.to_json.to_s
 
     puts ssh.exec!("echo '" + j + "' > #{$options[:home]}data.txt"); # write all the data
