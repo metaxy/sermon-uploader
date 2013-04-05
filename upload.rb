@@ -24,9 +24,7 @@ def uploadFile(file, ssh, call)
     puts "upload.rb :::: Uploading";
     puts "from #{file} to #{full}"
     
-    rem = $options[:home] + remotePath(file)
-    
-    ssh.scp.upload!(file, rem, :chunk_size => 2048 * 32) do|ch, name, sent, total|
+    ssh.scp.upload!(file, $options[:home]+  full, :chunk_size => 2048 * 32) do|ch, name, sent, total|
         call.update(name, sent, total)
     end
     

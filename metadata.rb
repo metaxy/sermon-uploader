@@ -21,7 +21,7 @@ def rename(old)
     newName = old
     cat = $catNames[$options[:cat]]
     ref = ""
-    (ref = $options[:ref] + " ") if $options[:ref] != nil
+    (ref = $options[:ref] + " ") if $options[:ref] != ""
     if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".mp4")
         newName = File.dirname(old) + 
                 "/#{$options[:date]} #{cat} - #{ref}#{$options[:title]} (#{$options[:preacher]})" + 

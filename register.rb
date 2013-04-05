@@ -1,4 +1,4 @@
-# encoding: utf-8
+#encoding: utf-8
 require 'json'
 require 'net/ssh'
 require 'net/http'
@@ -71,9 +71,11 @@ $book = Hash[0 => ['1.Mose','1Mo'],
 65 => ['Offenbarung','Offb']]
              
 def near(res, name)
-    #puts "register.rb :::: got resp " + res;
+    puts "register.rb :::: got resp " + res;
     # id, name, alias
+    
     json = JSON.parse(res)
+    
     json.each do |x|
         if(name == x[0])
             return x[0]
@@ -161,7 +163,7 @@ def haveRef?
 end
 
 def register(newPaths, ssh)
-    speaker_id = getSpeakerID($options[:preacher])
+    speaker_id = getSpeakerID($options[:preacher].force_encoding('utf-8'))
     series_id = getSeriesID($options[:serie])
     cat_id = getCatID($options[:cat])
 
@@ -181,28 +183,32 @@ def register(newPaths, ssh)
     end
     data = Hash['speaker_id' => speaker_id,
                 'series_id' => series_id,
-                'audiofile' => audiofile,
-                'videofile' => videofile,
-                'sermon_title' => $options[:title],
-                'alias' => $options[:title],
+                'audiofile' => audiofile.force_encoding('utf-8'),
+                'videofile' => videofile.force_encoding('utf-8'),
+                'sermon_title' => $options[:title].force_encoding('utf-8'),
+                'alias' => $options[:title].force_encoding('utf-8'),
                 'addfile' => addfile,
-                'addfileDesc' => $options[:addfileDesc],
+                'addfileDesc' => $options[:addfileDesc].force_encoding('utf-8'),
                 'catid' => cat_id,
                 'language' => $options[:lang],
                 'sermon_date' => $options[:date],
                 'sermon_time' => ""
              ]
     puts data
-    j = data.to_json.to_s
-
-    puts ssh.exec!("echo '" + j + "' > #{$options[:home]}data.txt"); # write all the data
     
+    j = data.to_json.to_s
+    
+    File.open('data.txt', 'w') {|f| f.write(j) }
+    puts ssh.scp.upload!('data.txt', $options[:home])
+    File.delete('data.txt')
     
     if haveRef?
         ref = refToJson
         if(ref != nil)
             puts "ref json = " + refToJson()
-            puts ssh.exec!("echo '" + refToJson() + "' > #{$options[:home]}data_verse.txt"); # write all the data
+            File.open('data_verse.txt', 'w') {|f| f.write(refToJson()) }
+            puts ssh.scp.upload!('data_verse.txt', $options[:home])
+            File.delete('data_verse.txt')
         end
     end
     puts ssh.exec!("php #{$options[:home]}components/com_sermonspeaker/api/insert.php"); # insert in the db
