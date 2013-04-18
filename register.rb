@@ -211,5 +211,5 @@ def register(newPaths, ssh)
             File.delete('data_verse.txt')
         end
     end
-    puts ssh.exec!("php #{$options[:home]}components/com_sermonspeaker/api/insert.php"); # insert in the db
+    puts ssh.exec!("php #{$options[:home]}api/insert.php"); # insert in the db
 end 
