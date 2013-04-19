@@ -24,7 +24,7 @@ $paths = Hash[
 $options = {}
 
 $options[:key] = "~/.ssh/id_rsa"
-$options[:api] = "http://media.ecg-berlin.de/components/com_sermonspeaker/api/get.php?"
+$options[:api] = "http://media.ecg-berlin.de/api/get.php?"
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
