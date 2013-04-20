@@ -145,7 +145,7 @@ end
 def bookName(bookName)
     $book.each do |i,n|
         n.each do |m|
-             return i if(bookName == m)
+             return (i+1) if(bookName == m)
         end       
     end
     return 1
