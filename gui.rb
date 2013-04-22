@@ -101,14 +101,14 @@ class MainWindow < Qt::MainWindow
     end
 end
 
-def getSpeakers
+def getSpeakers()
     res = Net::HTTP.get URI($options[:api] + "action=list_speakers")
     json = JSON.parse(res)
     json.map { |x| x[1]}
     
 end
 
-def getSeries
+def getSeries()
     res = Net::HTTP.get URI($options[:api] + "action=list_series")
     json = JSON.parse(res)
     puts json
