@@ -30,7 +30,7 @@ $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
 $options[:addfileDesc] = "Notizen"
 
-def getOptions
+def getOptions()
     optparse = OptionParser.new do|opts|
     opts.banner = "Usage: main.rb [options]"
     
