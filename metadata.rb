@@ -17,6 +17,7 @@ end
 def clean(old)
     old.sub(" ", "-").sub(",", "-").sub("(", "").sub(")", "")
 end
+
 def rename(old)
     newName = old
     cat = $catNames[$options[:cat]]

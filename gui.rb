@@ -130,7 +130,7 @@ end
   
 def do_stuff(progressHandler)
     # some error checking
-    return if error_check() == :failed
+    return if error_check($options) == :failed
     names = do_meta()
     up(names, progressHandler)
 end
