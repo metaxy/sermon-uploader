@@ -21,34 +21,8 @@ class MainWindow < Qt::MainWindow
         self.central_widget = cw
         @@w = self
 
-        @@title = Qt::LineEdit.new
-        @@preacher = Qt::LineEdit.new
-        completer_p = Qt::Completer.new(getSpeakers, self)
-        completer_p.setCaseSensitivity(Qt::CaseInsensitive)
-        @@preacher.setCompleter(completer_p)
+        createWidgets()
         
-        @@cat = Qt::ComboBox.new
-        @@cat.addItems($catNames.keys)
-        @@ref = Qt::LineEdit.new
-        completer_r = Qt::Completer.new(getBookNames, self)
-        completer_r.setCaseSensitivity(Qt::CaseInsensitive)
-        @@ref.setCompleter(completer_r)
-        @@date = Qt::DateTimeEdit.new Qt::Date.currentDate()
-        @@serie = Qt::LineEdit.new
-
-        completer_s = Qt::Completer.new(getSeries, self)
-        completer_s.setCaseSensitivity(Qt::CaseInsensitive)
-        completer_s.setCompletionMode(Qt::Completer::UnfilteredPopupCompletion)
-        
-        @@serie.setCompleter(completer_s)
-        
-        @@audioFile = Qt::LineEdit.new
-        @@videoFile = Qt::LineEdit.new
-        @@extraFile = Qt::LineEdit.new
-        
-        @@progress = Qt::ProgressBar.new
-        
-
         button = Qt::PushButton.new('Upload') do
             connect(SIGNAL :clicked) { 
                 $options[:title] = @@title.text
@@ -80,7 +54,34 @@ class MainWindow < Qt::MainWindow
             layout.addRow(tr("Progress"), @@progress)
         end
     end
-    
+    def createWidgets()
+        @@title = Qt::LineEdit.new
+        @@preacher = Qt::LineEdit.new
+        completer_p = Qt::Completer.new(getSpeakers, self)
+        completer_p.setCaseSensitivity(Qt::CaseInsensitive)
+        @@preacher.setCompleter(completer_p)
+        
+        @@cat = Qt::ComboBox.new
+        @@cat.addItems($catNames.keys)
+        @@ref = Qt::LineEdit.new
+        completer_r = Qt::Completer.new(getBookNames, self)
+        completer_r.setCaseSensitivity(Qt::CaseInsensitive)
+        @@ref.setCompleter(completer_r)
+        @@date = Qt::DateTimeEdit.new Qt::Date.currentDate()
+        @@serie = Qt::LineEdit.new
+
+        completer_s = Qt::Completer.new(getSeries, self)
+        completer_s.setCaseSensitivity(Qt::CaseInsensitive)
+        completer_s.setCompletionMode(Qt::Completer::UnfilteredPopupCompletion)
+        
+        @@serie.setCompleter(completer_s)
+        @@audioFile = Qt::LineEdit.new
+        @@videoFile = Qt::LineEdit.new
+        @@extraFile = Qt::LineEdit.new
+        
+        @@progress = Qt::ProgressBar.new
+        
+    end
     def update(name,sent,total)
         @@progress.setMaximum(total)
         @@progress.setValue(sent)
