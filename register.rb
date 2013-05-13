@@ -78,19 +78,13 @@ def near(res, name)
     json = JSON.parse(res)
     
     json.each do |x|
-        if(name == x[0])
-            return x[0]
-        end
+        return x[0] if name == x[0]
     end
     json.each do |x|
-        if(name.downcase == x[2].downcase)
-            return x[0]
-        end
+        return x[0] if name.downcase == x[2].downcase
     end
     json.each do |x|
-        if(name.downcase == x[1].downcase)
-            return x[0]
-        end
+        return x[0] if name.downcase == x[1].downcase
     end
     puts "didn't found #{name}"
     return "0"

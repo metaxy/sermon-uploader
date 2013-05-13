@@ -17,8 +17,7 @@ class MainWindow < Qt::MainWindow
         super
         self.window_title = 'Sermon Uploader'
         resize(600, 300)
-        cw = Qt::Widget.new self
-        self.central_widget = cw
+       
         @@w = self
 
         createWidgets()
@@ -45,6 +44,8 @@ class MainWindow < Qt::MainWindow
     end
     
     def createLayout()
+        cw = Qt::Widget.new self
+        self.central_widget = cw
         cw.layout = Qt::FormLayout.new do
             layout.addRow(tr("Titel"),  @@title);
             layout.addRow(tr("Prediger"),  @@preacher);
