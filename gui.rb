@@ -22,6 +22,7 @@ class MainWindow < Qt::MainWindow
         @@w = self
 
         createWidgets()
+        completer()
         
         button = Qt::PushButton.new('Upload') do
             connect(SIGNAL :clicked) { 
@@ -40,6 +41,10 @@ class MainWindow < Qt::MainWindow
             }
         end
         
+        createLayout()
+    end
+    
+    def createLayout()
         cw.layout = Qt::FormLayout.new do
             layout.addRow(tr("Titel"),  @@title);
             layout.addRow(tr("Prediger"),  @@preacher);
@@ -57,30 +62,31 @@ class MainWindow < Qt::MainWindow
     def createWidgets()
         @@title = Qt::LineEdit.new
         @@preacher = Qt::LineEdit.new
+        @@cat = Qt::ComboBox.new
+        @@cat.addItems($catNames.keys)
+        @@ref = Qt::LineEdit.new
+        @@date = Qt::DateTimeEdit.new Qt::Date.currentDate()
+        @@serie = Qt::LineEdit.new
+        @@audioFile = Qt::LineEdit.new
+        @@videoFile = Qt::LineEdit.new
+        @@extraFile = Qt::LineEdit.new
+        @@progress = Qt::ProgressBar.new
+    end
+    
+    def completer()
         completer_p = Qt::Completer.new(getSpeakers, self)
         completer_p.setCaseSensitivity(Qt::CaseInsensitive)
         @@preacher.setCompleter(completer_p)
         
-        @@cat = Qt::ComboBox.new
-        @@cat.addItems($catNames.keys)
-        @@ref = Qt::LineEdit.new
+        
         completer_r = Qt::Completer.new(getBookNames, self)
         completer_r.setCaseSensitivity(Qt::CaseInsensitive)
         @@ref.setCompleter(completer_r)
-        @@date = Qt::DateTimeEdit.new Qt::Date.currentDate()
-        @@serie = Qt::LineEdit.new
-
+        
         completer_s = Qt::Completer.new(getSeries, self)
         completer_s.setCaseSensitivity(Qt::CaseInsensitive)
         completer_s.setCompletionMode(Qt::Completer::UnfilteredPopupCompletion)
-        
-        @@serie.setCompleter(completer_s)
-        @@audioFile = Qt::LineEdit.new
-        @@videoFile = Qt::LineEdit.new
-        @@extraFile = Qt::LineEdit.new
-        
-        @@progress = Qt::ProgressBar.new
-        
+        @@serie.setCompleter(completer_s) 
     end
     def update(name,sent,total)
         @@progress.setMaximum(total)
