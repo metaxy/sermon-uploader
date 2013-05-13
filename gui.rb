@@ -23,7 +23,7 @@ class MainWindow < Qt::MainWindow
         createWidgets()
         completer()
         
-        button = Qt::PushButton.new('Upload') do
+        @@button = Qt::PushButton.new('Upload') do
             connect(SIGNAL :clicked) { 
                 $options[:title] = @@title.text
                 $options[:preacher] = @@preacher.text
@@ -56,7 +56,7 @@ class MainWindow < Qt::MainWindow
             layout.addRow(tr("Audio"),  @@w.fileWidget(cw, @@audioFile));
             layout.addRow(tr("Video"),  @@w.fileWidget(cw, @@videoFile));
             layout.addRow(tr("Extra"),  @@w.fileWidget(cw, @@extraFile));
-            layout.addRow(tr("Upload"),  button);
+            layout.addRow(tr("Upload"),  @@button);
             layout.addRow(tr("Progress"), @@progress)
         end
     end
