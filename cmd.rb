@@ -6,11 +6,7 @@ require './metadata.rb'
 require './register.rb'
 require './upload.rb'
 
-class CmdBar 
-    def update(name, sent, total)
-        print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
-    end
-end
+
 
 def main
 

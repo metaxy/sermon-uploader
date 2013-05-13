@@ -69,7 +69,9 @@ $book = Hash[0 => ['1.Mose','1Mo'],
 63 => ['3.Johannes','3Joh'],
 64 => ['Judas','Jud'],
 65 => ['Offenbarung','Offb']]
-             
+
+class Register
+    
 def near(res, name)
     puts "register.rb :::: got resp " + res;
     # id, name, alias
