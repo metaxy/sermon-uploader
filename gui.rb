@@ -61,17 +61,8 @@ class MainWindow < Qt::MainWindow
                 ($options[:files] << @@audioFile.text) if @@audioFile.text != ""
                 ($options[:files] << @@videoFile.text) if @@videoFile.text != ""
                 ($options[:files] << @@extraFile.text) if @@extraFile.text != ""
-                ret = do_stuff(@@asd)
-                if ret != nil
-                    msgBox = Qt::MessageBox.new;
-                    msgBox.setText("Upload erfolgreich");
-                    msgBox.exec();
-                    $w.close()
-                else
-                    msgBox = Qt::MessageBox.new;
-                    msgBox.setText("Upload fehlgeschlagen");
-                    msgBox.exec();
-                end
+                ret = do_stuff(self)
+                msgBox(ret)
             }
         end
         
@@ -93,6 +84,19 @@ class MainWindow < Qt::MainWindow
     def update(name,sent,total)
         @@progress.setMaximum(total)
         @@progress.setValue(sent)
+    end
+    
+    def msgBox(ret)
+        if ret != nil
+            msgBox = Qt::MessageBox.new;
+            msgBox.setText("Upload erfolgreich");
+            msgBox.exec();
+            $w.close()
+        else
+            msgBox = Qt::MessageBox.new;
+            msgBox.setText("Upload fehlgeschlagen");
+            msgBox.exec();
+        end
     end
 end
 
