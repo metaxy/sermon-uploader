@@ -61,8 +61,8 @@ class MainWindow < Qt::MainWindow
                 ($options[:files] << @@audioFile.text) if @@audioFile.text != ""
                 ($options[:files] << @@videoFile.text) if @@videoFile.text != ""
                 ($options[:files] << @@extraFile.text) if @@extraFile.text != ""
-                ret = do_stuff(self)
-                msgBox(ret)
+                ret = do_stuff(@@asd)
+                @@asd.msgBox(ret)
             }
         end
         
