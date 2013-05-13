@@ -13,6 +13,7 @@ require './upload.rb'
 
 
 class MainWindow < Qt::MainWindow
+    slots :upload
     def initialize
         super
         self.window_title = 'Sermon Uploader'
@@ -22,10 +23,14 @@ class MainWindow < Qt::MainWindow
 
         createWidgets()
         completer()
+        @@button = Qt::PushButton.new('Upload')
         
-        @@button = Qt::PushButton.new('Upload') do
-            connect(SIGNAL :clicked) { 
-                $options[:title] = @@title.text
+        Qt::Object.connect(@@button, SIGNAL('clicked()'), self, SLOT('upload()'))
+
+        createLayout()
+    end
+    def upload()
+          $options[:title] = @@title.text
                 $options[:preacher] = @@preacher.text
                 $options[:cat] = @@cat.currentText
                 $options[:ref] = @@ref.text
@@ -37,12 +42,7 @@ class MainWindow < Qt::MainWindow
                 ($options[:files] << @@extraFile.text) if @@extraFile.text != ""
                 ret = do_stuff(@@w)
                 @@w.msgBox(ret)
-            }
-        end
-        
-        createLayout()
     end
-    
     def createLayout()
         cw = Qt::Widget.new self
         self.central_widget = cw
