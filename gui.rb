@@ -19,7 +19,7 @@ class MainWindow < Qt::MainWindow
         resize(600, 300)
         cw = Qt::Widget.new self
         self.central_widget = cw
-        @@asd = self
+        @@w = self
 
         @@title = Qt::LineEdit.new
         @@preacher = Qt::LineEdit.new
@@ -61,8 +61,8 @@ class MainWindow < Qt::MainWindow
                 ($options[:files] << @@audioFile.text) if @@audioFile.text != ""
                 ($options[:files] << @@videoFile.text) if @@videoFile.text != ""
                 ($options[:files] << @@extraFile.text) if @@extraFile.text != ""
-                ret = do_stuff(@@asd)
-                @@asd.msgBox(ret)
+                ret = do_stuff(@@w)
+                @@w.msgBox(ret)
             }
         end
         
@@ -73,9 +73,9 @@ class MainWindow < Qt::MainWindow
             layout.addRow(tr("Bibelstelle"),  @@ref);
             layout.addRow(tr("Datum"),  @@date);
             layout.addRow(tr("Serie"),  @@serie);
-            layout.addRow(tr("Audio"),  f(cw, @@audioFile));
-            layout.addRow(tr("Video"),  f(cw, @@videoFile));
-            layout.addRow(tr("Extra"),  f(cw, @@extraFile));
+            layout.addRow(tr("Audio"),  @@w.fileWidget(cw, @@audioFile));
+            layout.addRow(tr("Video"),  @@w.fileWidget(cw, @@videoFile));
+            layout.addRow(tr("Extra"),  @@w.fileWidget(cw, @@extraFile));
             layout.addRow(tr("Upload"),  button);
             layout.addRow(tr("Progress"), @@progress)
         end
@@ -98,6 +98,20 @@ class MainWindow < Qt::MainWindow
             msgBox.exec();
         end
     end
+    
+    def fileWidget(parent, widget)
+        w = Qt::Widget.new parent
+        button = Qt::PushButton.new('Select') do
+            connect(SIGNAL :clicked) { widget.text = Qt::FileDialog.getOpenFileName(parent, tr("Open file"), "", "*.*") }
+        end
+        w.layout = Qt::HBoxLayout.new do
+            layout.addWidget(widget);
+            layout.addWidget(button);
+        end
+        w.layout.setContentsMargins(0, 0, 0, 0)
+        return w
+    end
+  
 end
 
 def getSpeakers()
@@ -114,19 +128,7 @@ def getSeries()
     json.map { |x| x[2]}
 end
 
-def f(parent, widget)
-        w = Qt::Widget.new parent
-        button = Qt::PushButton.new('Select') do
-            connect(SIGNAL :clicked) { widget.text = Qt::FileDialog.getOpenFileName(parent, tr("Open file"), "", "*.*") }
-        end
-        w.layout = Qt::HBoxLayout.new do
-            layout.addWidget(widget);
-            layout.addWidget(button);
-        end
-        w.layout.setContentsMargins(0, 0, 0, 0)
-        return w
-end
-  
+
 def do_stuff(progressHandler)
     # some error checking
     return if error_check($options) == :failed
