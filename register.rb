@@ -70,7 +70,6 @@ $book = Hash[0 => ['1.Mose','1Mo'],
 64 => ['Judas','Jud'],
 65 => ['Offenbarung','Offb']]
 
-class Register
     
 def near(res, name)
     puts "register.rb :::: got resp " + res;
@@ -79,19 +78,13 @@ def near(res, name)
     json = JSON.parse(res)
     
     json.each do |x|
-        if(name == x[0])
-            return x[0]
-        end
+        return x[0] if name == x[0]
     end
     json.each do |x|
-        if(name.downcase == x[2].downcase)
-            return x[0]
-        end
+        return x[0] if name.downcase == x[2].downcase
     end
     json.each do |x|
-        if(name.downcase == x[1].downcase)
-            return x[0]
-        end
+        return x[0] if name.downcase == x[1].downcase
     end
     puts "didn't found #{name}"
     return "0"
@@ -110,35 +103,38 @@ def getCatID(name)
     res = Net::HTTP.get URI($options[:api] + "action=list_cats")
     return near(res, name)
 end
-def refToJson()
-    if(/(\w+)\s(\d+)\:(\d+)/ =~ $options[:ref])
-        y = $options[:ref].scan(/(\w+)\s(\d+)\:(\d+)/) # BookName 1:1
+def refToJson(ref)
+    if(/(\w+)\s(\d+)\:(\d+)/ =~ ref)
+        y = ref.scan(/(\w+)\s(\d+)\:(\d+)/) # BookName 1:1
         x = y[0]
         return Hash['book' => bookName(x[0]),
                     'cap1' => x[1],
                     'vers1' => x[2],
                     'cap2' => x[1],
-                    'vers2' => x[2]].to_json.to_s
+                    'vers2' => x[2]
+                   ].to_json.to_s
     end
     
-    if(/(\w+)\s(\d+)\:(\d+)-(\d+)/ =~ $options[:ref]) # BookName 1:1-12
-        y = $options[:ref].scan(/(\w+)\s(\d+)\:(\d+)/)   
+    if(/(\w+)\s(\d+)\:(\d+)-(\d+)/ =~ ref) # BookName 1:1-12
+        y = ref.scan(/(\w+)\s(\d+)\:(\d+)/)   
         x = y[0]
         return Hash['book' => bookName(x[0]), 
                 'cap1' => x[1],
                 'vers1' => x[2],
                 'cap2' => x[1],
-                'vers2' => x[3]].to_json.to_s
+                'vers2' => x[3]
+                   ].to_json.to_s
     end
     
-    if(/(\w+)\s(\d+)\:(\d+)-(\d+)\:(\d+)/ =~ $options[:ref]) # BookName 1:1-2:12
-        y = $options[:ref].scan(/(\w+)\s(\d+)\:(\d+)-(\d+)\:(\d+)/)  
+    if(/(\w+)\s(\d+)\:(\d+)-(\d+)\:(\d+)/ =~ ref) # BookName 1:1-2:12
+        y = ref.scan(/(\w+)\s(\d+)\:(\d+)-(\d+)\:(\d+)/)  
         x = y[0]
         return Hash['book' => bookName(x[0]),
                 'cap1' => x[1],
                 'vers1' => x[2],
                 'cap2' => x[3],
-                'vers2' => x[4]].to_json.to_s
+                'vers2' => x[4]
+                   ].to_json.to_s
     end
     
     return nil
@@ -159,9 +155,6 @@ def getBookNames
     end
     return a 
         
-end
-def haveRef?
-    return $options[:ref] != nil
 end
 
 def register(newPaths, ssh)
@@ -204,8 +197,8 @@ def register(newPaths, ssh)
     puts ssh.scp.upload!('data.txt', $options[:home])
     File.delete('data.txt')
     
-    if haveRef?
-        ref = refToJson
+    if $options[:ref] != nil
+        ref = refToJson($options[:ref])
         if(ref != nil)
             puts "ref json = " + refToJson()
             File.open('data_verse.txt', 'w') {|f| f.write(refToJson()) }
