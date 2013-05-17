@@ -71,7 +71,6 @@ $book = Hash[0 => ['1.Mose','1Mo'],
 65 => ['Offenbarung','Offb']]
 
 def trying(t, func, *args)
-    ret = nil
     t.times do
         begin
             return func.call(*args)
@@ -79,8 +78,8 @@ def trying(t, func, *args)
             puts "It failed"
         end
     end
-    puts "its failed complete"
-    return ret
+    puts "it failed forever"
+    return nil
 end
 
 class Api
