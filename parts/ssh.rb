@@ -22,18 +22,18 @@ class SshPipe
     def writeData(data)
         puts "ssh.rb writeData()"
         File.open('data.txt', 'w') {|f| f.write(data) }
-        puts ssh.scp.upload!('data.txt', $options[:home])
+        puts @ssh.scp.upload!('data.txt', $options[:home])
         File.delete('data.txt')
     end
     def writeDataVerse(data)
         puts "ssh.rb writeDataVerse()"
         File.open('data_verse.txt', 'w') {|f| f.write(data) }
-        puts ssh.scp.upload!('data_verse.txt', $options[:home])
+        puts @ssh.scp.upload!('data_verse.txt', $options[:home])
         File.delete('data_verse.txt')
     end
     def execInsert()
         puts "ssh.rb execInsert()"
-        puts ssh.exec!("php #{$options[:home]}api/insert.php"); # insert in the db
+        puts @ssh.exec!("php #{$options[:home]}api/insert.php"); # insert in the db
     end
     
     def close()

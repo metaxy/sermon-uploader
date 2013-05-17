@@ -39,17 +39,17 @@ class Register
         puts data
         
         j = data.to_json.to_s
-        @pipe.writeData(j);
+        @api.writeData(j);
     
         
         if $options[:ref] != nil
             ref = @api.refToJson($options[:ref])
             if(ref != nil)
                 puts "ref json = " + ref
-                @pipe.writeDataVerse(ref)
+                @api.writeDataVerse(ref)
             end
         end
-        @pipe.execInsert()
+        @api.execInsert()
         
     end
 end
