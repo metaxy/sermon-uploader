@@ -129,13 +129,14 @@ def do_stuff(progressHandler)
     names = do_meta()
     up(names, progressHandler)
 end
-
-def main
-    getOptions()
-    a = Qt::Application.new(ARGV)
-    $w = MainWindow.new
-    $w.show
-    a.exec
+class Gui
+    def main
+        getOptions()
+        a = Qt::Application.new(ARGV)
+        $w = MainWindow.new
+        $w.show
+        a.exec
+    end
 end
 # run programm
-main() 
+Gui.main() 
