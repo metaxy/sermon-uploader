@@ -1,59 +1,23 @@
 # encoding: utf-8
-require 'net/scp'
-require 'date'
+require './register.rb'
 
-def remotePath(local)
-    ext = File.extname(local)
-    cat = $paths[$options[:cat]]
-    type =  case ext.downcase
-                when ".mp3"
-                    "audio"
-                when ".mp4"
-                    "video"
-                else
-                    "extra" 
-            end
-    
-    year = Date.parse($options[:date]).year.to_s
-    
-    return "#{cat}/#{type}/#{year}"
-end
-
-def uploadFile(file, ssh, call)
-    full = remotePath(file) + "/" + File.basename(file)
-    puts "upload.rb :::: Uploading";
-    puts "from #{file} to #{full}"
-    
-    ssh.scp.upload!(file, $options[:home]+  full, :chunk_size => 2048 * 32) do|ch, name, sent, total|
-        call.update(name, sent, total)
+class Upload
+    def initialize(api)
+        @api = api
     end
-    
-    return (full)
-end
-def trying(t, func, *args)
-    ret = nil
-    t.times do
-        begin
-            return func.call(*args)
-        rescue
-            puts "It failed"
-        end
-    end
-    puts "its failed complete"
-    return ret
-end
-def up(names, call)
-    newPaths = []
-    Net::SSH.start( $options[:host], $options[:username], :auth_methods => ['publickey','password'],  :keys => [$options[:key]]) do |ssh|
-        names.each do |name|
-            n = trying(3, method(:uploadFile), name, ssh, call)
-            
-            return nil if(n == nil) 
-            
+    def up(files)
+        reg = Register.new(@api)
+        newPaths = []
+        files.each do |file|
+            n = trying(3, method(:uploadFile), name)
+            return nil if(n == nil)
             newPaths << n
         end
-        puts newPaths
-        register(newPaths, ssh)
+        reg.register(newPaths)
+        @api.closePipe();
+        return newPaths
     end
-    return newPaths
+    def uploadFile(file)
+        @api.upload(file)
+    end
 end

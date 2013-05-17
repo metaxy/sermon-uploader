@@ -9,7 +9,7 @@ require './config.rb'
 require './metadata.rb'
 require './register.rb'
 require './upload.rb'
-
+require './api.rb'
 
 
 class MainWindow < Qt::MainWindow
@@ -75,16 +75,17 @@ class MainWindow < Qt::MainWindow
     end
     
     def completer()
-        completer_p = Qt::Completer.new(getSpeakers, self)
+        api = Api.new
+        completer_p = Qt::Completer.new(api.getSpeakers(), self)
         completer_p.setCaseSensitivity(Qt::CaseInsensitive)
         @@preacher.setCompleter(completer_p)
         
         
-        completer_r = Qt::Completer.new(getBookNames, self)
+        completer_r = Qt::Completer.new(api.getBookNames(), self)
         completer_r.setCaseSensitivity(Qt::CaseInsensitive)
         @@ref.setCompleter(completer_r)
         
-        completer_s = Qt::Completer.new(getSeries, self)
+        completer_s = Qt::Completer.new(api.getSeries(), self)
         completer_s.setCaseSensitivity(Qt::CaseInsensitive)
         completer_s.setCompletionMode(Qt::Completer::UnfilteredPopupCompletion)
         @@serie.setCompleter(completer_s) 
@@ -122,20 +123,14 @@ class MainWindow < Qt::MainWindow
   
 end
 
-def getSpeakers()
-    res = Net::HTTP.get URI($options[:api] + "action=list_speakers")
-    json = JSON.parse(res)
-    json.map { |x| x[1]}
-    
-end
 
-def getSeries()
-    res = Net::HTTP.get URI($options[:api] + "action=list_series")
-    json = JSON.parse(res)
-    puts json
-    json.map { |x| x[2]}
-end
 
+class GuiBar 
+    def update(name, sent, total)
+        $w.update(send.to_i, total.to_i)
+        print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
+    end
+end
 
 def do_stuff(progressHandler)
     # some error checking
@@ -143,14 +138,14 @@ def do_stuff(progressHandler)
     names = do_meta()
     up(names, progressHandler)
 end
-class Gui
-    def main
-        getOptions()
-        a = Qt::Application.new(ARGV)
-        $w = MainWindow.new
-        $w.show
-        a.exec
-    end
+
+def main
+    getOptions()
+    a = Qt::Application.new(ARGV)
+    $w = MainWindow.new
+    $w.show
+    a.exec
 end
+
 # run programm
-Gui.main() 
+main() 
