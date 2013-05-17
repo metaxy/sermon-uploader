@@ -38,11 +38,11 @@ def getOptions()
     opts.on( '-f', '--file FILENAMES', 'Which files to upload' ) do |file|
         $options[:files] << File.absolute_path(file)
     end
-    $options[:title] = nil
+    $options[:title] = ""
     opts.on( '-t', '--title TITLE', 'Title' ) do |x|
         $options[:title] = x
     end
-    $options[:preacher] = nil
+    $options[:preacher] = ""
     opts.on( '-p', '--preacher PREACHER', 'Der Prediger' ) do |x|
         $options[:preacher] = x
     end
@@ -57,18 +57,18 @@ def getOptions()
     end
     
 
-    $options[:ref] = nil
+    $options[:ref] = ""
     opts.on( '-r', '--ref PATH', 'Bibelstelle' ) do |x|
         $options[:ref] = x
     end
     
-    $options[:date] = nil
+    $options[:date] = ""
     opts.on( '-d', '--date DATUM', 'Aufnahmedatum' ) do |x|
         $options[:date] = x
     end
 
 
-    $options[:serie] = nil
+    $options[:serie] = ""
     opts.on( '-s', '--serie PATH', 'Alias der Serie' ) do |x|
         $options[:serie] = x
     end

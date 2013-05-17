@@ -9,7 +9,7 @@ class Upload
         reg = Register.new(@api)
         newPaths = []
         files.each do |file|
-            n = trying(3, method(:uploadFile), name)
+            n = trying(3, method(:uploadFile), file)
             return nil if(n == nil)
             newPaths << n
         end

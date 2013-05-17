@@ -74,7 +74,9 @@ def trying(t, func, *args)
     t.times do
         begin
             return func.call(*args)
-        rescue
+        rescue Exception => e  
+            puts e.message  
+            puts e.backtrace.inspect  
             puts "It failed"
         end
     end
@@ -86,6 +88,7 @@ class Api
     
     def initialize(pipe)
         @pipe = pipe
+        @pipe.init()
     end
     
     def getSpeakers()
