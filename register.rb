@@ -2,8 +2,8 @@
 require 'iconv'
 
 def convert(string)
-     # string.force_encoding('utf-8')
-     Iconv.conv('UTF-8//IGNORE', 'UTF-8', string + ' ')[0..-2]
+    string.force_encoding('utf-8')
+     #Iconv.conv('UTF-8//IGNORE', 'UTF-8', string + ' ')[0..-2]
 end
 
 class Register
