@@ -1,11 +1,17 @@
 #encoding: utf-8
+require 'iconv'
+
+def convert(string)
+     # string.force_encoding('utf-8')
+     Iconv.conv('UTF-8//IGNORE', 'UTF-8', string + ' ')[0..-2]
+end
 
 class Register
     def initialize(api)
         @api = api
     end                           
     def register(newPaths)
-        speaker_id = @api.getSpeakerID($options[:preacher].force_encoding('utf-8'))
+        speaker_id = @api.getSpeakerID(convert($options[:preacher]))
         series_id = @api.getSeriesID($options[:serie])
         cat_id = @api.getCatID($options[:cat])
 
@@ -25,12 +31,12 @@ class Register
         end
         data = Hash['speaker_id' => speaker_id,
                     'series_id' => series_id,
-                    'audiofile' => audiofile.force_encoding('utf-8'),
-                    'videofile' => videofile.force_encoding('utf-8'),
-                    'sermon_title' => $options[:title].force_encoding('utf-8'),
-                    'alias' => $options[:title].force_encoding('utf-8'),
+                    'audiofile' => convert(audiofile),
+                    'videofile' => convert(videofile),
+                    'sermon_title' => convert($options[:title]),
+                    'alias' => convert($options[:title]),
                     'addfile' => addfile,
-                    'addfileDesc' => $options[:addfileDesc].force_encoding('utf-8'),
+                    'addfileDesc' => convert($options[:addfileDesc]),
                     'catid' => cat_id,
                     'language' => $options[:lang],
                     'sermon_date' => $options[:date],
