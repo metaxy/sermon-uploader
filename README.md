@@ -1,2 +1,4 @@
 sermon-uploader
 ===============
+
+sudo  qtbindings

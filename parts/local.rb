@@ -9,7 +9,7 @@ class LocalPipe
     
     def upload(localName, remoteName)
         puts "ssh.rb upload()"
-        //copy 
+        # copy
     end
     
     def writeData(data)
