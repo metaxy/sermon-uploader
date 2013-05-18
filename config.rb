@@ -36,7 +36,7 @@ def getOptions()
     
     $options[:files] = Array.new
     opts.on( '-f', '--file FILENAMES', 'Which files to upload' ) do |file|
-        $options[:files] << File.absolute_path(file)
+        $options[:files] << File.expand_path(file)
     end
     $options[:title] = ""
     opts.on( '-t', '--title TITLE', 'Title' ) do |x|
