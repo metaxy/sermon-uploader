@@ -10,7 +10,6 @@ class LocalPipe
     def upload(localName, remoteName)
         puts "ssh.rb upload()"
         File.rename localName, remoteName
-        # copy
     end
     
     def writeData(data)

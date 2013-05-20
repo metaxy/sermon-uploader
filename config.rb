@@ -26,6 +26,7 @@ $options = {}
 $options[:key] = "~/.ssh/id_rsa"
 $options[:api] = "http://media.ecg-berlin.de/api/get.php?"
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
+$options[:newHome] = "/var/www/vhosts/ecg-berlin.de/media/downloads/new"
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
 $options[:addfileDesc] = "Notizen"
