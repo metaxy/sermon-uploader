@@ -6,6 +6,7 @@ require './metadata.rb'
 require './upload.rb'
 require './api.rb'
 require './parts/local.rb'
+require 'Logger'
 # download/new/cat/title/date = stelle = preacher.mp3
 $logger = Logger.new('logfile.log')
     
