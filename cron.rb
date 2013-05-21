@@ -59,7 +59,7 @@ def main
         u = Upload.new(api)
         u.up(names)
     end
-    $logger.debug  "done"
+    $logger.debug "done"
     # some error checking
    
 end
