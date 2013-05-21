@@ -31,19 +31,29 @@ $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
 $options[:addfileDesc] = "Notizen"
 
+
+def cleanOptions()
+    $options[:files] = Array.new
+    $options[:title] = ""
+    $options[:preacher] = ""
+    $options[:lang] = "*"
+    $options[:ref] = ""
+    $options[:date] = ""
+    $options[:serie] = ""
+end
 def getOptions()
     optparse = OptionParser.new do|opts|
     opts.banner = "Usage: main.rb [options]"
-    
-    $options[:files] = Array.new
+    cleanOptions();
+
     opts.on( '-f', '--file FILENAMES', 'Which files to upload' ) do |file|
         $options[:files] << File.expand_path(file)
     end
-    $options[:title] = ""
+
     opts.on( '-t', '--title TITLE', 'Title' ) do |x|
         $options[:title] = x
     end
-    $options[:preacher] = ""
+
     opts.on( '-p', '--preacher PREACHER', 'Der Prediger' ) do |x|
         $options[:preacher] = x
     end
@@ -52,24 +62,20 @@ def getOptions()
         $options[:cat] = x
     end
     
-    $options[:lang] = "*"
     opts.on( '-l', '--lang FILETYPE', 'Sprache' ) do |x|
         $options[:lang] = x
     end
     
 
-    $options[:ref] = ""
     opts.on( '-r', '--ref PATH', 'Bibelstelle' ) do |x|
         $options[:ref] = x
     end
     
-    $options[:date] = ""
     opts.on( '-d', '--date DATUM', 'Aufnahmedatum' ) do |x|
         $options[:date] = x
     end
 
 
-    $options[:serie] = ""
     opts.on( '-s', '--serie PATH', 'Alias der Serie' ) do |x|
         $options[:serie] = x
     end
