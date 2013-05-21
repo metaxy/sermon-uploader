@@ -39,7 +39,7 @@ def main
     getOptions()
     
     # scan
-    Dir.foreach('/path/to/dir') do |item|
+    Dir.foreach($options[:newHome]) do |item|
         next if item == '.' or item == '..'
         next if(not File.directory? item)
         cleanOptions()
