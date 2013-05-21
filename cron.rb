@@ -6,7 +6,7 @@ require './metadata.rb'
 require './upload.rb'
 require './api.rb'
 require './parts/local.rb'
-# download/new/cat/title/date - stelle - preacher.mp3
+# download/new/cat/title/date = stelle = preacher.mp3
 
 # a folder
 def addFile(path)
@@ -20,7 +20,7 @@ def addFile(path)
         files << item
     end
     return :failed if mp3 == nil
-    reg = /\/(\w+)\/(\w+)\/(\w+)(\s*)-(\s*)(\w+)(\s*)-(\s*)(\w+).mp3/
+    reg = /\/(\w+)\/(\w+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     if(reg =~ mp3) 
         y = mp3.scan(reg)   
         $options[:cat] = y[0]
