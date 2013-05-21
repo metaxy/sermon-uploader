@@ -23,7 +23,7 @@ def addFile(path)
     reg = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     puts mp3
     if(reg =~ mp3) 
-        y = mp3.scan(reg)   
+        y = mp3.scan(reg)[0]
         puts y
         $options[:cat] = y[0]
         $options[:title] = y[1]
