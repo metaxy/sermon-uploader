@@ -24,6 +24,7 @@ def addFile(path)
     puts mp3
     if(reg =~ mp3) 
         y = mp3.scan(reg)   
+        puts y
         $options[:cat] = y[0]
         $options[:title] = y[1]
         $options[:date] = y[2]
