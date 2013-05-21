@@ -29,6 +29,7 @@ def addFile(path)
         $options[:ref] = y[5]
         $options[:preacher] = y[8]
     else
+        puts "didnt't match regexp"
         return :failed
     end
     $options[:files] = files
