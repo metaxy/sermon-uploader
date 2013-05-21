@@ -47,7 +47,7 @@ def main
         cleanOptions()
         puts item
         
-        next if addFile(path) != :ok
+        next if addFile(item) != :ok
         next if error_check($options) == :failed
     
         names = do_meta()
