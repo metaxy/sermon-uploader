@@ -113,7 +113,7 @@ def error_check(options)
     neededOptions = [:title, :preacher, :date, :cat, :files, :host, :username, :api, :home]
     
     neededOptions.each do |x|
-        if($options[x] == nil) 
+        if(options[x] == nil) 
             puts "Die Variable #{x} fehlt" 
             return :failed
         end

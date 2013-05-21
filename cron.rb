@@ -53,6 +53,7 @@ def main
         puts item
         
         next if addFile(item) != :ok
+        puts $options
         next if error_check($options) == :failed
     
         names = do_meta()
