@@ -39,7 +39,8 @@ def main
     getOptions()
     
     # scan
-    Dir.foreach($options[:newHome]) do |item|
+    
+    Dir.glob($options[:newHome] + "/**/*").each do |item|
         puts "item #{item}"
         next if item == '.' or item == '..'
         next if(not File.directory? item)
