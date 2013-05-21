@@ -10,12 +10,12 @@ require './parts/local.rb'
 
 # a folder
 def addFile(path)
-    puts "cron.rb addFile #{path}"
+    #puts "cron.rb addFile #{path}"
     mp3 = nil
     files = []
     Dir.foreach(path) do |item|
         next if item == '.' or item == '..'
-        puts item
+        #puts item
         mp3 = item if (File.extname(item) == ".mp3")
         files << item
     end
@@ -32,6 +32,7 @@ def addFile(path)
         return :failed
     end
     $options[:files] = files
+    puts "found one #{path}"
     return :ok
 end
 
@@ -42,7 +43,7 @@ def main
     # scan
     
     Dir.glob($options[:newHome] + "/**/*").each do |item|
-        puts "item #{item}"
+        #puts "item #{item}"
         next if item == '.' or item == '..'
         next if(not File.directory? item)
         cleanOptions()
