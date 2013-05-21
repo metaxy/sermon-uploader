@@ -16,7 +16,7 @@ def addFile(path)
     Dir.foreach(path) do |item|
         next if item == '.' or item == '..'
         #puts item
-        mp3 = path + item if (File.extname(item) == ".mp3")
+        mp3 = path + '/' + item if (File.extname(item) == ".mp3")
         files << item
     end
     return :failed if mp3 == nil
