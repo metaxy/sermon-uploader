@@ -20,7 +20,7 @@ def addFile(path)
         files << item
     end
     return :failed if mp3 == nil
-    reg = /\/(\w+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
+    reg = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     puts mp3
     if(reg =~ mp3) 
         y = mp3.scan(reg)   
