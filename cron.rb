@@ -45,7 +45,7 @@ def main
         next if item == '.' or item == '..'
         next if(not File.directory? item)
         cleanOptions()
-        puts path
+        puts item
         
         next if addFile(path) != :ok
         next if error_check($options) == :failed
