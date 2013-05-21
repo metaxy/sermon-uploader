@@ -40,6 +40,7 @@ def main
     
     # scan
     Dir.foreach($options[:newHome]) do |item|
+        puts "item #{item}"
         next if item == '.' or item == '..'
         next if(not File.directory? item)
         cleanOptions()
