@@ -20,7 +20,7 @@ def addFile(path)
     end
     return :failed if mp3 == nil
     reg = /\/(\w+)\/(\w+)\/(\w+)(\s*)-(\s*)(\w+)(\s*)-(\s*)(\w+).mp3/
-    if(reg ~= mp3) 
+    if(reg =~ mp3) 
         y = mp3.scan(reg)   
         $options[:cat] = y[0]
         $options[:title] = y[1]
