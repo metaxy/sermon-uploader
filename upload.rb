@@ -1,5 +1,5 @@
 # encoding: utf-8
-require './register.rb'
+require_relative 'register'
 
 class Upload
     def initialize(api)

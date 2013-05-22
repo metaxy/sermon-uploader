@@ -5,12 +5,11 @@ require 'date'
 require 'rubygems'
 
 
-require './config.rb'
-require './metadata.rb'
-require './register.rb'
-require './upload.rb'
-require './api.rb'
-
+require_relative 'config'
+require_relative 'metadata'
+require_relative 'upload'
+require_relative 'api'
+require_relative 'parts/ssh'
 
 class MainWindow < Qt::MainWindow
     slots :upload
@@ -75,17 +74,16 @@ class MainWindow < Qt::MainWindow
     end
     
     def completer()
-        api = Api.new
-        completer_p = Qt::Completer.new(api.getSpeakers(), self)
+        completer_p = Qt::Completer.new($api.getSpeakers(), self)
         completer_p.setCaseSensitivity(Qt::CaseInsensitive)
         @@preacher.setCompleter(completer_p)
         
         
-        completer_r = Qt::Completer.new(api.getBookNames(), self)
+        completer_r = Qt::Completer.new($api.getBookNames(), self)
         completer_r.setCaseSensitivity(Qt::CaseInsensitive)
         @@ref.setCompleter(completer_r)
         
-        completer_s = Qt::Completer.new(api.getSeries(), self)
+        completer_s = Qt::Completer.new($api.getSeries(), self)
         completer_s.setCaseSensitivity(Qt::CaseInsensitive)
         completer_s.setCompletionMode(Qt::Completer::UnfilteredPopupCompletion)
         @@serie.setCompleter(completer_s) 
@@ -136,11 +134,14 @@ def do_stuff(progressHandler)
     # some error checking
     return if error_check($options) == :failed
     names = do_meta()
-    up(names, progressHandler)
+    u = Upload.new($api)
+    u.up(names)
+
 end
 
 def main
     getOptions()
+    $api = Api.new(SshPipe.new(GuiBar.new))
     a = Qt::Application.new(ARGV)
     $w = MainWindow.new
     $w.show

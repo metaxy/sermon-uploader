@@ -1,11 +1,11 @@
 # encoding: utf-8
 require 'rubygems'
 
-require './config.rb'
-require './metadata.rb'
-require './upload.rb'
-require './api.rb'
-require './parts/ssh.rb'
+require_relative 'config'
+require_relative 'metadata'
+require_relative 'upload'
+require_relative 'api'
+require_relative 'parts/ssh'
 
 class CmdBar 
     def update(name, sent, total)

@@ -1,12 +1,13 @@
 # encoding: utf-8
 require 'rubygems'
-
-require './config.rb'
-require './metadata.rb'
-require './upload.rb'
-require './api.rb'
-require './parts/local.rb'
 require 'logger'
+
+require_relative 'config'
+require_relative 'metadata'
+require_relative 'upload'
+require_relative 'api'
+require_relative 'parts/local'
+
 # download/new/cat/title/date = stelle = preacher.mp3
 $logger = Logger.new('logfile.log')
     

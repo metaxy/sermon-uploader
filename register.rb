@@ -1,5 +1,4 @@
 #encoding: utf-8
-require 'iconv'
 
 def convert(string)
     string.force_encoding('utf-8')
