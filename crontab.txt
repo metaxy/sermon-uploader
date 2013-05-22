@@ -1,1 +1,1 @@
-0 * * * 0,1,2,6 ruby1.9.1 /var/www/vhosts/ecg-berlin.de/sermon-uploader/cron.rb
+1,31 * * * * ruby1.9.1 /var/www/vhosts/ecg-berlin.de/sermon-uploader/cron.rb
