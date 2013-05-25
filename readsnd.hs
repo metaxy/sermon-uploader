@@ -1,8 +1,8 @@
 import qualified Sound.File.Sndfile as Snd
 import qualified Sound.File.Sndfile.Buffer.StorableVector as BV
 import qualified Data.StorableVector as V
-import Array as A
-import Complex
+import Data.Array as A
+import Data.Complex
 import DSP.Basic
 import Numeric.Transform.Fourier.FFT
 import DrawSpec
