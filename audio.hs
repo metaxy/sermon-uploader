@@ -11,6 +11,16 @@ import           System.Environment
 import  Data.Iteratee.Iteratee
 import  Data.Iteratee.ListLike
 import Control.Monad.IO.Class as M
+import Data.Iteratee hiding (head, break)
+import Data.Iteratee.Parallel
+import qualified Data.Iteratee.Char as IC
+import Data.Functor.Identity
+import Data.Monoid
+
+import Control.Applicative
+import Control.Monad as CM
+import Control.Monad.Writer
+
 
 main :: IO ([Double])
 main = do
@@ -32,7 +42,7 @@ maxIter :: MonadCatchIO m => Iteratee (V.Vector Double) m [Double]
 maxIter = joinI $ (I.take 50) I.stream2list
 
 maxIter2 :: MonadCatchIO m => Iteratee (V.Vector Double) m [Double]
-maxIter2 = joinI $ (I.take 100) I.stream2list
+maxIter2 = joinI $ (I.take 50) I.stream2list
 
 byteCounter :: Monad m => Iteratee (V.Vector Double) m Int
 byteCounter = I.length
