@@ -27,10 +27,10 @@ main = do
     e <- e2 (maxIter >> maxIter) >>= run
     print e
     return e
-alla :: IO([Double])
+alla :: IO([V.Vector Double])
 alla = do
     let e2 = enumAudioIteratee "out.wav"
-    e <- e2 maxIter2 >>= run
+    e <- e2 iter1 >>= run
     return e
 
 
@@ -46,3 +46,16 @@ maxIter2 = joinI $ (I.take 50) I.stream2list
 byteCounter :: Monad m => Iteratee (V.Vector Double) m Int
 byteCounter = I.length
 
+iter1 :: (MonadCatchIO  m, Functor m) => Iteratee (V.Vector Double) m ([V.Vector Double])
+iter1 = do
+    e1 <- I.takeFromChunk 100
+    e2 <- I.drop 100
+    return ([e1])
+
+headI :: (Monad m) => Iteratee s m a
+headI = liftI step'
+    where
+	step' (Chunk c)
+	    | null c = headI
+	    | otherwise = idone (P.head c) (Chunk $ P.tail c)
+	step' st = icont step' (Just (setEOF st))
