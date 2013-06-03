@@ -7,9 +7,11 @@ end
 
 class Register
     def initialize(api)
+        puts "Register.initialize()";
         @api = api
     end                           
     def register(newPaths)
+        puts "Register.register()";
         speaker_id = @api.getSpeakerID(convert($options[:preacher]))
         series_id = @api.getSeriesID($options[:serie])
         cat_id = @api.getCatID($options[:cat])

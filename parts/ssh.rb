@@ -4,6 +4,7 @@ require 'net/ssh'
 class SshPipe
     
     def initialize(call)
+        puts "SshPipe.initialize";
         @call = call
     end
     

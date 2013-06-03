@@ -34,6 +34,7 @@ def rename(old)
     newName
 end
 def do_meta
+    puts "metadata.rb do_meta()";
     newNames = []
     $options[:files].each do |x|
         puts "main.tb :::: processing filename = " + x

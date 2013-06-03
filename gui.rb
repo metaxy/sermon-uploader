@@ -11,9 +11,18 @@ require_relative 'upload'
 require_relative 'api'
 require_relative 'parts/ssh'
 
+class GuiBar 
+    def update(name, sent, total)
+        puts "GuiBar.update()";
+        #$w.update(send.to_i, total.to_i)
+        print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
+    end
+end
+
 class MainWindow < Qt::MainWindow
     slots :upload
     def initialize
+        puts "MainWindow.initialize";
         super
         self.window_title = 'Sermon Uploader'
         resize(600, 300)
@@ -29,6 +38,7 @@ class MainWindow < Qt::MainWindow
         createLayout()
     end
     def upload()
+        puts "MainWindow.upload()";
           $options[:title] = @@title.text
                 $options[:preacher] = @@preacher.text
                 $options[:cat] = @@cat.currentText
@@ -89,6 +99,7 @@ class MainWindow < Qt::MainWindow
         @@serie.setCompleter(completer_s) 
     end
     def update(name,sent,total)
+        puts "MainWindow.update()";
         @@progress.setMaximum(total)
         @@progress.setValue(sent)
     end
@@ -122,15 +133,8 @@ class MainWindow < Qt::MainWindow
 end
 
 
-
-class GuiBar 
-    def update(name, sent, total)
-        $w.update(send.to_i, total.to_i)
-        print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
-    end
-end
-
 def do_stuff(progressHandler)
+    puts "gui.rb do_stuff()";
     # some error checking
     return if error_check($options) == :failed
     names = do_meta()
@@ -140,6 +144,7 @@ def do_stuff(progressHandler)
 end
 
 def main
+    puts "gui.rb main()"
     getOptions()
     $api = Api.new(SshPipe.new(GuiBar.new))
     a = Qt::Application.new(ARGV)
