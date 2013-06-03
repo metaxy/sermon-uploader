@@ -2,14 +2,13 @@ module Main where
 
 import Prelude as P
 
-import           Sound.Iteratee
+import Sound.Iteratee
 import qualified Data.Vector.Storable as V
-import           Data.Iteratee as I
-import           Data.Iteratee.STM
-import           Control.Monad.CatchIO
-import           System.Environment
-import  Data.Iteratee.Iteratee
-import  Data.Iteratee.ListLike
+importData.Iteratee as I
+import Control.Monad.CatchIO
+import System.Environment
+import Data.Iteratee.Iteratee
+import Data.Iteratee.ListLike
 import Control.Monad.IO.Class as M
 import Data.Iteratee hiding (head, break)
 import Data.Iteratee.Parallel
