@@ -3,34 +3,34 @@ module Main where
 import Prelude as P
 
 import Sound.Iteratee
-import qualified Data.Vector.Storable as V
-importData.Iteratee as I
-import Control.Monad.CatchIO
 import System.Environment
+
+import qualified Data.Vector.Storable as V
+
+import Data.Iteratee as I
 import Data.Iteratee.Iteratee
-import Data.Iteratee.ListLike
+import qualified Data.Iteratee.ListLike as LL
+
+import Control.Monad.CatchIO
 import Control.Monad.IO.Class as M
-import Data.Iteratee hiding (head, break)
-import Data.Iteratee.Parallel
-import qualified Data.Iteratee.Char as IC
 import Data.Functor.Identity
 import Data.Monoid
-
 import Control.Applicative
 import Control.Monad as CM
 import Control.Monad.Writer
 
-
-main :: IO ([Double])
+defaultChunkLength = 10
+defaultBufSize = 10
+main :: IO (Int)
 main = do
     let e2 = enumAudioIteratee "out.wav"
-    e <- e2 (maxIter >> maxIter) >>= run
+    e <- e2 (byteCounter) >>= run
     print e
     return e
-alla :: IO([V.Vector Double])
+alla :: IO(Int)
 alla = do
     let e2 = enumAudioIteratee "out.wav"
-    e <- e2 iter1 >>= run
+    e <- e2 headI >>= run
     return e
 
 
@@ -49,13 +49,23 @@ byteCounter = I.length
 iter1 :: (MonadCatchIO  m, Functor m) => Iteratee (V.Vector Double) m ([V.Vector Double])
 iter1 = do
     e1 <- I.takeFromChunk 100
+    --e3 <- headI
     e2 <- I.drop 100
     return ([e1])
 
-headI :: (Monad m) => Iteratee s m a
+headI :: (Monad m) => Iteratee (V.Vector Double) m Int
 headI = liftI step'
     where
 	step' (Chunk c)
-	    | null c = headI
-	    | otherwise = idone (P.head c) (Chunk $ P.tail c)
+	    | V.null c = headI
+	    | otherwise = idone (V.length c) (Chunk c)
 	step' st = icont step' (Just (setEOF st))
+
+--groupi :: Int -> V.Vector a -> (V.Vector 
+--groupi = concat . groupi'
+groupi' :: Int -> V.Vector Double -> [V.Vector Double]
+groupi' n v 
+    | (V.length v > n) = (fst res):(groupi' n (snd res))
+    | otherwise = [v]
+    where
+        res = V.splitAt n v
