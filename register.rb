@@ -34,7 +34,7 @@ class Register
                     'series_id' => series_id,
                     'audiofile' => convert(audiofile),
                     'videofile' => convert(videofile),
-                    'sermon_title' => convert($options[:title]),
+                    'title' => convert($options[:title]),
                     'alias' => convert($options[:title]),
                     'addfile' => addfile,
                     'addfileDesc' => convert($options[:addfileDesc]),
