@@ -49,9 +49,16 @@ byteCounter = I.length
 iter1 :: (MonadCatchIO  m, Functor m) => Iteratee (V.Vector Double) m ([V.Vector Double])
 iter1 = do
     e1 <- I.takeFromChunk 100
-    --e3 <- headI
     e2 <- I.drop 100
     return ([e1])
+
+--iter2:: (MonadCatchIO  m, Functor m) => Iteratee (V.Vector Double) m ([V.Vector Double])
+--iter2 = liftI (groupi' 10)
+-- what iter2 should do:
+-- Iteratee (V Double) m ([V Double])
+
+iter3 :: (MonadCatchIO  m, Functor m) => Iteratee (V.Vector Double) m (Double)
+iter3 = LL.foldl' (\a el -> a) a
 
 headI :: (Monad m) => Iteratee (V.Vector Double) m Int
 headI = liftI step'
