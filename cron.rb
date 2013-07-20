@@ -41,11 +41,12 @@ end
 
 
 def addVideo()
-    Dir.glob($options[:videoPath]).each do |item|
+    puts "add videos()";
+    Dir.foreach($options[:videoPath]).each do |item|
         date = Date.parse($options[:date])
         fileTime = File.mtime(item)
         puts "#{date.year} #{date.yday}";
-         puts "#{fileTime.year} #{fileTime.yday}";
+        puts "#{fileTime.year} #{fileTime.yday}";
         if(fileTime.year == date.year && fileTime.yday == date.yday)
             $logger.debug "found right day #{item}"
         end
@@ -73,6 +74,7 @@ def main
         # add Video file
         if($options[:autoVideo])
             $logger.debug "add videos"
+            puts "add videos"
             names << addVideo()
         end
      #   api = Api.new(LocalPipe.new)
