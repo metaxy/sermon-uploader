@@ -69,10 +69,10 @@ def main
         names = []
         names << do_meta()
         # add Video file
-        if($options[:autoVideo]) {
+        if($options[:autoVideo])
             $logger.debug "add videos"
             names << addVideo()
-        }
+        end
         api = Api.new(LocalPipe.new)
         u = Upload.new(api)
         u.up(names)
