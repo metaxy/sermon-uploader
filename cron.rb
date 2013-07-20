@@ -70,7 +70,7 @@ def main
         
         # add audio files
         names = []
-        names << do_meta()
+       # names << do_meta()
         # add Video file
        # if($options[:autoVideo])
             $logger.debug "add videos"
