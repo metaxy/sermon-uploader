@@ -73,9 +73,9 @@ def main
             $logger.debug "add videos"
             names << addVideo()
         end
-        api = Api.new(LocalPipe.new)
-        u = Upload.new(api)
-        u.up(names)
+     #   api = Api.new(LocalPipe.new)
+  #      u = Upload.new(api)
+  #      u.up(names)
     end
     $logger.debug "done"
     # some error checking

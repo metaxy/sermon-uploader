@@ -32,6 +32,7 @@ $options[:host] = "5.9.58.75"
 $options[:addfileDesc] = "Notizen"
 $options[:videoPath] = " /usr/local/WowzaMediaServer/content/live"
 $options[:autoVideo] = true
+
 def cleanOptions()
     $options[:files] = Array.new
     $options[:title] = ""
