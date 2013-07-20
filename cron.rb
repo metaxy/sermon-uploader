@@ -47,6 +47,12 @@ def addVideo();
         if(fileTime.year == date.year && fileTime.yday == date.yday)
             $logger.debug "found right day #{item}"
             puts "found right day #{item}"
+            
+            # okay we have a possible file
+            # filter by 320p or source and .mp4
+            # converto to mp3
+            # move to a special folder
+            # start our special fft programm and find the best one
         end
     end
 end
