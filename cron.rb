@@ -45,8 +45,8 @@ def addVideo()
     Dir.foreach($options[:videoPath]).each do |item|
         date = Date.parse($options[:date])
         fileTime = File.mtime($options[:videoPath]+"/"+item)
-        puts "#{date.year} #{date.yday}";
-        puts "#{fileTime.year} #{fileTime.yday}";
+   #puts "#{date.year} #{date.yday}";
+    #    puts "#{fileTime.year} #{fileTime.yday}";
         if(fileTime.year == date.year && fileTime.yday == date.yday)
             $logger.debug "found right day #{item}"
         end
