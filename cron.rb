@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'rubygems'
 require 'logger'
+require 'time'
 
 require_relative 'config'
 require_relative 'metadata'
@@ -38,6 +39,16 @@ def addFile(path)
     return :ok
 end
 
+
+def addVideo()
+    Dir.glob($options[:videoPath]).each do |item|
+        date = Date.parse($options[:date])
+        fileTime = File.mtime(item)
+        if(fileTime.year == date.year && fileTime.yday == date.yday)
+            $logger.debug "found right day #{item}"
+        end
+    end
+end
 def main
     
     getOptions()
@@ -53,9 +64,15 @@ def main
         next if addFile(item) != :ok
         $logger.debug  $options
         next if error_check($options) == :failed
-    
-        names = do_meta()
-
+        
+        # add audio files
+        names = []
+        names << do_meta()
+        # add Video file
+        if($options[:autoVideo]) {
+            $logger.debug "add videos"
+            names << addVideo()
+        }
         api = Api.new(LocalPipe.new)
         u = Upload.new(api)
         u.up(names)

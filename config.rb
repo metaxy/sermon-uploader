@@ -30,8 +30,8 @@ $options[:newHome] = "/var/www/vhosts/ecg-berlin.de/media/downloads/new"
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
 $options[:addfileDesc] = "Notizen"
-
-
+$options[:videoPath] = " /usr/local/WowzaMediaServer/content/live"
+$options[:autoVideo] = true
 def cleanOptions()
     $options[:files] = Array.new
     $options[:title] = ""
@@ -40,12 +40,13 @@ def cleanOptions()
     $options[:ref] = ""
     $options[:date] = ""
     $options[:serie] = ""
+    $options[:autoVideo] = true
 end
 def getOptions()
     optparse = OptionParser.new do|opts|
     opts.banner = "Usage: main.rb [options]"
     cleanOptions();
-
+ 
     opts.on( '-f', '--file FILENAMES', 'Which files to upload' ) do |file|
         $options[:files] << File.expand_path(file)
     end
@@ -99,7 +100,9 @@ def getOptions()
     opts.on( '-k', '--key PATH', 'Path to your keyfile.' ) do |x|
         $options[:key] = x
     end
-
+    opts.on( '-v', '--autoVideo', 'Add automatically the video file' ) do |x|
+        $options[:autoVideo] = true
+    end
     # This displays the help screen, all programs are
     # assumed to have this option.
         opts.on( '-h', '--help', 'Display this screen' ) do
