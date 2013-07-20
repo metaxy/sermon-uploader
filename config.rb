@@ -30,7 +30,7 @@ $options[:newHome] = "/var/www/vhosts/ecg-berlin.de/media/downloads/new"
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
 $options[:addfileDesc] = "Notizen"
-$options[:videoPath] = " /usr/local/WowzaMediaServer/content/live"
+$options[:videoPath] = "/usr/local/WowzaMediaServer/content/live"
 $options[:autoVideo] = true
 
 def cleanOptions()
