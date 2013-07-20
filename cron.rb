@@ -40,17 +40,13 @@ def addFile(path)
 end
 
 
-def addVideo()
-    puts "add videos()";
+def addVideo();
     date = Date.parse($options[:date])
-    puts "we need #{date.year} #{date.yday}";
     Dir.foreach($options[:videoPath]).each do |item|
         fileTime = File.mtime($options[:videoPath]+"/"+item)
-        if(item == "ecg_source_155.mp4")
-            puts "#{fileTime.year} #{fileTime.yday}";
-        end
         if(fileTime.year == date.year && fileTime.yday == date.yday)
             $logger.debug "found right day #{item}"
+            puts "found right day #{item}"
         end
     end
 end
