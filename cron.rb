@@ -44,7 +44,7 @@ def addVideo()
     puts "add videos()";
     Dir.foreach($options[:videoPath]).each do |item|
         date = Date.parse($options[:date])
-        fileTime = File.mtime(item)
+        fileTime = File.mtime($options[:videoPath]+"/"+item)
         puts "#{date.year} #{date.yday}";
         puts "#{fileTime.year} #{fileTime.yday}";
         if(fileTime.year == date.year && fileTime.yday == date.yday)
