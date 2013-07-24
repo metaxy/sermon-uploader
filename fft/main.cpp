@@ -12,12 +12,12 @@
 
 #include "anyoption.h"
 
-std::vector<double> small_amp;
+
 
 using namespace std;
 std::vector<double> calcAmp(Aquila::FramesCollection frames)
 {
-    std::cout << "calc amp";
+    std::cout << "calc amp" << endl;
     std::vector<double> ret;
     auto fft = Aquila::FftFactory::getFft(frames.getSamplesPerFrame());
     for (auto it = frames.begin(); it != frames.end(); ++it)
@@ -66,8 +66,9 @@ int main(int argc, char *argv[])
     Aquila::WaveFile small(opt->getValue("file"));
     Aquila::FramesCollection s;
     s.divideFrames(small, packetSize, 0);
-    small_amp = calcAmp(s);
-    
+    std::vector<double> small_amp = calcAmp(s);
+    gsl_vector_const_view gsl_x = gsl_vector_const_view_array( &small_amp[0], small_amp.size() );
+               
     double g_max = 0.0, g_secs = 0.0;
     int id = 0;
     for(int file = 0; file < 10; file++) {
@@ -77,6 +78,8 @@ int main(int argc, char *argv[])
         string fileName2 = fileName + numstr + ".wav";
         if(!exists(fileName2))
             break;
+        
+        cout << "reading file" << fileName2 << endl;
         Aquila::WaveFile big(fileName2);
         Aquila::FramesCollection b;
         b.divideFrames(big, packetSize, 0);
@@ -86,10 +89,8 @@ int main(int argc, char *argv[])
 
         int sizeDiff = b.count() - s.count();
 
-        for(int i = 0; i < sizeDiff; i++) {
-            gsl_vector_const_view gsl_x = gsl_vector_const_view_array( &small_amp[0], small_amp.size() );
+        for(int i = 0; i < sizeDiff - 1; i++) {
             gsl_vector_const_view gsl_y = gsl_vector_const_view_array( &big_amp[i], small_amp.size() );
-
             double pearson = gsl_stats_correlation( (double*) gsl_x.vector.data, sizeof(double),
                                                 (double*) gsl_y.vector.data, sizeof(double),
                                                 200 );
@@ -97,9 +98,9 @@ int main(int argc, char *argv[])
         }
 
         vector<double>::iterator pos = std::max_element(res.begin(), res.end());
-
+        cout << "file " << file << "max " << g_max << "g_secs " << g_secs << endl;
         cout << "max: " << *pos << endl;
-        if(*pos > g_max) {
+        if((*pos) > g_max) {
             int start_index = std::distance(res.begin(), pos);
             double bc = b.count();
             double lc = start_index;
@@ -109,7 +110,7 @@ int main(int argc, char *argv[])
             g_max = *pos;
             g_secs = (len/1000) * (lc/bc);
             id = file;
-            cout << "file " << file << "max " << g_max << "g_secs " << g_secs;
+            
         }
     }
     cout << "ret: " << g_secs << " in " << id;
