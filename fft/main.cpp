@@ -12,6 +12,8 @@
 
 #include "anyoption.h"
 
+std::vector<double> small_amp;
+
 using namespace std;
 std::vector<double> calcAmp(Aquila::FramesCollection frames)
 {
@@ -29,63 +31,85 @@ std::vector<double> calcAmp(Aquila::FramesCollection frames)
     return ret;
 }
 
+inline bool exists (const std::string& name) {
+    if (FILE *file = fopen(name.c_str(), "r")) {
+        fclose(file);
+        return true;
+    } else {
+        return false;
+    }   
+}
 int main(int argc, char *argv[])
 {
     AnyOption *opt = new AnyOption();
-   opt->addUsage("fft");
-   opt->addUsage("Usage: ");
-   opt->addUsage("");
-   opt->addUsage(" -h  --help");
-   opt->addUsage(" --main       The main wav file");
-   opt->addUsage(" --cmp        Where should we search?");
-   opt->addUsage("");
+    opt->addUsage("fft");
+    opt->addUsage("Usage: ");
+    opt->addUsage("");
+    opt->addUsage(" -h  --help");
+    opt->addUsage(" --file       The main wav file");
+    opt->addUsage("");
 
-   opt->setFlag("help", 'h');
-   opt->setOption("main");
-   opt->setOption("cmp");
-
-   opt->processCommandArgs(argc, argv);
-   if(opt->getValue("help") != NULL || opt->getValue("main") == NULL || opt->getValue("cmp") == NULL) {
-       opt->printUsage();
-       return 0;
-   }
-
-    const unsigned int packetSize = 1024*4;
-    // input signal parameters
-    Aquila::WaveFile small("/home/paul/coding/sermon-uploader/s_mono_3k.wav");
-    Aquila::FramesCollection s;
-    s.divideFrames(small, packetSize, 0);
-
-    Aquila::WaveFile big("/home/paul/coding/sermon-uploader/b_mono_3k.wav");
-    Aquila::FramesCollection b;
-    b.divideFrames(big, packetSize, 0);
-    std::vector<double> small_amp = calcAmp(s);
-    std::vector<double> big_amp = calcAmp(b);
-
-    std::vector<double> res;
-
-    int sizeDiff = b.count() - s.count();
-
-    for(int i = 0; i < sizeDiff; i++) {
-        gsl_vector_const_view gsl_x = gsl_vector_const_view_array( &small_amp[0], small_amp.size() );
-        gsl_vector_const_view gsl_y = gsl_vector_const_view_array( &big_amp[i], small_amp.size() );
-
-        double pearson = gsl_stats_correlation( (double*) gsl_x.vector.data, sizeof(double),
-                                                (double*) gsl_y.vector.data, sizeof(double),
-                                                200 );
-        res.push_back(pearson);
+    opt->setFlag("help", 'h');
+    opt->setOption("file", 'f');
+    opt->processCommandArgs(argc, argv);
+    if(opt->getValue("help") != NULL || opt->getValue("file") == NULL) {
+        opt->printUsage();
+        return 0;
     }
 
-    vector<double>::iterator pos = std::max_element(res.begin(), res.end());
+    const unsigned int packetSize = 1024*4;
+    if(!exists(opt->getValue("file"))) {
+        cout << "file not found" << endl;
+        return 1;
+    }
+    Aquila::WaveFile small(opt->getValue("file"));
+    Aquila::FramesCollection s;
+    s.divideFrames(small, packetSize, 0);
+    small_amp = calcAmp(s);
+    
+    double g_max = 0.0, g_secs = 0.0;
+    int id = 0;
+    for(int i = 0; i < 10; i++) {
+        char numstr[21]; // enough to hold all numbers up to 64-bits
+        sprintf(numstr, "%d", i);
+        string fileName(opt->getValue("file"));
+        if(!exists(fileName+numstr))
+            break;
+        Aquila::WaveFile big(fileName + numstr);
+        Aquila::FramesCollection b;
+        b.divideFrames(big, packetSize, 0);
+        std::vector<double> big_amp = calcAmp(b);
 
-    cout << "max: " << *pos << endl;
+        std::vector<double> res;
 
-    int start_index = std::distance(res.begin(), pos);
-    double bc = b.count();
-    double lc = start_index;
-    double len = big.getAudioLength();
-    cout << "secs: " << (len/1000) * (lc/bc);
+        int sizeDiff = b.count() - s.count();
 
+        for(int i = 0; i < sizeDiff; i++) {
+            gsl_vector_const_view gsl_x = gsl_vector_const_view_array( &small_amp[0], small_amp.size() );
+            gsl_vector_const_view gsl_y = gsl_vector_const_view_array( &big_amp[i], small_amp.size() );
+
+            double pearson = gsl_stats_correlation( (double*) gsl_x.vector.data, sizeof(double),
+                                                (double*) gsl_y.vector.data, sizeof(double),
+                                                200 );
+            res.push_back(pearson);
+        }
+
+        vector<double>::iterator pos = std::max_element(res.begin(), res.end());
+
+        cout << "max: " << *pos << endl;
+        if(*pos > g_max) {
+            int start_index = std::distance(res.begin(), pos);
+            double bc = b.count();
+            double lc = start_index;
+            double len = big.getAudioLength();
+            cout << "secs: " << (len/1000) * (lc/bc);
+
+            g_max = *pos;
+            g_secs = (len/1000) * (lc/bc);
+            id = i;
+        }
+    }
+    cout << "ret: " << g_secs << " in " << id;
     return 0;
 }
 
