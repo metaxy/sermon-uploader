@@ -40,21 +40,24 @@ def addFile(path)
 end
 
 
-def addVideo();
+def addVideo(mp3File);
+    folder = "/tmp/asd"
+    puts `ffmpeg -i #{mp3File} -ar 5000 -ac 1 #{folder}/out.wav`
     date = Date.parse($options[:date])
-    Dir.foreach($options[:videoPath]).each do |item|
-        fileTime = File.mtime($options[:videoPath]+"/"+item)
+    i = 0
+    Dir.foreach($options[:videoPath]).each do |item|#
+        fullItem = $options[:videoPath] + "/" + item
+        next if !item.include? "320p" or !item.include? ".mp4" # filter by 320p or source and .mp4
+        fileTime = File.mtime(fullItem)
         if(fileTime.year == date.year && fileTime.yday == date.yday)
             $logger.debug "found right day #{item}"
-            puts "found right day #{item}"
+            puts "found right day #{item}"           
             
-            # okay we have a possible file
-            # filter by 320p or source and .mp4
-            # converto to mp3
-            # move to a special folder
-            # start our special fft programm and find the best one
+            puts `ffmpeg -i #{fullItem} -ar 5000 -ac 1 #{folder}/out.wav#{i}`
         end
     end
+    newFileName = `./fft_bin --file #{folder}/out.wav`
+    puts newFileName
 end
 def main
     
@@ -76,11 +79,11 @@ def main
         names = []
        # names << do_meta()
         # add Video file
-       # if($options[:autoVideo])
+        if($options[:autoVideo])
             $logger.debug "add videos"
             puts "add videos"
             names << addVideo()
-      #  end
+        end
      #   api = Api.new(LocalPipe.new)
   #      u = Upload.new(api)
   #      u.up(names)
