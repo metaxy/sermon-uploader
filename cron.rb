@@ -42,7 +42,7 @@ end
 
 def addVideo(mp3File);
     folder = $options[:tmp]
-    puts `ffmpeg -i #{mp3File} -ar 5000 -ac 1 #{folder}/out.wav`
+    puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}/out.wav'`
     date = Date.parse($options[:date])
     i = 0
     Dir.foreach($options[:videoPath]).each do |item|#
@@ -53,10 +53,10 @@ def addVideo(mp3File);
             $logger.debug "found right day #{item}"
             puts "found right day #{item}"           
             
-            puts `ffmpeg -i #{fullItem} -ar 5000 -ac 1 #{folder}/out.wav#{i}`
+            puts `ffmpeg -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}/out.wav#{i}'`
         end
     end
-    newFileName = `./fft_bin --file #{folder}/out.wav`
+    newFileName = `./fft_bin --file '#{folder}/out.wav'`
     puts newFileName
 end
 def main
