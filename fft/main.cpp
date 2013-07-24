@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
         }
 
         vector<double>::iterator pos = std::max_element(res.begin(), res.end());
-        if(!(*pos)) {
+        if(pos == res.end()) {
             continue;
         }
         cout << "file " << file << "max " << g_max << "g_secs " << g_secs << endl;
