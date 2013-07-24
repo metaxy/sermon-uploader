@@ -99,15 +99,16 @@ int main(int argc, char *argv[])
 
         vector<double>::iterator pos = std::max_element(res.begin(), res.end());
         cout << "file " << file << "max " << g_max << "g_secs " << g_secs << endl;
-        cout << "max: " << *pos << endl;
-        if((*pos) > g_max) {
+        double pp = *pos;
+       // cout << "max: " << *pos << endl;
+        if(pp > g_max) {
             int start_index = std::distance(res.begin(), pos);
             double bc = b.count();
             double lc = start_index;
             double len = big.getAudioLength();
             cout << "secs: " << (len/1000) * (lc/bc);
 
-            g_max = *pos;
+            g_max = pp;
             g_secs = (len/1000) * (lc/bc);
             id = file;
             
