@@ -17,7 +17,7 @@ std::vector<double> small_amp;
 using namespace std;
 std::vector<double> calcAmp(Aquila::FramesCollection frames)
 {
-    cout << "calc amp",
+    std::cout << "calc amp";
     std::vector<double> ret;
     auto fft = Aquila::FftFactory::getFft(frames.getSamplesPerFrame());
     for (auto it = frames.begin(); it != frames.end(); ++it)
