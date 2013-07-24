@@ -82,7 +82,7 @@ def main
         if($options[:autoVideo])
             $logger.debug "add videos"
             puts "add videos"
-            names << addVideo()
+            names << addVideo(item)
         end
      #   api = Api.new(LocalPipe.new)
   #      u = Upload.new(api)
