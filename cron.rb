@@ -60,6 +60,7 @@ def addVideo(mp3File);
             i += 1
         end
     end
+    puts "executing ./fft_bin --file '#{folder}/out.wav'"
     newFileName = `./fft_bin --file '#{folder}/out.wav'`
     puts newFileName
 end

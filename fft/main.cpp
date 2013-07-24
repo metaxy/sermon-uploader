@@ -17,6 +17,7 @@ std::vector<double> small_amp;
 using namespace std;
 std::vector<double> calcAmp(Aquila::FramesCollection frames)
 {
+    cout << "calc amp",
     std::vector<double> ret;
     auto fft = Aquila::FftFactory::getFft(frames.getSamplesPerFrame());
     for (auto it = frames.begin(); it != frames.end(); ++it)
@@ -69,9 +70,9 @@ int main(int argc, char *argv[])
     
     double g_max = 0.0, g_secs = 0.0;
     int id = 0;
-    for(int i = 0; i < 10; i++) {
+    for(int file = 0; file < 10; file++) {
         char numstr[21]; // enough to hold all numbers up to 64-bits
-        sprintf(numstr, "%d", i);
+        sprintf(numstr, "%d", file);
         string fileName(opt->getValue("file"));
         string fileName2 = fileName + numstr + ".wav";
         if(!exists(fileName2))
@@ -108,6 +109,7 @@ int main(int argc, char *argv[])
             g_max = *pos;
             g_secs = (len/1000) * (lc/bc);
             id = i;
+            cout << "file " << file << "max " << g_max << "g_secs " << g_secs;
         }
     }
     cout << "ret: " << g_secs << " in " << id;
