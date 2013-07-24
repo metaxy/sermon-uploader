@@ -34,7 +34,7 @@ def addFile(path)
         $logger.warn "didnt't match regexp"
         return :failed
     end
-    $optiosn[:mp3] = mp3
+    $options[:mp3] = mp3
     $options[:files] = files
     $logger.debug "found one #{path}"
     return :ok
