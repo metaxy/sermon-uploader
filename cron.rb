@@ -27,7 +27,7 @@ def addFile(path)
         y = mp3.scan(reg)[0]
         $options[:cat] = y[0]
         $options[:title] = y[1]
-        $options[:date] = y[2]
+        $options[:date] = y[2].strip
         $options[:ref] = y[5]
         $options[:preacher] = y[8]
     else
