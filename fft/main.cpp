@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 
             g_max = *pos;
             g_secs = (len/1000) * (lc/bc);
-            id = i;
+            id = file;
             cout << "file " << file << "max " << g_max << "g_secs " << g_secs;
         }
     }
