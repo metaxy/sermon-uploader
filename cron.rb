@@ -34,6 +34,7 @@ def addFile(path)
         $logger.warn "didnt't match regexp"
         return :failed
     end
+    $optiosn[:mp3] = mp3
     $options[:files] = files
     $logger.debug "found one #{path}"
     return :ok
@@ -83,7 +84,7 @@ def main
         if($options[:autoVideo])
             $logger.debug "add videos"
             puts "add videos"
-            names << addVideo(item)
+            names << addVideo($options[:mp3])
         end
      #   api = Api.new(LocalPipe.new)
   #      u = Upload.new(api)
