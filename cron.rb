@@ -42,6 +42,7 @@ end
 
 def addVideo(mp3File);
     folder = $options[:tmp]
+    puts "executing ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}/out.wav'"
     puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}/out.wav'`
     date = Date.parse($options[:date])
     i = 0
@@ -52,7 +53,7 @@ def addVideo(mp3File);
         if(fileTime.year == date.year && fileTime.yday == date.yday)
             $logger.debug "found right day #{item}"
             puts "found right day #{item}"           
-            
+            puts "executing ffmpeg -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}/out.wav#{i}'" 
             puts `ffmpeg -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}/out.wav#{i}'`
         end
     end
