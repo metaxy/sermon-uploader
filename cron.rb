@@ -41,7 +41,7 @@ end
 
 
 def addVideo(mp3File);
-    folder = "/tmp/asd"
+    folder = $options[:tmp]
     puts `ffmpeg -i #{mp3File} -ar 5000 -ac 1 #{folder}/out.wav`
     date = Date.parse($options[:date])
     i = 0
@@ -65,7 +65,7 @@ def main
     
     # scan
     
-    Dir.glob($options[:newHome] + "/**/*").each do |item|
+    Dir.glob($options[:newHome] + "**/*").each do |item|
         next if item == '.' or item == '..'
         next if(not File.directory? item)
         cleanOptions()
