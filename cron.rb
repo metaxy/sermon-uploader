@@ -48,6 +48,7 @@ def addVideo(mp3File);
     puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
     date = Date.parse($options[:date])
     i = 0
+    files = []
     Dir.foreach($options[:videoPath]).each do |item|#
         fullItem = $options[:videoPath] + "/" + item
         next if !item.include? "360p" or !item.include? ".mp4" # filter by 320p or source and .mp4
@@ -57,12 +58,21 @@ def addVideo(mp3File);
             puts "found right day #{item}"           
             puts "executing ffmpeg -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'" 
             puts `ffmpeg -y -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'`
+            files[i] = fullItem
             i += 1
         end
     end
     puts "executing ./fft_bin --file '#{folder}/out.wav'"
-    newFileName = `./fft_bin --file '#{folder}/out.wav'`
-    puts newFileName
+    
+    e = `./fft_bin --file '#{folder}/out.wav'`.split(";")
+    file = files[e[2]]
+    secs = e[0];
+    len = e[1];
+    
+    # todo secs and len from "sec" to "hour" convert
+    puts `ffmpeg -ss 00:00:00 -t 00:50:00 -i "#{file}" -acodec copy -vcodec copy #{folder + "res.mp4"}`
+    
+    puts file
 end
 def main
     
@@ -87,7 +97,7 @@ def main
         if($options[:autoVideo])
             $logger.debug "add videos"
             puts "add videos"
-            names << addVideo($options[:mp3])
+            #names << addVideo($options[:mp3])
         end
      #   api = Api.new(LocalPipe.new)
   #      u = Upload.new(api)

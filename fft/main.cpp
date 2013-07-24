@@ -17,12 +17,12 @@
 using namespace std;
 std::vector<double> calcAmp(Aquila::FramesCollection frames)
 {
-    std::cout << "calc amp" << endl;
-    std::vector<double> ret;
+    //std::cout << "calc amp" << endl;
+    vector<double> ret;
     auto fft = Aquila::FftFactory::getFft(frames.getSamplesPerFrame());
     for (auto it = frames.begin(); it != frames.end(); ++it)
     {
-        std::vector<Aquila::ComplexType> s = fft->fft(it->toArray());
+        vector<Aquila::ComplexType> s = fft->fft(it->toArray());
         double sum = 0.0;
         for (auto it2 = s.begin(); it2 != s.end(); ++it2) {
             sum += abs(*it2);
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
         if(!exists(fileName2))
             break;
         
-        cout << "reading file" << fileName2 << endl;
+        //cout << "reading file" << fileName2 << endl;
         Aquila::WaveFile big(fileName2);
         Aquila::FramesCollection b;
         b.divideFrames(big, packetSize, 0);
@@ -101,9 +101,8 @@ int main(int argc, char *argv[])
         if(pos == res.end()) {
             continue;
         }
-        cout << "file " << file << "max " << g_max << "g_secs " << g_secs << endl;
-        double pp = (*pos) * 1.0;
-       // cout << "max: " << *pos << endl;
+        //cout << "file " << file << "max " << g_max << "g_secs " << g_secs << endl;
+        double pp = *pos;
         if(pp > g_max) {
             int start_index = std::distance(res.begin(), pos);
             double bc = b.count();
@@ -117,7 +116,9 @@ int main(int argc, char *argv[])
             
         }
     }
-    cout << "ret: " << g_secs << " in " << id;
+    double lc2 = small.getAudioLength();
+    
+    cout << g_secs << ";" (lc2*1000) << ";" << id;
     return 0;
 }
 
