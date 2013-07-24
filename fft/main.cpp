@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 
         vector<double>::iterator pos = std::max_element(res.begin(), res.end());
         cout << "file " << file << "max " << g_max << "g_secs " << g_secs << endl;
-        double pp = *pos;
+        double pp = std::copy(*pos);
        // cout << "max: " << *pos << endl;
         if(pp > g_max) {
             int start_index = std::distance(res.begin(), pos);
