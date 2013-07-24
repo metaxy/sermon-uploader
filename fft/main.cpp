@@ -73,9 +73,10 @@ int main(int argc, char *argv[])
         char numstr[21]; // enough to hold all numbers up to 64-bits
         sprintf(numstr, "%d", i);
         string fileName(opt->getValue("file"));
-        if(!exists(fileName+numstr))
+        string fileName2 = fileName + numstr + ".wav";
+        if(!exists(fileName2))
             break;
-        Aquila::WaveFile big(fileName + numstr);
+        Aquila::WaveFile big(fileName2);
         Aquila::FramesCollection b;
         b.divideFrames(big, packetSize, 0);
         std::vector<double> big_amp = calcAmp(b);
