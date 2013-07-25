@@ -29,7 +29,7 @@ def addFile(path)
         $options[:cat] = y[0]
         $options[:title] = y[1]
         $options[:date] = y[2].strip
-        $options[:ref] = y[5]
+        $options[:ref] = y[5].strip
         $options[:preacher] = y[8]
     else
         $logger.warn "didnt't match regexp"
