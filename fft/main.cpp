@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
     }
     double lc2 = small.getAudioLength();
     
-    cout << setiosflags(ios::fixed) << setprecision(0) << g_secs << ";" << (lc2*1000) << ";" << id;
+    cout << setiosflags(ios::fixed) << setprecision(0) << g_secs << ";" << (lc2/1000) << ";" << id;
     return 0;
 }
 
