@@ -12,7 +12,7 @@
 
 #include "anyoption.h"
 
-
+#include <iomanip>
 
 using namespace std;
 std::vector<double> calcAmp(Aquila::FramesCollection frames)
