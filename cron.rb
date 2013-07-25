@@ -55,7 +55,7 @@ def addVideo(mp3File);
     files = []
     Dir.foreach($options[:videoPath]).each do |item|#
         fullItem = $options[:videoPath] + "/" + item
-        next if !item.include? "360p" or !item.include? ".mp4" # filter by 320p or source and .mp4
+        next if !item.include? "source" or !item.include? ".mp4" # filter by 320p or source and .mp4
         fileTime = File.mtime(fullItem)
         if(fileTime.year == date.year && fileTime.yday == date.yday)
             $logger.debug "found right day #{item}"
