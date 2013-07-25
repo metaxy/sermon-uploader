@@ -71,9 +71,9 @@ def addVideo(mp3File);
     e = `./fft_bin --file '#{folder}out.wav'`
     puts e
     e = e.split(";");
-    file = files[e[2]]
-    secs = e[0];
-    len = e[1];
+    file = files[e[2].to_i]
+    secs = e[0].to_i;
+    len = e[1].to_i;
     
     # todo secs and len from "sec" to "hour" convert
     mm1, ss1 = secs.divmod(60)
