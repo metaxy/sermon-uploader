@@ -95,10 +95,10 @@ def addVideo(mp3File);
 
     puts `ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec copy -vcodec copy #{folder + "res.mp4"}`
     
-    puts `qtfaststart #{folder + "res.mp4"}`
-    puts `chmod +r #{folder + "res.mp4"}`
+    puts `qtfaststart #{folder + "res.mp4"} #{folder + "res2.mp4"}`
+    puts `chmod +r #{folder + "res2.mp4"}`
     
-    $options[:files] << folder + "res.mp4";
+    $options[:files] << folder + "res2.mp4";
 end
 def main
     
