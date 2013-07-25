@@ -66,9 +66,11 @@ def addVideo(mp3File);
             i += 1
         end
     end
-    puts "executing ./fft_bin --file '#{folder}/out.wav'"
+    puts "executing ./fft_bin --file '#{folder}out.wav'"
     
-    e = `./fft_bin --file '#{folder}/out.wav'`.split(";")
+    e = `./fft_bin --file '#{folder}out.wav'`
+    puts e
+    e = e.split(";");
     file = files[e[2]]
     secs = e[0];
     len = e[1];
