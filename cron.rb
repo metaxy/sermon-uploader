@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'logger'
 require 'time'
+require 'fileutils'
 
 require_relative 'config'
 require_relative 'metadata'
