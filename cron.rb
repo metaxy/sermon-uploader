@@ -45,7 +45,7 @@ def addVideo(mp3File);
     folder = $options[:tmp] + $options[:date] + "/";
     if(File.exists? folder)
         FileUtils.rm_rf(folder) # remove everything
-    endif
+    end
     Dir.mkdir(folder)
     puts "executing ffmpeg -y -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'"
     puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
