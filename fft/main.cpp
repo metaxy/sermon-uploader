@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
             double bc = b.count();
             double lc = start_index;
             double len = big.getAudioLength();
-            cout << "secs: " << (len/1000) * (lc/bc);
+            //cout << "secs: " << (len/1000) * (lc/bc);
 
             g_max = pp;
             g_secs = (len/1000) * (lc/bc);
@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
     }
     double lc2 = small.getAudioLength();
     
-    cout << g_secs << ";" << (lc2*1000) << ";" << id;
+    cout << setiosflags(ios::fixed) << setprecision(1) << g_secs << ";" << (lc2*1000) << ";" << id;
     return 0;
 }
 
