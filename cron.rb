@@ -66,7 +66,7 @@ def addVideo(mp3File);
             i += 1
         end
     end
-    if(i = 0)
+    if(i == 0)
         $logger.debug "no videos found"
         return;
     end
