@@ -25,7 +25,7 @@ def rename(old)
     (ref = $options[:ref] + " ") if $options[:ref] != ""
     if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".mp4")
         newName = File.dirname(old) + 
-                "/#{$options[:date]} #{cat} - #{ref}#{$options[:title]} (#{$options[:preacher]})" + 
+                "/#{$options[:date]} #{ref}#{$options[:title]} (#{$options[:preacher]})" + 
                 File.extname(old).downcase
     else
         newName = File.dirname(old) + "/" + clean(File.basename(old))
