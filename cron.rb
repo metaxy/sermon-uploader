@@ -66,14 +66,23 @@ def addVideo(mp3File);
             i += 1
         end
     end
+    if(i = 0)
+        $logger.debug "no videos found"
+        return "";
+    end
     puts "executing ./fft_bin --file '#{folder}out.wav'"
     
     e = `./fft_bin --file '#{folder}out.wav'`
     puts e
     e = e.split(";");
+    if(e.size != 3)
+        $logger.debug "fft gave strange input"
+        return ""
+    end
     file = files[e[2].to_i]
     secs = e[0].to_i;
     len = e[1].to_i;
+    
     
     # todo secs and len from "sec" to "hour" convert
     mm1, ss1 = secs.divmod(60)
@@ -86,14 +95,13 @@ def addVideo(mp3File);
 
     puts `ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec copy -vcodec copy #{folder + "res.mp4"}`
     
-    puts file
+    return folder + "res.mp4"
 end
 def main
     
     getOptions()
     
     # scan
-    
     Dir.glob($options[:newHome] + "**/*").each do |item|
         next if item == '.' or item == '..'
         next if(not File.directory? item)
@@ -106,16 +114,16 @@ def main
         
         # add audio files
         names = []
-       # names << do_meta()
+        names << do_meta()
         # add Video file
         if($options[:autoVideo])
             $logger.debug "add videos"
             puts "add videos"
             names << addVideo($options[:mp3])
         end
-     #   api = Api.new(LocalPipe.new)
-  #      u = Upload.new(api)
-  #      u.up(names)
+        api = Api.new(LocalPipe.new)
+        u = Upload.new(api)
+        u.up(names)
     end
     $logger.debug "done"
     # some error checking
