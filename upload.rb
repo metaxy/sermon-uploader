@@ -6,6 +6,7 @@ class Upload
         @api = api
     end
     def up(files)
+        puts "uploading #{files}"
         reg = Register.new(@api)
         newPaths = []
         files.each do |file|
