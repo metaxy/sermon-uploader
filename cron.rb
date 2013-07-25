@@ -70,7 +70,15 @@ def addVideo(mp3File);
     len = e[1];
     
     # todo secs and len from "sec" to "hour" convert
-    puts `ffmpeg -ss 00:00:00 -t 00:50:00 -i "#{file}" -acodec copy -vcodec copy #{folder + "res.mp4"}`
+    mm1, ss1 = secs.divmod(60)
+    hh1, mm1 = mm1.divmod(60)
+    
+    mm2, ss2 = len.divmod(60)
+    hh2, mm2 = mm2.divmod(60)
+    
+    puts "ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec copy -vcodec copy #{folder + "res.mp4"}"
+
+    puts `ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec copy -vcodec copy #{folder + "res.mp4"}`
     
     puts file
 end
@@ -97,7 +105,7 @@ def main
         if($options[:autoVideo])
             $logger.debug "add videos"
             puts "add videos"
-            #names << addVideo($options[:mp3])
+            names << addVideo($options[:mp3])
         end
      #   api = Api.new(LocalPipe.new)
   #      u = Upload.new(api)
