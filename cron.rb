@@ -53,8 +53,8 @@ def addVideo(mp3File);
     date = Date.parse($options[:date])
     i = 0
     files = []
-    Dir.foreach($options[:videoPath]).each do |item|#
-        fullItem = $options[:videoPath] + "/" + item
+    Dir.foreach($options[:videoPath][$options[:cat]]).each do |item|#
+        fullItem = $options[:videoPath][$options[:cat]] + "/" + item
         next if !item.include? "source" or !item.include? ".mp4" # filter source and .mp4
         fileTime = File.mtime(fullItem)
         if(fileTime.year == date.year && fileTime.yday == date.yday)
@@ -117,7 +117,7 @@ def main
         
         # add audio files
         # add Video file
-        if($options[:autoVideo])
+        if($options[:videoPath].has_key? $options[:cat])
             $logger.debug "add videos"
             puts "add videos"
             addVideo($options[:mp3])
