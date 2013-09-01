@@ -138,6 +138,7 @@ class Api
     
     def refToJson(ref)
         if(/(\w+)\s(\d+)\,(\d+)/ =~ ref)
+            puts "type 1"
             y = ref.scan(/(\w+)\s(\d+)\,(\d+)/) # BookName 1,1
             x = y[0]
             return Hash['book' => bookName(x[0]),
@@ -149,6 +150,7 @@ class Api
         end
         
         if(/(\w+)\s(\d+)\,(\d+)-(\d+)/ =~ ref) # BookName 1,1-12
+            puts "type 2";
             y = ref.scan(/(\w+)\s(\d+)\,(\d+)/)   
             x = y[0]
             return Hash['book' => bookName(x[0]), 
@@ -160,6 +162,7 @@ class Api
         end
         
         if(/(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/ =~ ref) # BookName 1,1-2,12
+            puts "type 3";
             y = ref.scan(/(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/)  
             x = y[0]
             return Hash['book' => bookName(x[0]),
