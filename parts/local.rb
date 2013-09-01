@@ -14,10 +14,12 @@ class LocalPipe
     
     def writeData(data)
         puts "local.rb writeData()"
+        puts data
         File.open($options[:home] + '/data.txt', 'w') {|f| f.write(data) }
     end
     def writeDataVerse(data)
         puts "local.rb writeDataVerse()"
+        puts data
         File.open($options[:home] + 'data_verse.txt', 'w') {|f| f.write(data) }
     end
     def execInsert()

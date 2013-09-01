@@ -15,9 +15,11 @@ def writeid3(file)
     end
 end
 def clean(old)
-    old.sub(" ", "-").sub(",", "-").sub("(", "").sub(")", "")
+    old.gsub(" ", "-").gsub(",", "-").gsub("(", "").gsub(")", "")
 end
-
+def clean_ansi(old)
+    old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue")
+end
 def rename(old)
     newName = old
     cat = $catNames[$options[:cat]]
@@ -25,7 +27,7 @@ def rename(old)
     (ref = $options[:ref] + " ") if $options[:ref] != ""
     if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".mp4")
         newName = File.dirname(old) + 
-                "/#{$options[:date]} #{ref}#{$options[:title]} (#{$options[:preacher]})" + 
+                "/#{$options[:date]} #{clean_ansi(ref)}#{clean_ansi($options[:title])} (#{clean_ansi($options[:preacher])})" + 
                 File.extname(old).downcase
     else
         newName = File.dirname(old) + "/" + clean(File.basename(old))
