@@ -168,8 +168,8 @@ class Api
             return Hash['book' => bookName(x[0]),
                         'cap1' => x[1],
                         'vers1' => x[2],
-                        'cap2' => x[1],
-                        'vers2' => x[2]
+                        'cap2' => '0',
+                        'vers2' => '0'
                     ].to_json.to_s
         end
         
