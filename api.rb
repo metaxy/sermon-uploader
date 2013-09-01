@@ -137,15 +137,15 @@ class Api
     
     
     def refToJson(ref)
-        if(/(\w+)\s(\d+)\,(\d+)/ =~ ref)
-            puts "type 1"
-            y = ref.scan(/(\w+)\s(\d+)\,(\d+)/) # BookName 1,1
+        if(/(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/ =~ ref) # BookName 1,1-2,12
+            puts "type 3";
+            y = ref.scan(/(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/)  
             x = y[0]
             return Hash['book' => bookName(x[0]),
-                        'cap1' => x[1],
-                        'vers1' => x[2],
-                        'cap2' => x[1],
-                        'vers2' => x[2]
+                    'cap1' => x[1],
+                    'vers1' => x[2],
+                    'cap2' => x[3],
+                    'vers2' => x[4]
                     ].to_json.to_s
         end
         
@@ -161,17 +161,21 @@ class Api
                     ].to_json.to_s
         end
         
-        if(/(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/ =~ ref) # BookName 1,1-2,12
-            puts "type 3";
-            y = ref.scan(/(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/)  
+        if(/(\w+)\s(\d+)\,(\d+)/ =~ ref)
+            puts "type 1"
+            y = ref.scan(/(\w+)\s(\d+)\,(\d+)/) # BookName 1,1
             x = y[0]
             return Hash['book' => bookName(x[0]),
-                    'cap1' => x[1],
-                    'vers1' => x[2],
-                    'cap2' => x[3],
-                    'vers2' => x[4]
+                        'cap1' => x[1],
+                        'vers1' => x[2],
+                        'cap2' => x[1],
+                        'vers2' => x[2]
                     ].to_json.to_s
         end
+        
+       
+        
+      
         
         return nil
     end
