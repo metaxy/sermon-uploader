@@ -151,7 +151,7 @@ class Api
         
         if(/(\w+)\s(\d+)\,(\d+)-(\d+)/ =~ ref) # BookName 1,1-12
             puts "type 2";
-            y = ref.scan(/(\w+)\s(\d+)\,(\d+)/)   
+            y = ref.scan(/(\w+)\s(\d+)\,(\d+)-(\d+)/)   
             x = y[0]
             return Hash['book' => bookName(x[0]), 
                     'cap1' => x[1],
