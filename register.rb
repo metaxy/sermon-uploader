@@ -14,6 +14,8 @@ class Register
         puts "Register.register()";
         speaker_id = @api.getSpeakerID(convert($options[:preacher]))
         new_speaker = convert($options[:preacher])
+        new_speaker_alias = convert($options[:preacher])
+
         series_id = @api.getSeriesID($options[:serie])
         cat_id = @api.getCatID($options[:cat])
 
@@ -43,7 +45,8 @@ class Register
                     'language' => $options[:lang],
                     'sermon_date' => $options[:date],
                     'sermon_time' => "",
-                    'new_speaker' => new_speaker
+                    'new_speaker' => new_speaker,
+                    'new_speaker' => new_speaker_alias
                 ]
         puts data
         
