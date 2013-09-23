@@ -116,7 +116,25 @@ class Api
     def getCatID(name)
         res = Net::HTTP.get URI($options[:api] + "action=list_cats")
         return near(res, name)
-     end
+    end
+    def near(res, name)
+        puts "register.rb :::: got resp " + res;
+        # id, name, alias
+        
+        json = JSON.parse(res)
+        
+        json.each do |x|
+            return x[0] if name == x[0]
+        end
+        json.each do |x|
+            return x[0] if name.downcase == x[2].downcase
+        end
+        json.each do |x|
+            return x[0] if name.downcase == x[1].downcase
+        end
+        puts "didn't found #{name}"
+        return "0"
+    end
     
     def getBookNames
         a = []
@@ -221,25 +239,6 @@ class Api
     def execInsert()
         @pipe.execInsert()
     end
-    
-    def near(res, name)
-        puts "register.rb :::: got resp " + res;
-        # id, name, alias
-        
-        json = JSON.parse(res)
-        
-        json.each do |x|
-            return x[0] if name == x[0]
-        end
-        json.each do |x|
-            return x[0] if name.downcase == x[2].downcase
-        end
-        json.each do |x|
-            return x[0] if name.downcase == x[1].downcase
-        end
-        puts "didn't found #{name}"
-        return "0"
-    end
-    
+
 end
 

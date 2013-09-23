@@ -13,6 +13,7 @@ class Register
     def register(newPaths)
         puts "Register.register()";
         speaker_id = @api.getSpeakerID(convert($options[:preacher]))
+        new_speaker = convert($options[:preacher])
         series_id = @api.getSeriesID($options[:serie])
         cat_id = @api.getCatID($options[:cat])
 
@@ -41,7 +42,8 @@ class Register
                     'catid' => cat_id,
                     'language' => $options[:lang],
                     'sermon_date' => $options[:date],
-                    'sermon_time' => ""
+                    'sermon_time' => "",
+                    'new_speaker' => new_speaker
                 ]
         puts data
         
