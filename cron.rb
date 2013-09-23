@@ -48,8 +48,7 @@ def addVideo(mp3File);
         FileUtils.rm_rf(folder) # remove everything
     end
     Dir.mkdir(folder)
-    puts "executing ffmpeg -y -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'"
-    puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
+   
     date = Date.parse($options[:date])
     i = 0
     files = []
@@ -70,6 +69,8 @@ def addVideo(mp3File);
         $logger.debug "no videos found"
         return;
     end
+    puts "executing ffmpeg -y -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'"
+    puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
     puts "executing ./fft_bin --file '#{folder}out.wav'"
     
     e = `./fft_bin --file '#{folder}out.wav'`
