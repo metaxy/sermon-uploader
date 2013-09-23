@@ -46,7 +46,7 @@ class Register
                     'sermon_date' => $options[:date],
                     'sermon_time' => "",
                     'new_speaker' => new_speaker,
-                    'new_speaker' => new_speaker_alias
+                    'new_speaker_alias' => new_speaker_alias
                 ]
         puts data
         
