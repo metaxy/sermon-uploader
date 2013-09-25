@@ -80,6 +80,7 @@ def addVideo(mp3File);
     end
     puts "executing ffmpeg -y -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'"
     puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
+    puts `ffmpeg -i '#{mp3File}'  '#{folder}ogg.ogg'`
     puts "executing ./fft_bin --file '#{folder}out.wav'"
     
     e = `./fft_bin --file '#{folder}out.wav'`
@@ -109,6 +110,7 @@ def addVideo(mp3File);
     puts `chmod +r #{folder + "res2.mp4"}`
     
     $options[:files] << folder + "res2.mp4";
+    $options[:files] << folder + "ogg.ogg";
 end
 def main
     
