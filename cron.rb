@@ -102,14 +102,13 @@ def addVideo(mp3File);
     mm2, ss2 = len.divmod(60)
     hh2, mm2 = mm2.divmod(60)
     
-    puts "ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec copy -vcodec copy #{folder + "res.mp4"}"
-
+    puts "ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}'  -vf pp="md|a/al|a/dr|a/tmpnoise|1|2|3" -acodec aac -strict experimental -ab 128k -vcodec copy #{folder + "res.mp4"}"
     puts `ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}'  -vf pp="md|a/al|a/dr|a/tmpnoise|1|2|3" -acodec aac -strict experimental -ab 128k -vcodec copy #{folder + "res.mp4"}`
     
-    puts `qtfaststart #{folder + "res.mp4"} #{folder + "res2.mp4"}`
-    puts `chmod +r #{folder + "res2.mp4"}`
+  #  puts `qtfaststart #{folder + "res.mp4"} #{folder + "res2.mp4"}`
+    puts `chmod +r #{folder + "res.mp4"}`
     
-    $options[:files] << folder + "res2.mp4";
+    $options[:files] << folder + "res.mp4";
     $options[:files] << folder + "ogg.ogg";
 end
 def main

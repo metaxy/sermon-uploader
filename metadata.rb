@@ -45,7 +45,7 @@ def do_meta
         puts "main.tb :::: processing filename = " + x
             
         newName = rename(x)
-        writeid3(newName) if File.extname(newName) == ".mp3" || File.extname(newName) == ".mp4" || File.extname(newName) == ".ogg"
+        writeid3(newName) if File.extname(newName) == ".mp3" || File.extname(newName) == ".ogg" # || File.extname(newName) == ".mp4" 
         newNames << newName
     end
     newNames
