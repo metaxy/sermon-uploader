@@ -22,6 +22,7 @@ class Register
         audiofile = ""
         videofile = ""
         addfile = ""
+        oggfile = ""
         newPaths.each do |x|
             ext = File.extname(x) rescue ""
             case ext
@@ -29,6 +30,8 @@ class Register
                     audiofile = x
                 when ".mp4"
                     videofile = x
+                when ".ogg"
+                    oggfile = x
                 else
                     addfile = x
             end
