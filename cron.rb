@@ -24,6 +24,7 @@ def addFile(path)
     end
     return :failed if mp3 == nil
     reg = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
+    reg2 = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     if(reg =~ mp3) 
         y = mp3.scan(reg)[0]
         $options[:cat] = y[0]
@@ -31,6 +32,14 @@ def addFile(path)
         $options[:date] = y[2].strip
         $options[:ref] = y[5].strip
         $options[:preacher] = y[8]
+    elsif(reg2 =~ mp3) 
+        y = mp3.scan(reg)[0]
+        $options[:cat] = y[0]
+        $options[:serie] = y[1]
+        $options[:title] = y[2]
+        $options[:date] = y[3].strip
+        $options[:ref] = y[6].strip
+        $options[:preacher] = y[9]
     else
         $logger.warn "didnt't match regexp"
         return :failed
@@ -113,7 +122,7 @@ def main
         $logger.debug  item
         
         next if addFile(item) != :ok # add all files in this dir
-        $logger.debug  $options
+        $logger.debug $options
         next if error_check($options) == :failed
         
         # add audio files

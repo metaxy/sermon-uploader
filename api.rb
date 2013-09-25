@@ -205,6 +205,8 @@ class Api
         type =  case ext.downcase
                     when ".mp3"
                         "audio"
+                    when ".ogg"
+                        "audio"
                     when ".mp4"
                         "video"
                     else
