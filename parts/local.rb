@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'ftools'
+require 'fileutils'
 class LocalPipe
      def initialize()
     end
@@ -14,7 +14,7 @@ class LocalPipe
            Dir.mkdir(File.dirname(remoteName))
         end
         
-        File.copy localName, remoteName
+        FileUtils.cp localName, remoteName
     end
     
     def writeData(data)
