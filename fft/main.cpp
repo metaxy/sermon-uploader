@@ -60,8 +60,8 @@ int main(int argc, char *argv[])
         opt->printUsage();
         return 0;
     }
-
-    const unsigned int packetSize = 1024*4;
+    //important const
+    const unsigned int packetSize = 1024;
     if(!exists(opt->getValue("file"))) {
         cout << "file not found" << endl;
         return 1;
@@ -93,7 +93,6 @@ int main(int argc, char *argv[])
         std::vector<double> res;
 
         int sizeDiff = b.count() - s.count();
-        cout << "size diff in" << fileCounter  << "is " << sizeDiff << endl;
         if(sizeDiff < 0){//to small to be usefull
             cout << "too small: " << fileCounter << endl;
             continue;
