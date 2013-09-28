@@ -72,8 +72,8 @@ def addVideo(mp3File);
         if(fileTime.year == date.year && fileTime.yday == date.yday)
             $logger.debug "found right day #{item}"
             puts "found right day #{item}"           
-            puts "executing ffmpeg -i '#{fullItem}' -ar #{resu} -ac 1 '#{folder}out.wav#{i}.wav'" 
-            puts `../bin/ffmpeg -y -i '#{fullItem}' -ar #{resu} -ac 1 '#{folder}out.wav#{i}.wav'`
+            puts "executing ffmpeg -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'" 
+            puts `../bin/ffmpeg -y -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'`
             files[i] = fullItem
             i += 1
         end
@@ -82,8 +82,8 @@ def addVideo(mp3File);
         $logger.debug "no videos found"
         return;
     end
-    puts "executing ffmpeg -y -i '#{mp3File}' -ar #{resu} -ac 1 '#{folder}out.wav'"
-    puts `../bin/ffmpeg -i '#{mp3File}' -ar #{resu} -ac 1 '#{folder}out.wav'`
+    puts "executing ffmpeg -y -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'"
+    puts `../bin/ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
     puts `../bin/ffmpeg -i '#{mp3File}' -acodec libopus '#{folder}ogg.ogg'`
     puts "executing ./fft_bin --file '#{folder}out.wav'"
     
