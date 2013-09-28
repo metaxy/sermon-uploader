@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
         return 0;
     }
     //important const
-    const unsigned int packetSize = 1024*16;
+    const unsigned int packetSize = 1024;
     if(!exists(opt->getValue("file"))) {
         cout << "file not found" << endl;
         return 1;
