@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
             double lc = start_index;
             double bc = b.count();
             double len = big.getAudioLength();
-            cout << "id:" << fileCounter << " max: " << pp " secs: " << (len/1000) * (lc/bc);
+            cout << "id:" << fileCounter << " max: " << pp << " secs: " << (len/1000) * (lc/bc);
 
             g_max = pp;
             g_secs = (len/1000) * (lc/bc);
