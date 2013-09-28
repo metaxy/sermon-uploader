@@ -110,10 +110,9 @@ int main(int argc, char *argv[])
             cout << "no max in" << fileCounter << endl;
             continue;
         }
-        cout << "id " << fileCounter << "max " << g_max << "g_secs " << g_secs << endl;
-        
-       
+
         double pp = *pos;
+         cout << "id " << fileCounter << << " his max:" << pp << endl;
         if(pp > g_max) {
             int start_index = std::distance(res.begin(), pos);
             double lc = start_index;
