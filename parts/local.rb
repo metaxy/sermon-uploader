@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'fileutils'
+require 'ftools'
 class LocalPipe
      def initialize()
     end

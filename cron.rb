@@ -44,6 +44,7 @@ def addFile(path)
         $options[:preacher] = y[9]
     else
         $logger.warn "didnt't match regexp"
+        $logger.debug "failed to add #{path}"
         return :failed
     end
     $options[:mp3] = mp3
