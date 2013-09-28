@@ -116,6 +116,7 @@ def main
     getOptions()
     
     # scan
+    $logger.debug "start"
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
         next if item == '.' or item == '..' # skip
         next if(not File.directory? item) # skip files
