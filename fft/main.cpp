@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
             cout << "no max";
             continue;
         }
-        cout << "file " << file << "max " << g_max << "g_secs " << g_secs << endl;
+        cout << "id " << fileCounter << "max " << g_max << "g_secs " << g_secs << endl;
         
        
         double pp = *pos;
