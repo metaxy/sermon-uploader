@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 
         vector<double>::iterator pos = std::max_element(res.begin(), res.end());
         if(pos == res.end()) { //iterator == nil
-            cout << "no max";
+            cout << "no max in" << fileCounter << endl;
             continue;
         }
         cout << "id " << fileCounter << "max " << g_max << "g_secs " << g_secs << endl;
