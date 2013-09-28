@@ -73,7 +73,7 @@ def addVideo(mp3File);
             $logger.debug "found right day #{item}"
             puts "found right day #{item}"           
             puts "executing ffmpeg -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'" 
-            puts `../bin/ffmpeg -y -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'`
+            puts `ffmpeg -y -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'`
             files[i] = fullItem
             i += 1
         end
@@ -83,8 +83,8 @@ def addVideo(mp3File);
         return;
     end
     puts "executing ffmpeg -y -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'"
-    puts `../bin/ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
-    puts `../bin/ffmpeg -i '#{mp3File}' -acodec libopus '#{folder}ogg.ogg'`
+    puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
+    puts `ffmpeg -i '#{mp3File}' -acodec libopus '#{folder}ogg.ogg'`
     puts "executing ./fft_bin --file '#{folder}out.wav'"
     
     e = `./fft_bin --file '#{folder}out.wav'`
