@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
         std::vector<double> res;
 
         int sizeDiff = b.count() - s.count();
-
+        cout << "size diff in" << fileCounter  << "is " << sizeDiff << endl;
         for(int i = 0; i < sizeDiff - 1; i++) {
             gsl_vector_const_view gsl_y = gsl_vector_const_view_array( &big_amp[i], small_amp.size() );
             double pearson = gsl_stats_correlation( (double*) gsl_x.vector.data, sizeof(double),
