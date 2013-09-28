@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'fileutils'
 class LocalPipe
      def initialize()
     end
@@ -8,8 +9,12 @@ class LocalPipe
     end
     
     def upload(localName, remoteName)
-        puts "ssh.rb upload()"
-        File.rename localName, remoteName
+        puts "local.rb upload()"
+        if(not File.exists?(File.dirname(remoteName)))
+           Dir.mkdir(File.dirname(remoteName))
+        end
+        
+        File.copy localName, remoteName
     end
     
     def writeData(data)

@@ -15,6 +15,7 @@ $logger = Logger.new('logfile.log')
     
 # a folder
 def addFile(path)
+    $logger.debug "add file: #{path}"
     mp3 = nil
     files = []
     Dir.foreach(path) do |item|
@@ -23,6 +24,7 @@ def addFile(path)
         files <<  path + '/' + item
     end
     return :failed if mp3 == nil
+    $logger.debug "add file: #{path}"
     reg = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     reg2 = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     if(reg =~ mp3) 
@@ -110,6 +112,7 @@ def addVideo(mp3File);
     
     $options[:files] << folder + "res2.mp4";
     $options[:files] << folder + "ogg.ogg";
+    
 end
 def main
     
