@@ -17,6 +17,7 @@
 using namespace std;
 std::vector<double> calcAmp(Aquila::FramesCollection frames)
 {
+    // just do fftp for every frame, and sum it
     //std::cout << "calc amp" << endl;
     vector<double> ret;
     auto fft = Aquila::FftFactory::getFft(frames.getSamplesPerFrame());
@@ -31,8 +32,10 @@ std::vector<double> calcAmp(Aquila::FramesCollection frames)
     }
     return ret;
 }
-
-inline bool exists (const std::string& name) {
+/*
+ * check if this file exists
+ */
+inline bool exists(const std::string& name) {
     if (FILE *file = fopen(name.c_str(), "r")) {
         fclose(file);
         return true;
@@ -69,11 +72,13 @@ int main(int argc, char *argv[])
     std::vector<double> small_amp = calcAmp(s);
     gsl_vector_const_view gsl_x = gsl_vector_const_view_array( &small_amp[0], small_amp.size() );
                
-    double g_max = 0.0, g_secs = 0.0;
+    double g_max = 0.0, g_secs = 0.0; //global max correlation, max start time
     int id = 0;
-    for(int file = 0; file < 10; file++) {
-        char numstr[21]; // enough to hold all numbers up to 64-bits
-        sprintf(numstr, "%d", file);
+    // cehck upto 10 files
+    for(int fileCounter = 0; fileCounter < 10; fileCounter++) {
+        //gen file name based on counter
+        char numstr[21];
+        sprintf(numstr, "%d", fileCounter);
         string fileName(opt->getValue("file"));
         string fileName2 = fileName + numstr + ".wav";
         if(!exists(fileName2))
@@ -92,27 +97,29 @@ int main(int argc, char *argv[])
         for(int i = 0; i < sizeDiff - 1; i++) {
             gsl_vector_const_view gsl_y = gsl_vector_const_view_array( &big_amp[i], small_amp.size() );
             double pearson = gsl_stats_correlation( (double*) gsl_x.vector.data, sizeof(double),
-                                                (double*) gsl_y.vector.data, sizeof(double),
-                                                200 );
+                                                    (double*) gsl_y.vector.data, sizeof(double),
+                                                    200 );
             res.push_back(pearson);
         }
 
         vector<double>::iterator pos = std::max_element(res.begin(), res.end());
-        if(pos == res.end()) {
+        if(pos == res.end()) { //iterator == nil
             continue;
         }
         //cout << "file " << file << "max " << g_max << "g_secs " << g_secs << endl;
+        
+       
         double pp = *pos;
         if(pp > g_max) {
             int start_index = std::distance(res.begin(), pos);
-            double bc = b.count();
             double lc = start_index;
+            double bc = b.count();
             double len = big.getAudioLength();
-            //cout << "secs: " << (len/1000) * (lc/bc);
+            cout << "id:" << fileCounter << " max: " << pp " secs: " << (len/1000) * (lc/bc);
 
             g_max = pp;
             g_secs = (len/1000) * (lc/bc);
-            id = file;
+            id = fileCounter;
             
         }
     }
