@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
                
     double g_max = 0.0, g_secs = 0.0; //global max correlation, max start time
     int id = 0;
-    // cehck upto 10 files
+    // check upto 10 files
     for(int fileCounter = 0; fileCounter < 10; fileCounter++) {
         //gen file name based on counter
         char numstr[21];
@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 
         int sizeDiff = b.count() - s.count();
         if(sizeDiff < 0){//to small to be usefull
-            cout << "too small: " << fileCounter << endl;
+            //cout << "too small: " << fileCounter << endl;
             continue;
         }
         for(int i = 0; i < sizeDiff - 1; i++) {
@@ -107,18 +107,18 @@ int main(int argc, char *argv[])
 
         vector<double>::iterator pos = std::max_element(res.begin(), res.end());
         if(pos == res.end()) { //iterator == nil
-            cout << "no max in" << fileCounter << endl;
+            //cout << "no max in" << fileCounter << endl;
             continue;
         }
 
         double pp = *pos;
-        cout << "id " << fileCounter<< " his max:" << pp << endl;
+        //cout << "id " << fileCounter<< " his max:" << pp << endl;
         if(pp > g_max) {
             int start_index = std::distance(res.begin(), pos);
             double lc = start_index;
             double bc = b.count();
             double len = big.getAudioLength();
-            cout << "id:" << fileCounter << " max: " << pp << " secs: " << (len/1000) * (lc/bc) << endl;
+            //cout << "id:" << fileCounter << " max: " << pp << " secs: " << (len/1000) * (lc/bc) << endl;
 
             g_max = pp;
             g_secs = (len/1000) * (lc/bc);
