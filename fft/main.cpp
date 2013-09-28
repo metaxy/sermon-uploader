@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
         }
 
         double pp = *pos;
-         cout << "id " << fileCounter << << " his max:" << pp << endl;
+        cout << "id " << fileCounter<< " his max:" << pp << endl;
         if(pp > g_max) {
             int start_index = std::distance(res.begin(), pos);
             double lc = start_index;
