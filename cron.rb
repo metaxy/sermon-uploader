@@ -72,7 +72,7 @@ def addVideo(mp3File);
             $logger.debug "found right day #{item}"
             puts "found right day #{item}"           
             puts "executing ffmpeg -i '#{fullItem}' -ar 10000 -ac 1 '#{folder}out.wav#{i}.wav'" 
-            puts `ffmpeg -y -i '#{fullItem}' -ar 10000 -ac 1 '#{folder}out.wav#{i}.wav'`
+            puts `../bin/ffmpeg -y -i '#{fullItem}' -ar 10000 -ac 1 '#{folder}out.wav#{i}.wav'`
             files[i] = fullItem
             i += 1
         end
@@ -82,8 +82,8 @@ def addVideo(mp3File);
         return;
     end
     puts "executing ffmpeg -y -i '#{mp3File}' -ar 10000 -ac 1 '#{folder}out.wav'"
-    puts `ffmpeg -i '#{mp3File}' -ar 10000 -ac 1 '#{folder}out.wav'`
-    puts `ffmpeg -i '#{mp3File}'  '#{folder}ogg.ogg'`
+    puts `../bin/ffmpeg -i '#{mp3File}' -ar 10000 -ac 1 '#{folder}out.wav'`
+    puts `../bin/ffmpeg -i '#{mp3File}'  '#{folder}ogg.ogg'`
     puts "executing ./fft_bin --file '#{folder}out.wav'"
     
     e = `./fft_bin --file '#{folder}out.wav'`
@@ -105,8 +105,8 @@ def addVideo(mp3File);
     mm2, ss2 = len.divmod(60)
     hh2, mm2 = mm2.divmod(60)
     #filter  -vf pp=\"md|a/al|a/dr|a/tmpnoise|1|2|3\"
-    puts "ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec aac -strict experimental -ab 64k -vcodec copy #{folder + "res.mp4"}"
-    puts `ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec aac -strict experimental -ab 64k -vcodec copy #{folder + "res.mp4"}`
+    puts "../bin/ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec aac -strict experimental -ab 64k -vcodec copy #{folder + "res.mp4"}"
+    puts `../bin/ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec aac -strict experimental -ab 64k -vcodec copy #{folder + "res.mp4"}`
     
     puts `qtfaststart #{folder + "res.mp4"} #{folder + "res2.mp4"}`
     puts `chmod +r #{folder + "res2.mp4"}`
