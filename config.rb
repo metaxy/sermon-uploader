@@ -134,7 +134,7 @@ def error_check(options)
     return :ok
 end
 def more_clean(old)
-    clean(old.gsub( /[^0-9a-zA-Z\-]/, '' ))
+    old.clean.gsub( /[^0-9a-zA-Z\-]/, '' )
 end
 
 def clean(old)
