@@ -139,8 +139,8 @@ $book_ru = Hash[0 => ['1Mo','Бытие'],
 65 => ['Откровение']]
 
 $books = Hash[
-    "de" => $book_de.dup,
-    "ru" => $book_ru.dup]
+    "de-DE" => $book_de.dup,
+    "ru-RU" => $book_ru.dup]
 
 $ref_type3 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
 $ref_type2 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)/
@@ -402,9 +402,9 @@ class Api
     def do_meta
         puts "metadata.rb do_meta()";
         if(Russian.translit($options[:title]) != $options[:title])
-            $options[:lang] = "ru" 
+            $options[:lang] = "ru-RU" 
         else
-            $options[:lang] = "de"
+            $options[:lang] = "de-DE"
         end
         newNames = []
         $options[:files].each do |x|
