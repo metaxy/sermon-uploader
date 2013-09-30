@@ -243,6 +243,7 @@ class Api
     def hasRef?(ref)
         return false if ref == nil
         return false if ref == ""
+        
         if($ref_type3  =~ ref)
             y = ref.scan($ref_type3 )  
             x = y[0]
@@ -374,7 +375,7 @@ class Api
         cat = $catNames[$options[:cat]]
         
         ref = ""
-        (ref =  normalizeRef($options[:ref], lang) + " ") if if hasRef?($options[:ref])
+        (ref =  normalizeRef($options[:ref], lang) + " ") if hasRef?($options[:ref])
         if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".ogg" || File.extname(old).downcase == ".mp4")
             newName = File.dirname(old) + 
                     "/#{$options[:date]} #{clean_ref(ref)}#{clean_ansi($options[:title])} (#{clean_ansi($options[:preacher])})" + 
