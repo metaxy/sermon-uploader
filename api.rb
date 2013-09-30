@@ -176,7 +176,7 @@ class Api
     def getSeries()
         res = Net::HTTP.get URI($options[:api] + "action=list_series")
         json = JSON.parse(res)
-        puts json
+        #puts json
         json.map { |x| x[2]}
     end
     def getSpeakerID(name)
@@ -194,7 +194,6 @@ class Api
         return near(res, name)
     end
     def near(res, name)
-        puts "register.rb :::: got resp " + res;
         # id, name, alias
         
         json = JSON.parse(res)
@@ -208,7 +207,7 @@ class Api
         json.each do |x|
             return x[0] if name.downcase == x[1].downcase
         end
-        puts "didn't found #{name}"
+        puts "Api::near didn't found #{name}"
         return "0"
     end
     # for ui
