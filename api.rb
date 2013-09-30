@@ -259,7 +259,7 @@ class Api
             return true if bookID(x[0]) != nil
         end
         if($ref_type0 =~ ref)
-            y = ref.scan($ref_type1 ) # BookName 1,1
+            y = ref.scan($ref_type0 ) # BookName 1,1
             x = y[0]
             return true if bookID(x[0]) != nil
         end
@@ -302,8 +302,8 @@ class Api
                     ].to_json.to_s
         end
         if($ref_type0 =~ ref)
-            puts "type 1"
-            y = ref.scan($ref_type1 ) # BookName 1,1
+            puts "type 0"
+            y = ref.scan($ref_type0 ) # BookName 1,1
             x = y[0]
             return Hash['book' => bookID(x[0]),
                         'cap1' => x[1],
@@ -333,7 +333,7 @@ class Api
             return "#{getBookName(x[0],lang)} #{x[1]},#{x[2]}"
         end
         if($ref_type0 =~ ref)
-            y = ref.scan($ref_type1 ) # BookName 1
+            y = ref.scan($ref_type0 ) # BookName 1
             x = y[0]
             return "#{getBookName(x[0],lang)} #{x[1]}"
         end
