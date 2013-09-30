@@ -70,6 +70,7 @@ $book_de = Hash[0 => ['1Mo','1.Mose'],
 63 => ['3Joh', '3.Johannes'],
 64 => ['Jud', 'Judas'],
 65 => ['Offb', 'Offenbarung']]
+
 $book_ru = Hash[0 => ['1Mo','Бытие'],
 1 => ['Исход'],
 2 => ['Левит'],
@@ -230,7 +231,7 @@ class Api
                 return (i+1) if(bookName == m)
             end       
         end
-        return 0
+        return nil
     end
 
     def getBookName(i, lang=$defLoc)
@@ -238,7 +239,28 @@ class Api
         puts $books;
         $books[lang][bookID(i)-1][0]
     end
+    
+    def hasRef?(ref)
+        return false if ref == nil
+        return false if ref == ""
+        if($ref_type3  =~ ref)
+            y = ref.scan($ref_type3 )  
+            x = y[0]
+            return true if bookID(x[0]) != nil
+        end
         
+        if($ref_type2  =~ ref)
+            y = ref.scan($ref_type2 )   
+            x = y[0]
+            return true if bookID(x[0]) != nil
+        end
+        
+        if($ref_type1 =~ ref)
+            y = ref.scan($ref_type1 ) # BookName 1,1
+            x = y[0]
+            return true if bookID(x[0]) != nil
+        end
+        return false
     
     def refToJson(ref)
         if($ref_type3  =~ ref) # BookName 1,1-2,12
@@ -311,7 +333,7 @@ class Api
                 tag.year = Date.parse($options[:date]).year
                 tag.comment = "Aufnahme der ECG Berlin http://ecg-berlin.de"
                 tag.artist = $options[:preacher]
-                if $options[:ref] != ""
+                if hasRef?($options[:ref])
                     tag.title  = "#{normalizeRef($options[:ref], lang)} #{$options[:title]}";
                 else
                     tag.title = $options[:title];
@@ -333,7 +355,7 @@ class Api
                 tag.setYear(Date.parse($options[:date]).year);
                 tag.setComment("Aufnahme der ECG Berlin http://ecg-berlin.de");
                 tag.setArtist($options[:preacher])
-                if $options[:ref] != ""
+                if hasRef?($options[:ref])
                     tag.setTitle("#{normalizeRef($options[:ref], lang)} #{$options[:title]}");
                 else
                     tag.setTitle($options[:title]);
@@ -352,7 +374,7 @@ class Api
         cat = $catNames[$options[:cat]]
         
         ref = ""
-        (ref =  normalizeRef($options[:ref], lang) + " ") if $options[:ref] != ""
+        (ref =  normalizeRef($options[:ref], lang) + " ") if if hasRef?($options[:ref])
         if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".ogg" || File.extname(old).downcase == ".mp4")
             newName = File.dirname(old) + 
                     "/#{$options[:date]} #{clean_ref(ref)}#{clean_ansi($options[:title])} (#{clean_ansi($options[:preacher])})" + 

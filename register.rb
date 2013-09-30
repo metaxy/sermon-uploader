@@ -57,15 +57,9 @@ class Register
         @api.writeData(j);
     
         
-        if $options[:ref] != nil
-            puts "Has a ref!!!"
+        if @api.hasRef?($options[:ref])
             ref = @api.refToJson($options[:ref])
-            if(ref != nil)
-                puts "ref json = " + ref
-                @api.writeDataVerse(ref)
-            end
-        else
-            puts "NO REF!!"
+            @api.writeDataVerse(ref)
         end
         @api.execInsert()
         
