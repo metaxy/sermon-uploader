@@ -7,11 +7,10 @@ end
 
 class Register
     def initialize(api)
-        puts "Register.initialize()";
         @api = api
     end                           
     def register(newPaths)
-        puts "Register.register()";
+        #puts "Register.register()";
         speaker_id = @api.getSpeakerID(convert($options[:preacher]))
         new_speaker = convert($options[:preacher])
         new_speaker_alias = convert($options[:preacher])

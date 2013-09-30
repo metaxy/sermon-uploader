@@ -24,7 +24,6 @@ def addFile(path)
         files <<  path + '/' + item
     end
     return :failed if mp3 == nil
-    $logger.debug "add file: #{path}"
     reg = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     reg2 = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     if(reg =~ mp3) 
@@ -91,7 +90,7 @@ def addVideo(mp3File);
     puts e
     e = e.split(";");
     if(e.size != 3)
-        $logger.debug "fft gave strange input"
+        $logger.debug "fft gave strange output #{e}"
         return
     end
     file = files[e[2].to_i]
@@ -126,10 +125,8 @@ def main
         next if item == '.' or item == '..' # skip
         next if(not File.directory? item) # skip files
         cleanOptions() # new option
-        $logger.debug  item
-        
+
         next if addFile(item) != :ok # add all files in this dir
-        $logger.debug $options
         next if error_check($options) == :failed
         
         # add audio files
