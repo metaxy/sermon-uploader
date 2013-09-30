@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'taglib'
-
 def writeid3(file)
     begin
         frame_factory = TagLib::ID3v2::FrameFactory.instance
@@ -21,7 +20,7 @@ def clean(old)
     old.gsub(" ", "-").gsub(",", "-").gsub("(", "").gsub(")", "")
 end
 def clean_ansi(old)
-    old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue")
+    old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub
 end
 def rename(old)
     newName = old
