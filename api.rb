@@ -231,6 +231,8 @@ class Api
     end
 
     def getBookName(i, lang=$defLoc)
+        puts "[#{lang}][#{bookID(i)}}[0]";
+        puts $books;
          $books[lang][bookID(i)][0]
     end
         
