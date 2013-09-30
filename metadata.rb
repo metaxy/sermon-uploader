@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'taglib'
-def writeid3(file)
+def writeid3_mp3(file)
     begin
         frame_factory = TagLib::ID3v2::FrameFactory.instance
         frame_factory.default_text_encoding = TagLib::String::UTF8
@@ -16,7 +16,22 @@ def writeid3(file)
     rescue
     end
 end
-
+def writemeta_mp4(file)
+    begin
+        frame_factory = TagLib::MP4::FrameFactory.instance
+        frame_factory.default_text_encoding = TagLib::String::UTF8
+        TagLib::MP4::File.open file do |file|
+            tag = file.tag
+            tag.setAlbum($options[:serie]);
+            tag.setYear(Date.parse($options[:date]).year);
+            tag.setComment("Aufnahme der ECG Berlin http://ecg-berlin.de");
+            tag.setArtist($options[:preacher])
+            tag.setTitle($options[:title]);
+            file.save
+        end
+    rescue
+    end
+end
 def rename(old)
     newName = old
     cat = $catNames[$options[:cat]]
@@ -39,7 +54,8 @@ def do_meta
         puts "main.tb :::: processing filename = " + x
             
         newName = rename(x)
-        writeid3(newName) if File.extname(newName) == ".mp3" || File.extname(newName) == ".ogg" # || File.extname(newName) == ".mp4" 
+        writeid3_mp3(newName) if File.extname(newName).downcase == ".mp3" 
+        writemeta_mp4(newName) if File.extname(newName).downcase == ".mp4" 
         newNames << newName
     end
     newNames
