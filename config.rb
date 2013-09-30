@@ -132,3 +132,9 @@ def error_check(options)
     end
     return :ok
 end
+def clean(old)
+    clean_ansi(old.gsub(" ", "-").gsub(",", "-").gsub("(", "").gsub(")", "").gsub("#", "-"))
+end
+def clean_ansi(old)
+    Russian.translit(old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub("ß", "ss"))
+end

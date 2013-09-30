@@ -1,5 +1,7 @@
 # encoding: utf-8
 require 'taglib'
+require 'russian'
+
 def writeid3(file)
     begin
         frame_factory = TagLib::ID3v2::FrameFactory.instance
@@ -16,12 +18,7 @@ def writeid3(file)
     rescue
     end
 end
-def clean(old)
-    old.gsub(" ", "-").gsub(",", "-").gsub("(", "").gsub(")", "")
-end
-def clean_ansi(old)
-    old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub
-end
+
 def rename(old)
     newName = old
     cat = $catNames[$options[:cat]]
