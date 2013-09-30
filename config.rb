@@ -23,7 +23,7 @@ $paths = Hash[
         "spandau-jugend" => "downloads/spandau/jugend"]
 
 $options = {}
-$defLoc = "de"
+$defLoc = "de-DE"
 $options[:key] = "~/.ssh/id_rsa"
 $options[:api] = "http://media.ecg-berlin.de/api/get.php?"
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
