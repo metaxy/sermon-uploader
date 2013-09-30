@@ -32,8 +32,8 @@ $options[:tmp] = "/var/www/vhosts/ecg-berlin.de/media/tmp/"
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
 $options[:addfileDesc] = "Notizen"
-#$options[:videoPath] = Hash["hellersdorf-predigt" => "/usr/local/WowzaMediaServer/content/live"]
-$options[:videoPath] = Hash[]
+$options[:videoPath] = Hash["hellersdorf-predigt" => "/usr/local/WowzaMediaServer/content/live"]
+#$options[:videoPath] = Hash[]
 
 $options[:autoVideo] = true
 
