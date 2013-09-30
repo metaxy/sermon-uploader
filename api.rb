@@ -229,9 +229,9 @@ class Api
         end
         return 0
     end
-    
+
     def getBookName(i, lang=$defLoc)
-         $books[lang][i][0]
+         $books[lang][bookID(i)][0]
     end
         
     
