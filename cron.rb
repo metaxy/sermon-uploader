@@ -114,7 +114,7 @@ def addVideo(mp3File);
     
     $options[:files] << folder + "res2.mp4";
  #   $options[:files] << folder + "ogg.ogg";
-    
+    $deleteFolders << folder
 end
 def main
     
@@ -143,9 +143,16 @@ def main
         names = api.do_meta
         u = Upload.new(api)
         u.up(names)
+        $deleteFolders << item
     end
     $logger.debug "done"
     # some error checking
-   
+    
+     $deleteFolders.each do |folder|
+        if(File.exists? folder)
+            puts "delete #{folder}"
+            FileUtils.rm_rf(folder)
+        end
+     end
 end
 main()

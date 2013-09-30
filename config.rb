@@ -36,8 +36,8 @@ $options[:addfileDesc] = "Notizen"
 $options[:videoPath] = Hash[]
 
 $options[:autoVideo] = true
-$options[:loc] = $defLoc
 
+$deleteFolders = []
 def cleanOptions()
     $options[:files] = Array.new
     $options[:title] = ""
