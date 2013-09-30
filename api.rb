@@ -382,7 +382,6 @@ class Api
         end
     end
     def rename(old)
-        puts "metadat.rb rename langh = #{lang}"
         newName = old
         cat = $catNames[$options[:cat]]
         
