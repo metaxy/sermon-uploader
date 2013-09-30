@@ -222,6 +222,7 @@ class Api
     end
     # bookname to book id
     def bookID(bookName)
+        puts $defLoc
          $books[$defLoc].each do |i,n|
             n.each do |m|
                 return (i+1) if(bookName == m)
