@@ -223,20 +223,17 @@ class Api
     end
     # bookname to book id
     def bookID(bookName)
-        puts $defLoc
-        puts $books
-        puts $books[$defLoc]
         $books[$defLoc].each do |i,n|
             n.each do |m|
                 return (i+1) if(bookName == m)
             end       
         end
+        $debugger.error("didn't found #{bookName} in books")
         return nil
     end
 
     def getBookName(i, lang=$defLoc)
         puts "[#{lang}][#{bookID(i)}}[0]";
-        puts $books;
         $books[lang][bookID(i)-1][0]
     end
     
