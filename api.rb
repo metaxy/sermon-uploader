@@ -334,10 +334,10 @@ class Api
                 tag.year = Date.parse($options[:date]).year
                 tag.comment = "Aufnahme der ECG Berlin http://ecg-berlin.de"
                 tag.artist = $options[:preacher]
-                if hasRef?($options[:ref])
-                    tag.title  = "#{normalizeRef($options[:ref], lang)} #{$options[:title]}";
+                if hasRef? $options[:ref]
+                    tag.title  = "#{normalizeRef($options[:ref], lang)} #{$options[:title]}"
                 else
-                    tag.title = $options[:title];
+                    tag.title = $options[:title]
                 end
                 file.save
             end
@@ -356,10 +356,10 @@ class Api
                 tag.setYear(Date.parse($options[:date]).year);
                 tag.setComment("Aufnahme der ECG Berlin http://ecg-berlin.de");
                 tag.setArtist($options[:preacher])
-                if hasRef?($options[:ref])
-                    tag.setTitle("#{normalizeRef($options[:ref], lang)} #{$options[:title]}");
+                if hasRef? $options[:ref]
+                    tag.setTitle("#{normalizeRef($options[:ref], lang)} #{$options[:title]}")
                 else
-                    tag.setTitle($options[:title]);
+                    tag.setTitle($options[:title])
                 end
                 
                 file.save
@@ -375,7 +375,9 @@ class Api
         cat = $catNames[$options[:cat]]
         
         ref = ""
-        (ref =  normalizeRef($options[:ref], lang) + " ") if hasRef?($options[:ref])
+        if hasRef?($options[:ref]) 
+            ref = normalizeRef($options[:ref], lang) + " "
+        end
         if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".ogg" || File.extname(old).downcase == ".mp4")
             newName = File.dirname(old) + 
                     "/#{$options[:date]} #{clean_ref(ref)}#{clean_ansi($options[:title])} (#{clean_ansi($options[:preacher])})" + 
