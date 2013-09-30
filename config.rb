@@ -23,7 +23,7 @@ $paths = Hash[
         "spandau-jugend" => "downloads/spandau/jugend"]
 
 $options = {}
-
+$defLoc = "de"
 $options[:key] = "~/.ssh/id_rsa"
 $options[:api] = "http://media.ecg-berlin.de/api/get.php?"
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
@@ -35,6 +35,7 @@ $options[:addfileDesc] = "Notizen"
 $options[:videoPath] = Hash[
     "hellersdorf-predigt" => "/usr/local/WowzaMediaServer/content/live"]
 $options[:autoVideo] = true
+$options[:loc] = $defLoc
 
 def cleanOptions()
     $options[:files] = Array.new
@@ -137,7 +138,9 @@ end
 def clean_ansi(old)
     Russian.translit(old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub("ß", "ss"))
 end
-
+def clean_ref(old)
+    Russian.translit(old.gsub("ä","a").gsub("ö","o").sub("ü","u").gsub("ß", "ss"))
+end
 def clean(old)
     clean_ansi(old.gsub(" ", "-").gsub(",", "-").gsub("(", "").gsub(")", "").gsub("#", ""))
 end

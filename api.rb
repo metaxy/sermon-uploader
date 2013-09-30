@@ -136,7 +136,13 @@ $book_ru = Hash[0 => ['1Mo','Бытие'],
 64 => ['Иуда'],
 65 => ['Откровение']]
 
-$book = $book_de.dup
+$books = Hash.new[
+    "de" => $book_de,
+    "ru" => $book_ru]
+
+$ref_type3 = /(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
+$ref_type2 = /(\w+)\s(\d+)\,(\d+)-(\d+)/
+$ref_type1 = /(\w+)\s(\d+)\,(\d+)/
 
 def trying(t, func, *args)
     t.times do
@@ -206,7 +212,7 @@ class Api
     # for ui
     def getBookNames
         a = []
-        $book.each do |i,j|
+        $books[$defLoc].each do |i,j|
             j.each do |m|
                 a << m
             end
@@ -214,22 +220,26 @@ class Api
         return a 
     end
     # bookname to book id
-    def bookName(bookName)
-        $book.each do |i,n|
+    def bookID(bookName)
+         $books[$defLoc].each do |i,n|
             n.each do |m|
                 return (i+1) if(bookName == m)
             end       
         end
-        return 1
+        return 0
     end
     
+    def getBookName(i, lang=$defLoc)
+         $books[lang][i][0]
+    end
+        
     
     def refToJson(ref)
-        if(/(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/ =~ ref) # BookName 1,1-2,12
+        if($ref_type3  =~ ref) # BookName 1,1-2,12
             puts "type 3";
-            y = ref.scan(/(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/)  
+            y = ref.scan($ref_type3 )  
             x = y[0]
-            return Hash['book' => bookName(x[0]),
+            return Hash['book' => bookID(x[0]),
                     'cap1' => x[1],
                     'vers1' => x[2],
                     'cap2' => x[3],
@@ -237,11 +247,11 @@ class Api
                     ].to_json.to_s
         end
         
-        if(/(\w+)\s(\d+)\,(\d+)-(\d+)/ =~ ref) # BookName 1,1-12
+        if($ref_type2  =~ ref) # BookName 1,1-12
             puts "type 2";
-            y = ref.scan(/(\w+)\s(\d+)\,(\d+)-(\d+)/)   
+            y = ref.scan($ref_type2 )   
             x = y[0]
-            return Hash['book' => bookName(x[0]), 
+            return Hash['book' => bookID(x[0]), 
                     'cap1' => x[1],
                     'vers1' => x[2],
                     'cap2' => '0',
@@ -249,23 +259,38 @@ class Api
                     ].to_json.to_s
         end
         
-        if(/(\w+)\s(\d+)\,(\d+)/ =~ ref)
+        if($ref_type1 =~ ref)
             puts "type 1"
-            y = ref.scan(/(\w+)\s(\d+)\,(\d+)/) # BookName 1,1
+            y = ref.scan($ref_type1 ) # BookName 1,1
             x = y[0]
-            return Hash['book' => bookName(x[0]),
+            return Hash['book' => bookID(x[0]),
                         'cap1' => x[1],
                         'vers1' => x[2],
                         'cap2' => '0',
                         'vers2' => '0'
                     ].to_json.to_s
         end
-        
-       
-        
-      
-        
         return nil
+    end
+    def normalizeRef(ref, lang=$defLoc)
+        if($ref_type3  =~ ref) # BookName 1,1-2,12
+            y = ref.scan($ref_type3 )  
+            x = y[0]
+            return "#{getBookName(x[0],lang)} #{x[1]},#{x[2]}-#{x[3]},#{x[4]}"
+        end
+        
+        if($ref_type2  =~ ref) # BookName 1,1-12
+            y = ref.scan($ref_type2 )   
+            x = y[0]
+            return "#{getBookName(x[0],lang)} #{x[1]},#{x[2]}-#{x[3]}"
+        end
+        
+        if($ref_type1 =~ ref)
+            y = ref.scan($ref_type1 ) # BookName 1,1
+            x = y[0]
+            return "#{getBookName(x[0],lang)} #{x[1]},#{x[2]}"
+        end
+        return ""
     end
     
     

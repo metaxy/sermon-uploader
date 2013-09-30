@@ -1,6 +1,8 @@
 # encoding: utf-8
 require 'taglib'
 def writeid3_mp3(file)
+    lang = $defLoc
+    lang = "ru" if(Russian.translit($options[:title]) != $options[:title])
     begin
         frame_factory = TagLib::ID3v2::FrameFactory.instance
         frame_factory.default_text_encoding = TagLib::String::UTF8
@@ -10,13 +12,19 @@ def writeid3_mp3(file)
             tag.year = Date.parse($options[:date]).year
             tag.comment = "Aufnahme der ECG Berlin http://ecg-berlin.de"
             tag.artist = $options[:preacher]
-            tag.title = $options[:title]
+              if $options[:ref] != ""
+                tag.title = $options[:title];
+            else
+                tag.title  = "#{clean_ref($options[:ref], lang)} #{$options[:title]}";
+            end
             file.save
         end
     rescue
     end
 end
 def writemeta_mp4(file)
+    lang = $defLoc
+    lang = "ru" if(Russian.translit($options[:title]) != $options[:title])
     begin
         frame_factory = TagLib::MP4::FrameFactory.instance
         frame_factory.default_text_encoding = TagLib::String::UTF8
@@ -26,26 +34,35 @@ def writemeta_mp4(file)
             tag.setYear(Date.parse($options[:date]).year);
             tag.setComment("Aufnahme der ECG Berlin http://ecg-berlin.de");
             tag.setArtist($options[:preacher])
-            tag.setTitle($options[:title]);
+            if $options[:ref] != ""
+                tag.setTitle($options[:title]);
+            else
+                tag.setTitle("#{clean_ref($options[:ref], lang)} #{$options[:title]}");
+            end
+            
             file.save
         end
     rescue
     end
 end
 def rename(old)
+    lang = $defLoc
+    lang = "ru" if(Russian.translit($options[:title]) != $options[:title])
+    puts "metadat.rb rename langh = #{lang}"
     newName = old
     cat = $catNames[$options[:cat]]
+    
     ref = ""
-    (ref = $options[:ref] + " ") if $options[:ref] != ""
+    (ref =  normalizeRef($options[:ref], lang) + " ") if $options[:ref] != ""
     if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".ogg" || File.extname(old).downcase == ".mp4")
         newName = File.dirname(old) + 
-                "/#{$options[:date]} #{clean_ansi(ref.gsub("Röm","Rom"))}#{clean_ansi($options[:title])} (#{clean_ansi($options[:preacher])})" + 
+                "/#{$options[:date]} #{clean_ref(ref, lang)}#{clean_ansi($options[:title])} (#{clean_ansi($options[:preacher])})" + 
                 File.extname(old).downcase
     else
         newName = File.dirname(old) + "/" + clean(File.basename(old))
     end
     File.rename(old, newName)
-    newName
+    return newName
 end
 def do_meta
     puts "metadata.rb do_meta()";
