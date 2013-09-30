@@ -355,7 +355,7 @@ class Api
         (ref =  normalizeRef($options[:ref], lang) + " ") if $options[:ref] != ""
         if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".ogg" || File.extname(old).downcase == ".mp4")
             newName = File.dirname(old) + 
-                    "/#{$options[:date]} #{clean_ref(ref, lang)}#{clean_ansi($options[:title])} (#{clean_ansi($options[:preacher])})" + 
+                    "/#{$options[:date]} #{clean_ref(ref)}#{clean_ansi($options[:title])} (#{clean_ansi($options[:preacher])})" + 
                     File.extname(old).downcase
         else
             newName = File.dirname(old) + "/" + clean(File.basename(old))
