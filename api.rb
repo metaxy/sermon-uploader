@@ -138,8 +138,8 @@ $book_ru = Hash[0 => ['1Mo','Бытие'],
 65 => ['Откровение']]
 
 $books = Hash.new[
-    "de" => $book_de,
-    "ru" => $book_ru]
+    "de" => $book_de.dup,
+    "ru" => $book_ru.dup]
 
 $ref_type3 = /(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
 $ref_type2 = /(\w+)\s(\d+)\,(\d+)-(\d+)/
@@ -223,7 +223,9 @@ class Api
     # bookname to book id
     def bookID(bookName)
         puts $defLoc
-         $books[$defLoc].each do |i,n|
+        puts $books
+        puts $books[$defLoc]
+        $books[$defLoc].each do |i,n|
             n.each do |m|
                 return (i+1) if(bookName == m)
             end       
@@ -234,7 +236,7 @@ class Api
     def getBookName(i, lang=$defLoc)
         puts "[#{lang}][#{bookID(i)}}[0]";
         puts $books;
-         $books[lang][bookID(i)][0]
+        $books[lang][bookID(i)][0]
     end
         
     
