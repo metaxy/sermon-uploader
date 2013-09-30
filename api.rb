@@ -137,7 +137,7 @@ $book_ru = Hash[0 => ['1Mo','Бытие'],
 64 => ['Иуда'],
 65 => ['Откровение']]
 
-$books = Hash.new[
+$books = Hash[
     "de" => $book_de.dup,
     "ru" => $book_ru.dup]
 
