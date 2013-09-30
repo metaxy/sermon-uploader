@@ -262,7 +262,7 @@ class Api
             return true if bookID(x[0]) != nil
         end
         return false
-    
+    end
     def refToJson(ref)
         if($ref_type3  =~ ref) # BookName 1,1-2,12
             puts "type 3";
