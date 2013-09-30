@@ -106,7 +106,7 @@ def addVideo(mp3File);
     puts "cut from #{hh1}:#{mm1}:#{ss1}  whith length: #{hh2}:#{mm2}:#{ss2}"
     #filter  -vf pp=\"md|a/al|a/dr|a/tmpnoise|1|2|3\" -strict experimental 
     puts "../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}"
-    puts `../bin/ffmpeg -ss #{secs} -t #{len} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
+    puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
     
     puts `qtfaststart #{folder + "res.mp4"} #{folder + "res2.mp4"}`
     puts `chmod +r #{folder + "res2.mp4"}`
