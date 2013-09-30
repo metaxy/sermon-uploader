@@ -133,13 +133,16 @@ def error_check(options)
     end
     return :ok
 end
-def more_clean(old)
-    old.clean.gsub( /[^0-9a-zA-Z\-]/, '' )
+
+def clean_ansi(old)
+    Russian.translit(old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub("ß", "ss"))
 end
 
 def clean(old)
     clean_ansi(old.gsub(" ", "-").gsub(",", "-").gsub("(", "").gsub(")", "").gsub("#", ""))
 end
-def clean_ansi(old)
-    Russian.translit(old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub("ß", "ss"))
+
+def more_clean(old)
+     a = clean(old)
+     a.gsub( /[^0-9a-zA-Z\-]/, '' )
 end
