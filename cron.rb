@@ -97,17 +97,16 @@ def addVideo(mp3File);
     file = files[e[2].to_i]
     secs = e[0].to_i;
     len = e[1].to_i;
-    
-    
-    # todo secs and len from "sec" to "hour" convert
+
     mm1, ss1 = secs.divmod(60)
     hh1, mm1 = mm1.divmod(60)
     
     mm2, ss2 = len.divmod(60)
     hh2, mm2 = mm2.divmod(60)
+    puts "cut from #{hh1}:#{mm1}:#{ss1}  whith length: #{hh2}:#{mm2}:#{ss2}"
     #filter  -vf pp=\"md|a/al|a/dr|a/tmpnoise|1|2|3\" -strict experimental 
-    puts "../bin/ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}"
-    puts `../bin/ffmpeg -ss #{hh1}:#{mm1}:#{ss1} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
+    puts "../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}"
+    puts `../bin/ffmpeg -ss #{secs} -t #{len} -t #{hh2}:#{mm2}:#{ss2} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
     
     puts `qtfaststart #{folder + "res.mp4"} #{folder + "res2.mp4"}`
     puts `chmod +r #{folder + "res2.mp4"}`
