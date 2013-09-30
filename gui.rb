@@ -137,7 +137,7 @@ def do_stuff(progressHandler)
     puts "gui.rb do_stuff()";
     # some error checking
     return if error_check($options) == :failed
-    names = do_meta()
+    names = $api.do_meta()
     u = Upload.new($api)
     u.up(names)
 

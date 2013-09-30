@@ -139,8 +139,8 @@ def main
             puts "add videos"
             addVideo($options[:mp3])
         end
-        names = do_meta()
         api = Api.new(LocalPipe.new)
+        names = Api.do_meta
         u = Upload.new(api)
         u.up(names)
     end
