@@ -369,7 +369,7 @@ class Api
             writemeta_mp4(newName) if File.extname(newName).downcase == ".mp4" 
             newNames << newName
         end
-        newNames
+        return newNames
     end
 
     def remotePath(local)

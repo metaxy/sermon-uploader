@@ -19,9 +19,10 @@ def main
     # some error checking
     return if error_check($options) == :failed
     
-    names = do_meta()
+   
 
     api = Api.new(SshPipe.new(CmdBar.new))
+    names = api.do_meta()
     u = Upload.new(api)
     u.up(names)
     
