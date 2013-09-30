@@ -41,7 +41,7 @@ class Register
                     'audiofile' => convert(audiofile),
                     'videofile' => convert(videofile),
                     'title' => convert($options[:title]),
-                    'alias' => clean(convert($options[:title])),
+                    'alias' => more_clean(convert($options[:title])),
                     'addfile' => addfile,
                     'addfileDesc' => convert($options[:addfileDesc]),
                     'catid' => cat_id,
