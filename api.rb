@@ -314,7 +314,7 @@ class Api
                 if $options[:ref] != ""
                     tag.title = $options[:title];
                 else
-                    tag.title  = "#{clean_ref($options[:ref], lang)} #{$options[:title]}";
+                    tag.title  = "#{clean_ref(normalizeRef($options[:ref], lang))} #{$options[:title]}";
                 end
                 file.save
             end
@@ -336,7 +336,7 @@ class Api
                 if $options[:ref] != ""
                     tag.setTitle($options[:title]);
                 else
-                    tag.setTitle("#{clean_ref($options[:ref], lang)} #{$options[:title]}");
+                    tag.setTitle("#{clean_ref(normalizeRef($options[:ref], lang))} #{$options[:title]}");
                 end
                 
                 file.save
