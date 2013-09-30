@@ -228,7 +228,7 @@ class Api
                 return (i+1) if(bookName == m)
             end       
         end
-        $debugger.warn("didn't found #{bookName} in books")
+        puts "didn't found #{bookName} in books"
         return nil
     end
 
