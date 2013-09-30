@@ -341,8 +341,6 @@ class Api
     end
     
     def writeid3_mp3(file)
-        lang = $defLoc
-        lang = "ru" if(Russian.translit($options[:title]) != $options[:title])
         begin
             frame_factory = TagLib::ID3v2::FrameFactory.instance
             frame_factory.default_text_encoding = TagLib::String::UTF8
@@ -353,7 +351,7 @@ class Api
                 tag.comment = "Aufnahme der ECG Berlin http://ecg-berlin.de"
                 tag.artist = $options[:preacher]
                 if hasRef? $options[:ref]
-                    tag.title  = "#{normalizeRef($options[:ref], lang)} #{$options[:title]}"
+                    tag.title  = "#{normalizeRef($options[:ref], $options[:lang])} #{$options[:title]}"
                 else
                     tag.title = $options[:title]
                 end
@@ -363,8 +361,6 @@ class Api
         end
     end
     def writemeta_mp4(file)
-        lang = $defLoc
-        lang = "ru" if(Russian.translit($options[:title]) != $options[:title])
         begin
             frame_factory = TagLib::MP4::FrameFactory.instance
             frame_factory.default_text_encoding = TagLib::String::UTF8
@@ -375,7 +371,7 @@ class Api
                 tag.setComment("Aufnahme der ECG Berlin http://ecg-berlin.de");
                 tag.setArtist($options[:preacher])
                 if hasRef? $options[:ref]
-                    tag.setTitle("#{normalizeRef($options[:ref], lang)} #{$options[:title]}")
+                    tag.setTitle("#{normalizeRef($options[:ref], $options[:lang])} #{$options[:title]}")
                 else
                     tag.setTitle($options[:title])
                 end
@@ -386,15 +382,13 @@ class Api
         end
     end
     def rename(old)
-        lang = $defLoc
-        lang = "ru" if(Russian.translit($options[:title]) != $options[:title])
         puts "metadat.rb rename langh = #{lang}"
         newName = old
         cat = $catNames[$options[:cat]]
         
         ref = ""
         if hasRef?($options[:ref]) 
-            ref = normalizeRef($options[:ref], lang) + " "
+            ref = normalizeRef($options[:ref], $options[:lang]) + " "
         end
         if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".ogg" || File.extname(old).downcase == ".mp4")
             newName = File.dirname(old) + 
@@ -408,6 +402,11 @@ class Api
     end
     def do_meta
         puts "metadata.rb do_meta()";
+        if(Russian.translit($options[:title]) != $options[:title])
+            $options[:lang] = "ru" 
+        else
+            $options[:lang] = "de"
+        end
         newNames = []
         $options[:files].each do |x|
             puts "main.tb :::: processing filename = " + x
