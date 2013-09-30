@@ -312,9 +312,9 @@ class Api
                 tag.comment = "Aufnahme der ECG Berlin http://ecg-berlin.de"
                 tag.artist = $options[:preacher]
                 if $options[:ref] != ""
-                    tag.title = $options[:title];
+                    tag.title  = "#{normalizeRef($options[:ref], lang)} #{$options[:title]}";
                 else
-                    tag.title  = "#{clean_ref(normalizeRef($options[:ref], lang))} #{$options[:title]}";
+                    tag.title = $options[:title];
                 end
                 file.save
             end
@@ -334,9 +334,9 @@ class Api
                 tag.setComment("Aufnahme der ECG Berlin http://ecg-berlin.de");
                 tag.setArtist($options[:preacher])
                 if $options[:ref] != ""
-                    tag.setTitle($options[:title]);
+                    tag.setTitle("#{normalizeRef($options[:ref], lang)} #{$options[:title]}");
                 else
-                    tag.setTitle("#{clean_ref(normalizeRef($options[:ref], lang))} #{$options[:title]}");
+                    tag.setTitle($options[:title]);
                 end
                 
                 file.save
