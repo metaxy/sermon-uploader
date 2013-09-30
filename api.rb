@@ -142,10 +142,11 @@ $books = Hash[
     "de" => $book_de.dup,
     "ru" => $book_ru.dup]
 
-$ref_type3 = /(\w+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
-$ref_type2 = /(\w+)\s(\d+)\,(\d+)-(\d+)/
-$ref_type1 = /(\w+)\s(\d+)\,(\d+)/
-
+$ref_type3 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
+$ref_type2 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)/
+$ref_type1 = /(\p{Word}+)\s(\d+)\,(\d+)/
+$ref_type0 = /(\p{Word}+)\s(\d+)/
+# (\p{Word}+) == (\w+); only for unicode
 def trying(t, func, *args)
     t.times do
         begin
@@ -257,6 +258,11 @@ class Api
             x = y[0]
             return true if bookID(x[0]) != nil
         end
+        if($ref_type0 =~ ref)
+            y = ref.scan($ref_type1 ) # BookName 1,1
+            x = y[0]
+            return true if bookID(x[0]) != nil
+        end
         return false
     end
     def refToJson(ref)
@@ -295,6 +301,17 @@ class Api
                         'vers2' => '0'
                     ].to_json.to_s
         end
+        if($ref_type0 =~ ref)
+            puts "type 1"
+            y = ref.scan($ref_type1 ) # BookName 1,1
+            x = y[0]
+            return Hash['book' => bookID(x[0]),
+                        'cap1' => x[1],
+                        'vers1' => '0',
+                        'cap2' => '0',
+                        'vers2' => '0'
+                    ].to_json.to_s
+        end
         return nil
     end
     def normalizeRef(ref, lang=$defLoc)
@@ -314,6 +331,11 @@ class Api
             y = ref.scan($ref_type1 ) # BookName 1,1
             x = y[0]
             return "#{getBookName(x[0],lang)} #{x[1]},#{x[2]}"
+        end
+        if($ref_type0 =~ ref)
+            y = ref.scan($ref_type1 ) # BookName 1
+            x = y[0]
+            return "#{getBookName(x[0],lang)} #{x[1]}"
         end
         return ""
     end
