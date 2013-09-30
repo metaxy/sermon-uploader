@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'optparse'
+require 'russian'
 $catNames = Hash[
         "hellersdorf-predigt" => "Predigt",
         "lichtenberg-predigt" => "Predigt",

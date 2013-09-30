@@ -1,7 +1,5 @@
 # encoding: utf-8
 require 'taglib'
-require 'russian'
-
 def writeid3(file)
     begin
         frame_factory = TagLib::ID3v2::FrameFactory.instance
