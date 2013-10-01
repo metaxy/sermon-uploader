@@ -27,7 +27,7 @@ def main()
         row[$prediger] = "Alexander Arzer" if row[$prediger] == "Alex Arzer"
         row[$prediger] = "Wilhelm Walger" if row[$prediger] == "Willi Walger"
         row[$prediger] = "Wadim Ruff" if row[$prediger] == "Wadim Ruf"
-
+        next if not File.exists?" #{$folder}#{row[$path]}"
         File.copy("#{$folder}#{row[$path]}", "#{folder}#{row[$date]} =  = #{row[$prediger]}.mp3")
     end
 end
