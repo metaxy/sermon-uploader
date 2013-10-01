@@ -24,13 +24,13 @@ $book_de = Hash[0 => ['1Mo','1.Mose'],
 17 => ['Hiob','Hi'],
 18 => ['Ps', 'Psalmen'],
 19 => ['Spr', 'Sprüche'],
-20 => ['Prediger','Pred'],
+20 => ['Pred', 'Prediger'],
 21 => ['Hohelied','Hoh'],
 22 => ['Jes', 'Jesaja'],
 23 => ['Jer', 'Jeremia'],
-24 => ['Klagelieder','Kla'],
+24 => ['Kla', 'Klagelieder'],
 25 => ['Hes','Hesekiel'],
-26 => ['Daniel','Dan'],
+26 => ['Dan', 'Daniel'],
 27 => ['Hosea','Hos'],
 28 => ['Joel','Joe'],
 29 => ['Amos','Am'],
@@ -42,7 +42,7 @@ $book_de = Hash[0 => ['1Mo','1.Mose'],
 35 => ['Zefanja','Zef'],
 36 => ['Haggai','Hag'],
 37 => ['Sacharja','Sac'],
-38 => ['Maleachi','Mal'],
+38 => ['Mal', 'Maleachi'],
 39 => ['Mt', 'Matthäus'],
 40 => ['Mk', 'Markus'],
 41 => ['Lk', 'Lukas'],
@@ -142,6 +142,7 @@ $books = Hash[
     "de-DE" => $book_de.dup,
     "ru-RU" => $book_ru.dup]
 
+$ref_type4 = /(\p{Word}+)\s(\d+)-(\d+)/
 $ref_type3 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
 $ref_type2 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)/
 $ref_type1 = /(\p{Word}+)\s(\d+)\,(\d+)/
@@ -240,7 +241,11 @@ class Api
     def hasRef?(ref)
         return false if ref == nil
         return false if ref == ""
-        
+        if($ref_type4  =~ ref)
+            y = ref.scan($ref_type4 )  
+            x = y[0]
+            return true if bookID(x[0]) != nil
+        end
         if($ref_type3  =~ ref)
             y = ref.scan($ref_type3 )  
             x = y[0]
@@ -266,6 +271,17 @@ class Api
         return false
     end
     def refToJson(ref)
+        if($ref_type4  =~ ref) # BookName 1-2
+            puts "type 4";
+            y = ref.scan($ref_type4 )  
+            x = y[0]
+            return Hash['book' => bookID(x[0]),
+                    'cap1' => x[1],
+                    'vers1' => '0',
+                    'cap2' => x[2],
+                    'vers2' => '0'
+                    ].to_json.to_s
+        end
         if($ref_type3  =~ ref) # BookName 1,1-2,12
             puts "type 3";
             y = ref.scan($ref_type3 )  
@@ -315,6 +331,11 @@ class Api
         return nil
     end
     def normalizeRef(ref, lang=$defLoc)
+        if($ref_type4  =~ ref) # BookName 1,1-2,12
+            y = ref.scan($ref_type4 )  
+            x = y[0]
+            return "#{getBookName(x[0],lang)} #{x[1]}-#{x[2]}"
+        end
         if($ref_type3  =~ ref) # BookName 1,1-2,12
             y = ref.scan($ref_type3 )  
             x = y[0]
