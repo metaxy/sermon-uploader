@@ -14,6 +14,7 @@ $date = 5;
 
 
 def main()
+    out = ""
     CSV.foreach($csvFile) do |row|
         next if row[$id].to_i < 700 or row[$id].to_i >= 750
         puts "id : #{row[$id]}"
@@ -23,7 +24,10 @@ def main()
         puts "date : #{row[$date]}"
         row[$title] = "#{row[$date]} von #{row[$prediger]}" if row[$title] == "" or row[$title] == nil
         folder = "#{$newpath}#{row[$title]}/"
-        next if not File.exists? "#{$folder}#{row[$path]}"
+        if not File.exists? "#{$folder}#{row[$path]}"
+            out += "File not found: #{row[$path]}"
+            next
+        end
         Dir.mkdir(folder)
         row[$prediger] = "Alexander Arzer" if row[$prediger] == "Alex Arzer"
         row[$prediger] = "Wilhelm Walger" if row[$prediger] == "Willi Walger"
@@ -31,6 +35,7 @@ def main()
        
         File.copy("#{$folder}#{row[$path]}", "#{folder}#{row[$date]} =  = #{row[$prediger]}.mp3")
     end
+    File.open("not_found.log", 'a+') {|f| f.write(out) }
 end
 
 main();
