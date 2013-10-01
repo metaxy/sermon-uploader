@@ -23,6 +23,10 @@ def main()
         puts "date : #{row[$date]}"
         folder = "#{$newpath}#{row[$title]}/"
         Dir.mkdir(folder)
+        row[$prediger] = "Alexander Arzer" if row[$prediger] == "Alex Arzer"
+        row[$prediger] = "Wilhelm Walger" if row[$prediger] == "Willi Walger"
+        row[$prediger] = "Wadim Ruff" if row[$prediger] == "Wadim Ruf"
+
         File.copy("#{$folder}#{row[$path]}", "#{folder}#{row[$date]} =  = #{row[$prediger]}.mp3")
     end
 end
