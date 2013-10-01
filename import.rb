@@ -15,7 +15,7 @@ $date = 5;
 
 def main()
     CSV.foreach($csvFile) do |row|
-        next if row[$id].to_i < 750
+        next if row[$id].to_i < 700 or row[$id].to_i >= 750
         puts "id : #{row[$id]}"
         puts "prediger : #{row[$prediger]}"
         puts "title : #{row[$title]}"
