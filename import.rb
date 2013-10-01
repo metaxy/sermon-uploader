@@ -25,7 +25,7 @@ def main()
         row[$title] = "#{row[$date]} von #{row[$prediger]}" if row[$title] == "" or row[$title] == nil
         folder = "#{$newpath}#{row[$title]}/"
         if not File.exists? "#{$folder}#{row[$path]}"
-            out += "File not found: #{row[$path]}"
+            out += "File not found: #{row[$path]}\n"
             next
         end
         Dir.mkdir(folder)
