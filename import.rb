@@ -23,7 +23,7 @@ def main()
         puts "date : #{row[$date]}"
         row[$title] = "#{row[$date]} von #{row[$prediger]}" if row[$title] == "" or row[$title] == nil
         folder = "#{$newpath}#{row[$title]}/"
-        next if not File.exists?" #{$folder}#{row[$path]}"
+        next if not File.exists? "#{$folder}#{row[$path]}"
         Dir.mkdir(folder)
         row[$prediger] = "Alexander Arzer" if row[$prediger] == "Alex Arzer"
         row[$prediger] = "Wilhelm Walger" if row[$prediger] == "Willi Walger"
