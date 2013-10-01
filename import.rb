@@ -21,7 +21,7 @@ def main()
         puts "title : #{row[$title]}"
         puts "path : #{row[$path]}"
         puts "date : #{row[$date]}"
-        row[$title] = "{row[$date]} von #{row[$prediger]}" if row[$title] == ""
+        row[$title] = "{row[$date]} von #{row[$prediger]}" if row[$title] == "" or row[$title] == nil
         folder = "#{$newpath}#{row[$title]}/"
         Dir.mkdir(folder)
         row[$prediger] = "Alexander Arzer" if row[$prediger] == "Alex Arzer"
