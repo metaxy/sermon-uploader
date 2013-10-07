@@ -422,11 +422,7 @@ class Api
     end
     def do_meta
         puts "metadata.rb do_meta()";
-       /* if(Russian.translit($options[:title]) != $options[:title])
-            $options[:lang] = "ru-RU" 
-        else
-            $options[:lang] = "de-DE"
-        end*/
+
         newNames = []
         $options[:files].each do |x|
             puts "main.tb :::: processing filename = " + x
