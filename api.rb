@@ -142,7 +142,7 @@ $books = Hash[
     "de-DE" => $book_de.dup,
     "ru-RU" => $book_ru.dup,
     "de-DE,ru-RU" => $book_de.dup,
-    "ru-RU,en-EN" => $book_ru.dup.
+    "ru-RU,en-EN" => $book_ru.dup,
     "de-DE,en-EN" => $book_de.dup,
     "ru-RU,de-DE" => $book_ru.dup]
 
