@@ -10,7 +10,7 @@ require_relative 'upload'
 require_relative 'api'
 require_relative 'parts/local'
 
-# download/new/cat/title/date = stelle = preacher.mp3
+# download/new/cat/lang/[serie]/title/date = stelle = preacher.mp3
 $logger = Logger.new('logfile.log')
     
 # a folder
@@ -24,23 +24,25 @@ def addFile(path)
         files <<  path + '/' + item
     end
     return :failed if mp3 == nil
-    reg = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
-    reg2 = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
+    reg = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
+    reg2 = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     if(reg =~ mp3) 
         y = mp3.scan(reg)[0]
         $options[:cat] = y[0]
-        $options[:title] = y[1]
-        $options[:date] = y[2].strip
-        $options[:ref] = y[5].strip
-        $options[:preacher] = y[8]
-    elsif(reg2 =~ mp3) 
-        y = mp3.scan(reg)[0]
-        $options[:cat] = y[0]
-        $options[:serie] = y[1]
+        $options[:lang] = translateLang y[1]
         $options[:title] = y[2]
         $options[:date] = y[3].strip
         $options[:ref] = y[6].strip
         $options[:preacher] = y[9]
+    elsif(reg2 =~ mp3) 
+        y = mp3.scan(reg)[0]
+        $options[:cat] = y[0]
+        $options[:lang] = translateLang y[1]
+        $options[:serie] = y[2]
+        $options[:title] = y[3]
+        $options[:date] = y[4].strip
+        $options[:ref] = y[7].strip
+        $options[:preacher] = y[10]
     else
         $logger.warn "didnt't match regexp"
         $logger.debug "failed to add #{path}"
@@ -51,7 +53,9 @@ def addFile(path)
     $logger.debug "found one #{path}"
     return :ok
 end
-
+def translateLang(x)
+    x.gsub("de",. "de-DE").gsub("ru","ru-RU").gsub("en", "en-EN")
+end
 
 def addVideo(mp3File);
     resu = 10000
