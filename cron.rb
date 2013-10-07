@@ -5,7 +5,6 @@ require 'time'
 require 'fileutils'
 
 require_relative 'config'
-require_relative 'metadata'
 require_relative 'upload'
 require_relative 'api'
 require_relative 'parts/local'
