@@ -140,7 +140,11 @@ $book_ru = Hash[0 => ['1Mo','Бытие'],
 
 $books = Hash[
     "de-DE" => $book_de.dup,
-    "ru-RU" => $book_ru.dup]
+    "ru-RU" => $book_ru.dup,
+    "de-DE,ru-RU" => $book_de.dup,
+    "ru-RU,en-EN" => $book_ru.dup.
+    "de-DE,en-EN" => $book_de.dup,
+    "ru-RU,de-DE" => $book_ru.dup]
 
 $ref_type4 = /(\p{Word}+)\s(\d+)-(\d+)/
 $ref_type3 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
