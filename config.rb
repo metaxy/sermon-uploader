@@ -123,7 +123,7 @@ def error_check(options)
     
     neededOptions.each do |x|
         if(options[x] == nil) 
-            puts "Die Variable #{x} fehlt" 
+            puts "Die Variable #{x} fehlt in #{options[:files]}" 
             return :failed
         end
     end
