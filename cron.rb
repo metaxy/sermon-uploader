@@ -27,7 +27,15 @@ def addFile(path)
     #cat/lang/title/date = ref / preacher.mp3
     reg2 = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     #cat/lang/serie/title/date = ref / preacher.mp3
-    if(reg2 =~ mp3) 
+    if(reg =~ mp3) 
+        y = mp3.scan(reg)[0]
+        $options[:cat] = y[0]
+        $options[:lang] = translateLang y[1]
+        $options[:title] = y[2]
+        $options[:date] = y[3].strip
+        $options[:ref] = y[6].strip
+        $options[:preacher] = y[9]
+     elsif(reg2 =~ mp3) 
         y = mp3.scan(reg2)[0]
         $options[:cat] = y[0]
         $options[:lang] = translateLang y[1]
@@ -36,15 +44,7 @@ def addFile(path)
         $options[:date] = y[4].strip
         $options[:ref] = y[7].strip
         $options[:preacher] = y[10]
-    elsif(reg =~ mp3) 
-        y = mp3.scan(reg)[0]
-        $options[:cat] = y[0]
-        $options[:lang] = translateLang y[1]
-        $options[:title] = y[2]
-        $options[:date] = y[3].strip
-        $options[:ref] = y[6].strip
-        $options[:preacher] = y[9]
-    
+
     else
         $logger.warn "didnt't match regexp"
         $logger.debug "failed to add #{path}"
