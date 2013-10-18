@@ -463,7 +463,7 @@ class Api
         #puts "api.rb upload :::: Uploading";
         #puts "from #{file} to #{full}"
         
-        @pipe.upload(file, $options[:home] +  full)
+        @pipe.upload(file, $options[:filesHome] +  full)
         
         return full
     end
