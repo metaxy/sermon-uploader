@@ -30,7 +30,7 @@ def addFile(path)
     reg2 = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     #      cat          /lang       /serie      /title  /  date         =       ref         =  preacher.mp3
     puts "cron.rb::addFile to match #{mp3}";
-    mp32[$options[:newHome]] = ""
+    mp32[$options[:newHome]] = "/"
     puts "cron.rb::addFile new to match #{mp32}";
     if(reg2 =~ mp32) 
         y = mp32.scan(reg2)[0]
@@ -132,6 +132,7 @@ def main
     # scan
     $logger.debug "start"
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
+        sleep 4
         next if item == '.' or item == '..' # skip
         next if(not File.directory? item) # skip files
         cleanOptions() # new option
