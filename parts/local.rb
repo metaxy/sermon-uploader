@@ -5,11 +5,11 @@ class LocalPipe
     end
     
     def init()
-        puts "local.rb init()"
+        #puts "local.rb init()"
     end
     
     def upload(localName, remoteName)
-        puts "local.rb upload()"
+        #puts "local.rb upload()"
         if(not File.exists?(File.dirname(remoteName)))
            FileUtils.mkdir_p(File.dirname(remoteName))
         end
@@ -18,22 +18,22 @@ class LocalPipe
     end
     
     def writeData(data)
-        puts "local.rb writeData()"
-        puts data
+        #puts "local.rb writeData()"
+        #puts data
         File.open($options[:home] + '/data.txt', 'w') {|f| f.write(data) }
     end
     def writeDataVerse(data)
-        puts "local.rb writeDataVerse()"
-        puts data
+        #puts "local.rb writeDataVerse()"
+        #puts data
         File.open($options[:home] + 'data_verse.txt', 'w') {|f| f.write(data) }
     end
     def execInsert()
-        puts "local.rb execInsert()"
-        puts system("php #{$options[:home]}api/insert.php"); # insert in the db
+        #puts "local.rb execInsert()"
+        system("php #{$options[:home]}api/insert.php"); # insert in the db
     end
     
     def close()
-        puts "local.rb close()"
+        #puts "local.rb close()"
     end
 end
  

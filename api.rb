@@ -162,8 +162,7 @@ def trying(t, func, *args)
             puts "It failed"
         end
     end
-    puts "it failed forever"
-    exit
+    #puts "it failed forever"
     return nil
 end
 
@@ -214,7 +213,7 @@ class Api
         json.each do |x|
             return x[0] if name.downcase == x[1].downcase
         end
-        puts "Api::near didn't found #{name}"
+        #puts "Api::near didn't found #{name}"
         return "0"
     end
     # for ui
@@ -234,12 +233,12 @@ class Api
                 return (i+1) if(bookName == m)
             end       
         end
-        puts "Api::bookID didn't found #{bookName} in books"
+        #puts "Api::bookID didn't found #{bookName} in books"
         return nil
     end
 
     def getBookName(i, lang=$defLoc)
-        puts "Api::getBookName [#{lang}][#{bookID(i)}][0]";
+        #puts "Api::getBookName [#{lang}][#{bookID(i)}][0]";
         $books[lang][bookID(i)-1][0]
     end
     
@@ -277,7 +276,7 @@ class Api
     end
     def refToJson(ref)
         if($ref_type4  =~ ref) # BookName 1-2
-            puts "type 4";
+            #puts "type 4";
             y = ref.scan($ref_type4 )  
             x = y[0]
             return Hash['book' => bookID(x[0]),
@@ -288,7 +287,7 @@ class Api
                     ].to_json.to_s
         end
         if($ref_type3  =~ ref) # BookName 1,1-2,12
-            puts "type 3";
+            #puts "type 3";
             y = ref.scan($ref_type3 )  
             x = y[0]
             return Hash['book' => bookID(x[0]),
@@ -300,7 +299,7 @@ class Api
         end
         
         if($ref_type2  =~ ref) # BookName 1,1-12
-            puts "type 2";
+            #puts "type 2";
             y = ref.scan($ref_type2 )   
             x = y[0]
             return Hash['book' => bookID(x[0]), 
@@ -312,7 +311,7 @@ class Api
         end
         
         if($ref_type1 =~ ref)
-            puts "type 1"
+            #puts "type 1"
             y = ref.scan($ref_type1 ) # BookName 1,1
             x = y[0]
             return Hash['book' => bookID(x[0]),
@@ -323,7 +322,7 @@ class Api
                     ].to_json.to_s
         end
         if($ref_type0 =~ ref)
-            puts "type 0"
+            #puts "type 0"
             y = ref.scan($ref_type0 ) # BookName 1,1
             x = y[0]
             return Hash['book' => bookID(x[0]),
@@ -426,11 +425,11 @@ class Api
         return newName
     end
     def do_meta
-        puts "metadata.rb do_meta()";
+        #puts "metadata.rb do_meta()";
 
         newNames = []
         $options[:files].each do |x|
-            puts "api.rb do_meta :::: processing filename = " + x
+            #puts "api.rb do_meta :::: processing filename = " + x
                 
             newName = rename(x)
             writeid3_mp3(newName) if File.extname(newName).downcase == ".mp3" 
@@ -461,8 +460,8 @@ class Api
 
     def upload(file)
         full = remotePath(file) + "/" + File.basename(file)
-        puts "api.rb upload :::: Uploading";
-        puts "from #{file} to #{full}"
+        #puts "api.rb upload :::: Uploading";
+        #puts "from #{file} to #{full}"
         
         @pipe.upload(file, $options[:home] +  full)
         

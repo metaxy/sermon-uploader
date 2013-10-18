@@ -31,7 +31,7 @@ def addFile(path)
     #      cat          /lang       /serie      /title  /  date         =       ref         =  preacher.mp3
     puts "cron.rb::addFile to match #{mp3}";
     mp32[$options[:newHome]] = "/"
-    puts "cron.rb::addFile new to match #{mp32}";
+    puts "cron.rb::addFile new to match #{mp32} #{mp3}";
     if(reg2 =~ mp32) 
         y = mp32.scan(reg2)[0]
         $options[:cat] = y[0]

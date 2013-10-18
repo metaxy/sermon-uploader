@@ -50,7 +50,7 @@ class Register
                     'new_speaker' => new_speaker,
                     'new_speaker_alias' => new_speaker_alias
                 ]
-        puts data
+        #puts data
         
         j = data.to_json.to_s
         @api.writeData(j);
