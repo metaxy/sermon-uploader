@@ -233,12 +233,12 @@ class Api
                 return (i+1) if(bookName == m)
             end       
         end
-        puts "didn't found #{bookName} in books"
+        puts "Api::bookID didn't found #{bookName} in books"
         return nil
     end
 
     def getBookName(i, lang=$defLoc)
-        puts "[#{lang}][#{bookID(i)}}[0]";
+        puts "Api::getBookName [#{lang}][#{bookID(i)}][0]";
         $books[lang][bookID(i)-1][0]
     end
     
@@ -429,7 +429,7 @@ class Api
 
         newNames = []
         $options[:files].each do |x|
-            puts "main.tb :::: processing filename = " + x
+            puts "api.rb do_meta :::: processing filename = " + x
                 
             newName = rename(x)
             writeid3_mp3(newName) if File.extname(newName).downcase == ".mp3" 
@@ -460,7 +460,7 @@ class Api
 
     def upload(file)
         full = remotePath(file) + "/" + File.basename(file)
-        puts "upload.rb :::: Uploading";
+        puts "api.rb upload :::: Uploading";
         puts "from #{file} to #{full}"
         
         @pipe.upload(file, $options[:home] +  full)
