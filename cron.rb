@@ -28,7 +28,7 @@ def addFile(path)
     reg2 = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     #cat/lang/serie/title/date = ref / preacher.mp3
     if(reg2 =~ mp3) 
-        y = mp3.scan(reg)[0]
+        y = mp3.scan(reg2)[0]
         $options[:cat] = y[0]
         $options[:lang] = translateLang y[1]
         $options[:serie] = y[2]
