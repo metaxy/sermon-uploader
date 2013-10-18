@@ -11,7 +11,7 @@ class LocalPipe
     def upload(localName, remoteName)
         puts "local.rb upload()"
         if(not File.exists?(File.dirname(remoteName)))
-           Dir.mkdir(File.dirname(remoteName))
+           FileUtils.mkdir_p(File.dirname(remoteName))
         end
         
         FileUtils.cp localName, remoteName
