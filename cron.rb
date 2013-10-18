@@ -53,7 +53,7 @@ def addFile(path)
     return :ok
 end
 def translateLang(x)
-    x.gsub("de", "de-DE").gsub("ru","ru-RU").gsub("en", "en-EN")
+    x.gsub("de", "de-DE").gsub("ru","ru-RU").gsub("en", "en-GB")
 end
 
 def addVideo(mp3File);
