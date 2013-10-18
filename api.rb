@@ -163,6 +163,7 @@ def trying(t, func, *args)
         end
     end
     puts "it failed forever"
+    exit
     return nil
 end
 
