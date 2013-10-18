@@ -136,7 +136,6 @@ def main
         next if item == '.' or item == '..' # skip
         next if(not File.directory? item) # skip files
         cleanOptions() # new option
-        sleep 1
         next if addFile(item) != :ok # add all files in this dir
         next if error_check($options) == :failed
         
