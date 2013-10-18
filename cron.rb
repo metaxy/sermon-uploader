@@ -23,25 +23,29 @@ def addFile(path)
         files <<  path + '/' + item
     end
     return :failed if mp3 == nil
+    
+    mp32 = mp3.dup
     reg = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     #cat/lang/title/date = ref = preacher.mp3
     reg2 = /\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)\/([^\/=]+)(\s*)=(\s*)([^\/=]+)(\s*)=(\s*)([^\/)=]+).mp3/
     #      cat          /lang       /serie      /title  /  date         =       ref         =  preacher.mp3
-    
-    if(reg2 =~ mp3) 
-        y = mp3.scan(reg2)[0]
+    puts "cron.rb::addFile to match #{mp3}";
+    mp32[$options[:newHome]] = ""
+    puts "cron.rb::addFile new to match #{mp32}";
+    if(reg2 =~ mp32) 
+        y = mp32.scan(reg2)[0]
         $options[:cat] = y[0]
         $options[:lang] = translateLang y[1]
         $options[:serie] = y[2]
-        $options[:title] = y[3]
+        $options[:title] = y[3].strip
         $options[:date] = y[4].strip
         $options[:ref] = y[7].strip
         $options[:preacher] = y[10]
-    elsif(reg =~ mp3) 
-        y = mp3.scan(reg)[0]
+    elsif(reg =~ mp32) 
+        y = mp32.scan(reg)[0]
         $options[:cat] = y[0]
         $options[:lang] = translateLang y[1]
-        $options[:title] = y[2]
+        $options[:title] = y[2].strip
         $options[:date] = y[3].strip
         $options[:ref] = y[6].strip
         $options[:preacher] = y[9]

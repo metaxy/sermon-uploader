@@ -413,7 +413,7 @@ class Api
         
         ref = ""
         if hasRef?($options[:ref]) 
-            ref = normalizeRef($options[:ref], $options[:lang]) + " "
+            ref = "["+normalizeRef($options[:ref], $options[:lang]) + "] "
         end
         if(File.extname(old).downcase == ".mp3" || File.extname(old).downcase == ".ogg" || File.extname(old).downcase == ".mp4")
             newName = File.dirname(old) + 
