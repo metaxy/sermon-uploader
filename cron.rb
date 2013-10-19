@@ -120,8 +120,11 @@ def addVideo(mp3File);
     
     puts `qtfaststart #{folder + "res.mp4"} #{folder + "res2.mp4"}`
     puts `chmod +r #{folder + "res2.mp4"}`
-    
-    $options[:files] << folder + "res2.mp4";
+    if(File.exists? folder + "res2.mp4")
+         $options[:files] << folder + "res2.mp4";
+    else
+        $logger.warn "qtfaststart failed #{folder}"
+    end
  #   $options[:files] << folder + "ogg.ogg";
     $deleteFolders << folder
 end
