@@ -141,7 +141,8 @@ def main
         
         # add audio files
         # add Video file
-        puts "has key #{$options[:videoPath].has_key? $options[:cat} autoVideo = #{$options[:autoVideo]}";
+        puts "has key #{$options[:videoPath].has_key? $options[:cat]} autoVideo = #{$options[:autoVideo]}"
+                                                               
         if($options[:videoPath].has_key? $options[:cat] && $options[:autoVideo] == true)
             $logger.debug "add videos"
             puts "add videos"
