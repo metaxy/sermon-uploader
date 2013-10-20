@@ -162,7 +162,7 @@ def main
                 if(not File.exists? i + "res.mp4")
                     $logger.warn "ffmpeg failed #{item}"
                     next
-                else
+                end
                 
                 puts `qtfaststart #{item + "res.mp4"} #{item + "res2.mp4"}`
                 puts `chmod +r #{item + "res2.mp4"}`
