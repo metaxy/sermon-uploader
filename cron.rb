@@ -148,7 +148,6 @@ def main
         
         # add audio files
         # add Video file
-        puts "has key #{$options[:videoPath].has_key? $options[:cat]} autoVideo = #{$options[:autoVideo]}"
         
         # check first for videos
         mp4 = nil
@@ -176,8 +175,10 @@ def main
                 break
             end
         end
-    
-        if($options[:videoPath].has_key?($options[:cat]) && $options[:autoVideo] == true && mp4 != nil)
+                puts "has key #{$options[:videoPath].has_key? $options[:cat]} autoVideo = #{$options[:autoVideo]} mp4 = 
+#{mp4}"
+
+        if($options[:videoPath].has_key?($options[:cat]) && $options[:autoVideo] == true && mp4 == nil)
             $logger.debug "add videos from wowza"
             addVideo($options[:mp3])
         end
