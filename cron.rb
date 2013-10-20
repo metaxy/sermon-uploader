@@ -161,7 +161,7 @@ def main
                 puts `../bin/ffmpeg -i '#{i}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
                 if(not File.exists? i + "res.mp4")
                     $logger.warn "ffmpeg failed #{item}"
-                    return
+                    next
                 else
                 
                 puts `qtfaststart #{item + "res.mp4"} #{item + "res2.mp4"}`
@@ -189,7 +189,7 @@ def main
     end
     $logger.debug "done"
     
-     $deleteFolders.each do |folder|
+    $deleteFolders.each do |folder|
         if(File.exists? folder)
             puts "delete #{folder}"
             FileUtils.rm_rf(folder)
