@@ -120,7 +120,7 @@ def addVideo(mp3File);
     if(not File.exists? folder + "res.mp4")
          $logger.warn "ffmpeg failed #{folder}"
          return
-    else
+    end
     
     puts `qtfaststart #{folder + "res.mp4"} #{folder + "res2.mp4"}`
     puts `chmod +r #{folder + "res2.mp4"}`
