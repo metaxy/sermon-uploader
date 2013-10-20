@@ -117,6 +117,10 @@ def addVideo(mp3File);
     puts "../bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}"
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
     puts `../bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
+    if(not File.exists? folder + "res.mp4")
+         $logger.warn "ffmpeg failed #{folder}"
+         return
+    else
     
     puts `qtfaststart #{folder + "res.mp4"} #{folder + "res2.mp4"}`
     puts `chmod +r #{folder + "res2.mp4"}`
@@ -145,10 +149,36 @@ def main
         # add audio files
         # add Video file
         puts "has key #{$options[:videoPath].has_key? $options[:cat]} autoVideo = #{$options[:autoVideo]}"
-                                                               
-        if($options[:videoPath].has_key?($options[:cat]) && $options[:autoVideo] == true)
-            $logger.debug "add videos"
-            puts "add videos"
+        
+        # check first for videos
+        mp4 = nil
+
+        Dir.foreach(item) do |i|
+            next if i == '.' or i == '..'
+            if (File.extname(i) == ".mp4")
+                $options[:files] << path + '/' + i
+                
+                puts `../bin/ffmpeg -i '#{i}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
+                if(not File.exists? i + "res.mp4")
+                    $logger.warn "ffmpeg failed #{item}"
+                    return
+                else
+                
+                puts `qtfaststart #{item + "res.mp4"} #{item + "res2.mp4"}`
+                puts `chmod +r #{item + "res2.mp4"}`
+                if(File.exists? item + "res2.mp4")
+                    $options[:files] << item + "res2.mp4";
+                else
+                    $logger.warn "qtfaststart failed #{item}"
+                end
+    
+                mp4 = true
+                break
+            end
+        end
+    
+        if($options[:videoPath].has_key?($options[:cat]) && $options[:autoVideo] == true && mp4 != nil)
+            $logger.debug "add videos from wowza"
             addVideo($options[:mp3])
         end
         api = Api.new(LocalPipe.new)
@@ -158,7 +188,6 @@ def main
         $deleteFolders << item
     end
     $logger.debug "done"
-    # some error checking
     
      $deleteFolders.each do |folder|
         if(File.exists? folder)
