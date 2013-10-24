@@ -27,6 +27,7 @@ def main()
         row[$path] = File.basename(row[$path])
         puts "new row path #{row[$path]}"
         if not File.exists? "#{$folder}#{row[$path]}"
+            puts "File not found: #{row[$path]} title:  #{row[$title]}\n"
             out += "File not found: #{row[$path]} title:  #{row[$title]}\n"
             next
         end
