@@ -4,7 +4,7 @@ require 'ftools'
 
 $csvFile = "./jos_predigtenFile.csv";
 $folder = "/var/www/vhosts/ecg-berlin.de/httpdocs/fileadmin/files/hellersdorf/predigten/";
-$newpath = "/home/ecg-media/import/";
+$newpath = "/home/ecg-media/downloads/todo";
 $id = 0;
 $prediger = 2;
 $title = 3;
