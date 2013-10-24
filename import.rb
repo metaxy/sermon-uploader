@@ -23,6 +23,7 @@ def main()
         puts "path : #{row[$path]}"
         puts "date : #{row[$date]}"
         row[$title] = "#{row[$date]} von #{row[$prediger]}" if row[$title] == "" or row[$title] == nil
+        row[$title].gsub!("/")
         folder = "#{$newpath}#{row[$title]}/"
         row[$path] = File.basename(row[$path])
         puts "new row path #{row[$path]}"
