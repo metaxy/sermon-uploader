@@ -3,8 +3,8 @@ require 'csv'
 require 'ftools'
 
 $csvFile = "./jos_predigtenFile.csv";
-$folder = "/home/ecg-media/downloads/todo";
-$newpath = "/home/ecg-media/downloads/todo";
+$folder = "/home/ecg-media/downloads/todo/";
+$newpath = "/home/ecg-media/downloads/import/";
 $id = 0;
 $prediger = 2;
 $title = 3;
