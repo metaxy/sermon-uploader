@@ -91,12 +91,10 @@ def addVideo(mp3File);
         $logger.debug "no videos found"
         return;
     end
-    puts "executing ffmpeg -y -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'"
     puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
    # puts `ffmpeg -i '#{mp3File}' -acodec libopus '#{folder}ogg.ogg'`
-    puts "executing ./fft_bin --file '#{folder}out.wav'"
     
-    e = `./fft_bin --file '#{folder}out.wav'`
+    e = `#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'`
     puts e
     e = e.split(";");
     if(e.size != 3)
@@ -114,9 +112,9 @@ def addVideo(mp3File);
     hh2, mm2 = mm2.divmod(60)
     puts "cut from #{hh1}:#{mm1}:#{ss1}  whith length: #{hh2}:#{mm2}:#{ss2}"
     #filter  -vf pp=\"md|a/al|a/dr|a/tmpnoise|1|2|3\" -strict experimental 
-    puts "../bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}"
+    puts "#{$options[:binhome]}bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}"
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
-    puts `../bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
+    puts `#{$options[:binhome]}bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
     if(not File.exists? folder + "res.mp4")
          $logger.warn "ffmpeg failed #{folder}"
          return
@@ -130,7 +128,7 @@ def addVideo(mp3File);
         $logger.warn "qtfaststart failed #{folder}"
     end
  #   $options[:files] << folder + "ogg.ogg";
-    $deleteFolders << folder
+    # $deleteFolders << folder
 end
 def main
     
