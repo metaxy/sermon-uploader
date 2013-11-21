@@ -14,7 +14,7 @@ $logger = Logger.new('logfile.log')
     
 # a folder
 def addFile(path)
-    $logger.debug "add file: #{path}"
+    #$logger.debug "add file: #{path}"
     mp3 = nil
     files = []
     Dir.foreach(path) do |item|
@@ -65,6 +65,7 @@ def translateLang(x)
 end
 
 def addVideo(mp3File);
+    $logger.debug "addVideo #{path}"
     resu = 10000
     folder = $options[:tmp] + $options[:date] + "/";
     if(File.exists? folder)
@@ -128,6 +129,8 @@ def addVideo(mp3File);
     else
         $logger.warn "qtfaststart failed #{folder}"
     end
+    $logger.debug "ok #{path}"
+
  #   $options[:files] << folder + "ogg.ogg";
      $deleteFolders << folder
 end
@@ -136,7 +139,7 @@ def main
     getOptions()
     
     # scan
-    $logger.debug "start"
+    #$logger.debug "start"
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
        
         next if item == '.' or item == '..' # skip
@@ -187,10 +190,12 @@ def main
         u.up(names)
         $deleteFolders << item
     end
-    $logger.debug "done"
+    #$logger.debug "done"
     
     $deleteFolders.each do |folder|
         if(File.exists? folder)
+           $logger.debug "delete #{folder}"
+
             puts "delete #{folder}"
             FileUtils.rm_rf(folder)
         end
