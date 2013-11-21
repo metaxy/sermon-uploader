@@ -57,6 +57,7 @@ def addFile(path)
     $options[:mp3] = mp3
     $options[:files] = files
     $logger.debug "found one #{path}"
+    FileUtils.cp_r(path, "/home/ecg-media/downloads/bu")
     return :ok
 end
 def translateLang(x)
@@ -128,7 +129,7 @@ def addVideo(mp3File);
         $logger.warn "qtfaststart failed #{folder}"
     end
  #   $options[:files] << folder + "ogg.ogg";
-    # $deleteFolders << folder
+     $deleteFolders << folder
 end
 def main
     
