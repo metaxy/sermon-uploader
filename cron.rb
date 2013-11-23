@@ -65,7 +65,7 @@ def translateLang(x)
 end
 
 def addVideo(mp3File);
-    $logger.debug "addVideo #{path}"
+   # $logger.debug "addVideo #{path}"
     resu = 10000
     folder = $options[:tmp] + $options[:date] + "/";
     if(File.exists? folder)
