@@ -84,7 +84,7 @@ def addVideo(mp3File);
             $logger.debug "found right day #{item}"
             puts "found right day #{item}"           
             puts "executing ffmpeg -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'" 
-            puts `ffmpeg -y -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'`
+            $logger.debug `ffmpeg -y -i '#{fullItem}' -ar 5000 -ac 1 '#{folder}out.wav#{i}.wav'`
             files[i] = fullItem
             i += 1
         end
@@ -93,7 +93,7 @@ def addVideo(mp3File);
         $logger.debug "no videos found"
         return;
     end
-    puts `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
+    $logger.debug `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
    # puts `ffmpeg -i '#{mp3File}' -acodec libopus '#{folder}ogg.ogg'`
     
     e = `#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'`
@@ -112,11 +112,11 @@ def addVideo(mp3File);
     
     mm2, ss2 = len.divmod(60)
     hh2, mm2 = mm2.divmod(60)
-    puts "cut from #{hh1}:#{mm1}:#{ss1}  whith length: #{hh2}:#{mm2}:#{ss2}"
+    $logger.debug "cut from #{hh1}:#{mm1}:#{ss1}  whith length: #{hh2}:#{mm2}:#{ss2}"
     #filter  -vf pp=\"md|a/al|a/dr|a/tmpnoise|1|2|3\" -strict experimental 
-    puts "#{$options[:binhome]}bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}"
+    $logger.debug "#{$options[:binhome]}bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}"
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
-    puts `#{$options[:binhome]}bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
+    $logger.debug `#{$options[:binhome]}bin/ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
     if(not File.exists? folder + "res.mp4")
          $logger.warn "ffmpeg failed #{folder}"
          return
@@ -159,14 +159,14 @@ def main
             if (File.extname(i) == ".mp4")
                 $options[:files] << path + '/' + i
                 
-                puts `../bin/ffmpeg -i '#{i}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
+                $logger.debug `../bin/ffmpeg -i '#{i}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
                 if(not File.exists? i + "res.mp4")
                     $logger.warn "ffmpeg failed #{item}"
                     next
                 end
                 
-                puts `qtfaststart #{item + "res.mp4"} #{item + "res2.mp4"}`
-                puts `chmod +r #{item + "res2.mp4"}`
+                $logger.debug `qtfaststart #{item + "res.mp4"} #{item + "res2.mp4"}`
+                $logger.debug `chmod +r #{item + "res2.mp4"}`
                 if(File.exists? item + "res2.mp4")
                     $options[:files] << item + "res2.mp4";
                 else
@@ -177,8 +177,7 @@ def main
                 break
             end
         end
-                puts "has key #{$options[:videoPath].has_key? $options[:cat]} autoVideo = #{$options[:autoVideo]} mp4 = 
-#{mp4}"
+$logger.debug "has key #{$options[:videoPath].has_key? $options[:cat]} autoVideo = #{$options[:autoVideo]} mp4 = #{mp4}"
 
         if($options[:videoPath].has_key?($options[:cat]) && $options[:autoVideo] == true && mp4 == nil)
             $logger.debug "add videos from wowza"
