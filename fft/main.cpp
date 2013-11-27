@@ -6,15 +6,41 @@
 #include "aquila/transform/FftFactory.h"
 #include "aquila/source/WaveFile.h"
 #include "aquila/source/FramesCollection.h"
-
+/*
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_statistics.h>
-
+*/
 #include "anyoption.h"
 
 #include <iomanip>
-
 using namespace std;
+
+double pearson(const std::vector<double> &x, const std::vector<double> &y, size_t n, size_t startX)
+{
+    if(n + startX > x.size()) {
+        cout << "startX is too big n=" << n << "startX=" << startX << "x.size()" << x.size();
+        return 0;
+    }
+    double ex,ey,xt,yt,sxx,syy,sxy;
+    
+    //means
+    for (size_t i = 0; i < n; i++) {
+            ex += x[i+startX];
+            ey += y[i];
+    }
+    ex /= n;
+    ey /= n;
+    
+    for (size_t i = 0; i < n; i++) {
+        xt = x[i+startX] - ex;
+        yt = y[i] - ey;
+        sxx += xt * xt;
+        syy += yt * yt;
+        sxy += xt * yt;
+    }
+    return sxy/(sqrt(sxx*syy)+0.00001);
+
+}
 std::vector<double> calcAmp(Aquila::FramesCollection frames)
 {
     // just do fftp for every frame, and sum it
@@ -70,7 +96,7 @@ int main(int argc, char *argv[])
     Aquila::FramesCollection s;
     s.divideFrames(small, packetSize, 0);
     std::vector<double> small_amp = calcAmp(s);
-    gsl_vector_const_view gsl_x = gsl_vector_const_view_array( &small_amp[0], small_amp.size() );
+  //  gsl_vector_const_view gsl_x = gsl_vector_const_view_array( &small_amp[0], small_amp.size() );
                
     double g_max = 0.0, g_secs = 0.0; //global max correlation, max start time
     int id = 0;
@@ -98,11 +124,14 @@ int main(int argc, char *argv[])
             continue;
         }
         for(int i = 0; i < sizeDiff - 1; i++) {
-            gsl_vector_const_view gsl_y = gsl_vector_const_view_array( &big_amp[i], small_amp.size() );
+            double p = pearson(small_amp, big_amp, small_amp.size(), i);
+          /*  gsl_vector_const_view gsl_y = gsl_vector_const_view_array( &big_amp[i], small_amp.size() );
             double pearson = gsl_stats_correlation( (double*) gsl_x.vector.data, sizeof(double),
                                                     (double*) gsl_y.vector.data, sizeof(double),
                                                     200 );
             res.push_back(pearson);
+            */
+          res.push_back(p);
         }
 
         vector<double>::iterator pos = std::max_element(res.begin(), res.end());

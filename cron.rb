@@ -96,6 +96,7 @@ def addVideo(mp3File);
     $logger.debug `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
    # puts `ffmpeg -i '#{mp3File}' -acodec libopus '#{folder}ogg.ogg'`
     
+    $logger.debug "#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'"
     e = `#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'`
     puts e
     e = e.split(";");
@@ -196,7 +197,7 @@ $logger.debug "has key #{$options[:videoPath].has_key? $options[:cat]} autoVideo
            $logger.debug "delete #{folder}"
 
             puts "delete #{folder}"
-            FileUtils.rm_rf(folder)
+           # FileUtils.rm_rf(folder)
         end
      end
 end
