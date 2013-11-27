@@ -115,9 +115,9 @@ def addVideo(mp3File);
     hh2, mm2 = mm2.divmod(60)
     $logger.debug "cut from #{hh1}:#{mm1}:#{ss1}  whith length: #{hh2}:#{mm2}:#{ss2}"
     #filter  -vf pp=\"md|a/al|a/dr|a/tmpnoise|1|2|3\" -strict experimental 
-    $logger.debug "ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}"
+    $logger.debug "ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfaac -ab 64k -vcodec copy #{folder + "res.mp4"}"
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
-    $logger.debug `ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
+    $logger.debug `ffmpeg -i '#{file}' -ss #{secs} -t #{len}  -acodec libfaac -ab 64k -vcodec copy #{folder + "res.mp4"}`
     if(not File.exists? folder + "res.mp4")
          $logger.warn "ffmpeg failed #{folder}"
          return
