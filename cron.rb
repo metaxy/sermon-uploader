@@ -130,7 +130,7 @@ def addVideo(mp3File);
     else
         $logger.warn "qtfaststart failed #{folder}"
     end
-    $logger.debug "ok #{path}"
+  #  $logger.debug "ok #{folder}"
 
  #   $options[:files] << folder + "ogg.ogg";
      $deleteFolders << folder
