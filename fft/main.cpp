@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
             continue;
         }
         for(int i = 0; i < sizeDiff - 1; i++) {
-            double p = pearson(small_amp, big_amp, small_amp.size(), i);
+            double p = pearson(big_amp, small_amp, small_amp.size(), i);
           /*  gsl_vector_const_view gsl_y = gsl_vector_const_view_array( &big_amp[i], small_amp.size() );
             double pearson = gsl_stats_correlation( (double*) gsl_x.vector.data, sizeof(double),
                                                     (double*) gsl_y.vector.data, sizeof(double),

@@ -197,7 +197,7 @@ $logger.debug "has key #{$options[:videoPath].has_key? $options[:cat]} autoVideo
            $logger.debug "delete #{folder}"
 
             puts "delete #{folder}"
-           # FileUtils.rm_rf(folder)
+            FileUtils.rm_rf(folder)
         end
      end
 end
