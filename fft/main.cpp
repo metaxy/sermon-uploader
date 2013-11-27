@@ -14,14 +14,14 @@
 
 #include <iomanip>
 using namespace std;
-
+/*from stackoverflow but it does not work*/
 double pearson(const std::vector<double> &x, const std::vector<double> &y, size_t n, size_t startX)
 {
     if(n + startX > x.size()) {
         cout << "startX is too big n=" << n << "startX=" << startX << "x.size()" << x.size();
         return 0;
     }
-    double ex,ey,xt,yt,sxx,syy,sxy;
+    double ex(0),ey(0),xt(0),yt(0),sxx(0),syy(0),sxy(0);
     
     //means
     for (size_t i = 0; i < n; i++) {
@@ -40,6 +40,28 @@ double pearson(const std::vector<double> &x, const std::vector<double> &y, size_
     }
     return sxy/(sqrt(sxx*syy)+0.00001);
 
+}
+double pearson2(const std::vector<double> &X, const std::vector<double> &Y, size_t n, size_t startX)
+{
+    if(n > Y.size()) 
+        n = Y.size();
+    
+    if(n + startX > X.size()) {
+        cout << "startX is too big n=" << n << "startX=" << startX << "x.size()" << X.size();
+        return 0;
+    }
+    double EX(0), EY(0), EXY(0), EX2(0), EY2(0);
+
+    for (size_t i = 0; i < n; i++)
+    {
+        EX += X[i+startX];
+        EY += Y[i];
+        EXY += X[i+startX]*Y[i];
+        EX2 += X[i+startX]*X[i+startX];
+        EY2 += Y[i]*Y[i];
+    }
+    
+    return (n*EXY - EX*EY) / sqrt((n*EX2 - EX*EX) * (n*EY2 - EY*EY));
 }
 std::vector<double> calcAmp(Aquila::FramesCollection frames)
 {
@@ -120,11 +142,11 @@ int main(int argc, char *argv[])
 
         int sizeDiff = b.count() - s.count();
         if(sizeDiff < 0){//to small to be usefull
-            //cout << "too small: " << fileCounter << endl;
+            cout << "too small: " << fileCounter << endl;
             continue;
         }
         for(int i = 0; i < sizeDiff - 1; i++) {
-            double p = pearson(big_amp, small_amp, small_amp.size(), i);
+            double p = pearson2(big_amp, small_amp, 200, i);
           /*  gsl_vector_const_view gsl_y = gsl_vector_const_view_array( &big_amp[i], small_amp.size() );
             double pearson = gsl_stats_correlation( (double*) gsl_x.vector.data, sizeof(double),
                                                     (double*) gsl_y.vector.data, sizeof(double),
@@ -133,21 +155,21 @@ int main(int argc, char *argv[])
             */
           res.push_back(p);
         }
-
+        //cout << res << endl << endl;
         vector<double>::iterator pos = std::max_element(res.begin(), res.end());
         if(pos == res.end()) { //iterator == nil
             //cout << "no max in" << fileCounter << endl;
             continue;
         }
-
+        int start_index = std::distance(res.begin(), pos);
+        double lc = start_index;
+        double bc = b.count();
+        double len = big.getAudioLength();
         double pp = *pos;
-        //cout << "id " << fileCounter<< " his max:" << pp << endl;
+       // cout << "id " << fileCounter<< " his max:" << pp << endl;
+       // cout << "id:" << fileCounter << " max: " << pp << " secs: " << (len/1000) * (lc/bc) << endl;
         if(pp > g_max) {
-            int start_index = std::distance(res.begin(), pos);
-            double lc = start_index;
-            double bc = b.count();
-            double len = big.getAudioLength();
-            //cout << "id:" << fileCounter << " max: " << pp << " secs: " << (len/1000) * (lc/bc) << endl;
+           
 
             g_max = pp;
             g_secs = (len/1000) * (lc/bc);
@@ -158,6 +180,7 @@ int main(int argc, char *argv[])
     double lc2 = small.getAudioLength();
     
     cout << setiosflags(ios::fixed) << setprecision(0) << g_secs << ";" << (lc2/1000) << ";" << id;
+    //meaning: startfrom;lenght;id
     return 0;
 }
 
