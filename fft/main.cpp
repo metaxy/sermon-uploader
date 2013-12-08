@@ -47,7 +47,7 @@ double pearson2(const std::vector<double> &X, const std::vector<double> &Y, size
         n = Y.size();
     
     if(n + startX > X.size()) {
-        cout << "startX is too big n=" << n << "startX=" << startX << "x.size()" << X.size();
+        //cout << "startX is too big n=" << n << "startX=" << startX << "x.size()" << X.size();
         return 0;
     }
     double EX(0), EY(0), EXY(0), EX2(0), EY2(0);
@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
 
         int sizeDiff = b.count() - s.count();
         if(sizeDiff < 0){//to small to be usefull
-            cout << "too small: " << fileCounter << endl;
+            //cout << "too small: " << fileCounter << endl;
             continue;
         }
         for(int i = 0; i < sizeDiff - 1; i++) {
