@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 $book_de = Hash[0 => ['1Mo','1.Mose'],
 1 => ['2Mo','2.Mose'],
 2 => ['3Mo','3.Mose'],
@@ -181,8 +183,9 @@ def has_valid_book?(matches)
 end
 
 def get_matches(reg, ref)
-    if(ref =~ ref)
+    if(reg =~ ref)
         y = ref.scan(reg)
+        puts "vaid ref #{ref}"
         return y[0]
     else
         return nil
@@ -190,7 +193,7 @@ def get_matches(reg, ref)
 end
 
 def is_valid?(reg, ref)
-    matches = get_matches(ref, ref)
+    matches = get_matches(reg, ref)
     return has_valid_book?(matches)
 end
 
@@ -198,76 +201,68 @@ def is_valid_ref?(ref)
     return false if ref.nil?
     return false if ref == ""
     
-    return true if is_valid(get_matches($ref_type4, ref))
-    return true if is_valid(get_matches($ref_type3, ref))
-    return true if is_valid(get_matches($ref_type2, ref))
-    return true if is_valid(get_matches($ref_type1, ref))
-    return true if is_valid(get_matches($ref_type0, ref))
+    return true if is_valid?($ref_type4, ref)
+    return true if is_valid?($ref_type3, ref)
+    return true if is_valid?($ref_type2, ref)
+    return true if is_valid?($ref_type1, ref)
+    return true if is_valid?($ref_type0, ref)
    
     return false
 end
-
-
-def ref_to_json(ref)
-    if($ref_type4  =~ ref) # BookName 1-2
-        #puts "type 4";
-        y = ref.scan($ref_type4 )  
-        x = y[0]
-        return Hash['book' => book_id(x[0]),
-                'cap1' => x[1],
-                'vers1' => '0',
-                'cap2' => x[2],
-                'vers2' => '0'
-                ].to_json.to_s
-    end
-    if($ref_type3  =~ ref) # BookName 1,1-2,12
-        #puts "type 3";
-        y = ref.scan($ref_type3 )  
-        x = y[0]
-        return Hash['book' => book_id(x[0]),
-                'cap1' => x[1],
-                'vers1' => x[2],
-                'cap2' => x[3],
-                'vers2' => x[4]
-                ].to_json.to_s
-    end
+def create_hash(book, cap_1, vers_1, cap_2, vers_2, ref)
+      return Hash['sermonsScriptureBook' => book,
+                'sermonsScriptureChapter1' => cap1,
+                'sermonsScriptureVerse1' => vers_1,
+                'sermonsScriptureChapter2' => cap_2,
+                'sermonsScriptureVerse2' => vers_2,
+                'sermonsScriptureText' => ref 
+                ]
     
-    if($ref_type2  =~ ref) # BookName 1,1-12
-        #puts "type 2";
-        y = ref.scan($ref_type2 )   
-        x = y[0]
-        return Hash['book' => book_id(x[0]), 
-                'cap1' => x[1],
-                'vers1' => x[2],
-                'cap2' => '0',
-                'vers2' => x[3]
-                ].to_json.to_s
+end
+def ref_data(ref)
+    t4 = get_matches($ref_type4, ref)
+    t3 = get_matches($ref_type3, ref)
+    t2 = get_matches($ref_type2, ref)
+    t1 = get_matches($ref_type1, ref)
+    t0 = get_matches($ref_type0, ref)
+    if(not t4.nil?)
+        return create_hash(book_id(t4[0]),
+                           t4[1],
+                           '0',
+                           t4[2],
+                           '0',ref)
     end
-    
-    if($ref_type1 =~ ref)
-        #puts "type 1"
-        y = ref.scan($ref_type1 ) # BookName 1,1
-        x = y[0]
-        return Hash['book' => book_id(x[0]),
-                    'cap1' => x[1],
-                    'vers1' => x[2],
-                    'cap2' => '0',
-                    'vers2' => '0'
-                ].to_json.to_s
+    if(not t3.nil?)
+        return create_hash(book_id(t3[0]),
+                           t3[1],
+                           t3[2],
+                           t3[3],
+                           t3[4],ref)
     end
-    if($ref_type0 =~ ref)
-        #puts "type 0"
-        y = ref.scan($ref_type0 ) # BookName 1,1
-        x = y[0]
-        return Hash['book' => book_id(x[0]),
-                    'cap1' => x[1],
-                    'vers1' => '0',
-                    'cap2' => '0',
-                    'vers2' => '0'
-                ].to_json.to_s
+    if(not t2.nil?)
+        return create_hash(book_id(t2[0]),
+                           t2[1],
+                           t2[2],
+                           '0',
+                           t2[3],ref)
+    end
+    if(not t1.nil?)
+        return create_hash(book_id(t1[0]),
+                           t1[1],
+                           t1[2],
+                           '0',
+                           '0',ref)
+    end
+    if(not t0.nil?)
+        return create_hash(book_id(t0[0]),
+                           t0[1],
+                           '0',
+                           '0',
+                           '0',ref)
     end
     return nil
 end
+
 def normalize_ref(ref, lang=$defLoc)
     if($ref_type4  =~ ref) # BookName 1,1-2,12
         y = ref.scan($ref_type4 )  

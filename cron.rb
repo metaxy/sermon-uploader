@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'rubygems'
-require 'logger'
 require 'time'
 require 'fileutils'
 
@@ -10,7 +9,6 @@ require_relative 'api'
 require_relative 'parts/local'
 
 # download/new/cat/lang/[serie]/title/date = stelle = preacher.mp3
-$logger = Logger.new('logfile.log')
     
 # a folder
 def addFile(path)

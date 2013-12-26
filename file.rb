@@ -1,3 +1,7 @@
+#encoding: utf-8
+
+require_relative 'ref'
+
 def writeid3_mp3(file_name, file_info)
     begin
         frame_factory = TagLib::ID3v2::FrameFactory.instance
@@ -47,11 +51,11 @@ def rename(file_name, file_info)
     new_file_name = file_name.dup
     
     ref = ""
-    if has_ref?(file_info[:ref]) 
+    if is_valid_ref?(file_info[:ref]) 
         ref = "["+normalizeRef(file_info[:ref], file_info[:lang]) + "] "
     end
     suffix = File.extname(file_name).downcase
-    dir = File.dirnname file_name
+    dir = File.dirname file_name
     if(suffix == ".mp3" || suffix == ".ogg" || suffix == ".mp4")
         new_file_name = 
                 dir + 

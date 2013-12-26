@@ -1,6 +1,10 @@
 # encoding: utf-8
 require 'optparse'
-require 'russian'
+require 'logger'
+require_relative 'strings'
+
+$logger = Logger.new('logfile.log')
+
 $catNames = Hash[
         "hellersdorf-predigt" => "Predigt",
         "lichtenberg-predigt" => "Predigt",
@@ -43,7 +47,7 @@ def cleanOptions()
     $options[:files] = Array.new
     $options[:title] = ""
     $options[:preacher] = ""
-    $options[:lang] = "*"
+    $options[:lang] = ["de","ru"]
     $options[:ref] = ""
     $options[:date] = ""
     $options[:serie] = ""
@@ -67,8 +71,8 @@ def getOptions()
         $options[:speaker] = x
     end
     
-    opts.on( '-g', '--group NAME', 'Name der Gruppe' ) do |x|
-        $options[:cat] = x
+    opts.on( '-g', '--groupName NAME', 'Name der Gruppe' ) do |x|
+        $options[:groupName] = x
     end
     
     opts.on( '-l', '--lang NAME', 'Sprache' ) do |x|
@@ -121,7 +125,7 @@ def getOptions()
 end
 
 def error_check(options)
-    neededOptions = [:title, :preacher, :date, :cat, :files, :host, :username, :api, :home]
+    neededOptions = [:title, :speaker, :date, :groupName, :files, :host, :username, :api, :home]
     
     neededOptions.each do |x|
         if(options[x] == nil) 

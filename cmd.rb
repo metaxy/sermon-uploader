@@ -19,7 +19,7 @@ def main
     return if error_check($options) == :failed
     
     api = Api.new(SshPipe.new(CmdBar.new))
-    
+    $options[:new_file_names] = []
     $options[:files].each do |file|
         $options[:new_file_names] << prepare_file(file, $options)
     end

@@ -1,4 +1,9 @@
+#encoding: utf-8
+
+require 'russian'
+
 def convert(string)
+    return "" if string.nil?
     string.force_encoding('utf-8')
     # use this in ruby 1.8 
     #Iconv.conv('UTF-8//IGNORE', 'UTF-8', string + ' ')[0..-2]
