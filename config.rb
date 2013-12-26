@@ -124,15 +124,23 @@ def getOptions()
     end.parse! 
 end
 
-def error_check(options)
-    neededOptions = [:title, :speaker, :date, :groupName, :files, :host, :username, :api, :home]
-    
+def error_check(hash, neededOptions)
     neededOptions.each do |x|
-        if(options[x] == nil) 
+        if(hash[x] == nil) 
             puts "Die Variable #{x} fehlt in #{options[:files]}" 
             return :failed
         end
     end
+    return :ok
+end
+
+def error_check_options(hash)
+    error_check(hash, [:host, :username, :api, :home])
+end
+
+def error_check_file(hash)
+    return :failed if error_check(hash, [:title, :speaker, :date, :groupName, :files]) == :failed
+    
     options[:files].each do |x|
         if(!File.exists?(x)) 
             puts "Die Datei #{x} existiert nicht" 

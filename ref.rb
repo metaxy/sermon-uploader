@@ -147,7 +147,7 @@ $ref_type3 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
 $ref_type2 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)/
 $ref_type1 = /(\p{Word}+)\s(\d+)\,(\d+)/
 $ref_type0 = /(\p{Word}+)\s(\d+)/
-
+# (\p{Word}+) == (\w+); only for unicode
 
 def get_book_names
     ret = []
@@ -184,9 +184,7 @@ end
 
 def get_matches(reg, ref)
     if(reg =~ ref)
-        y = ref.scan(reg)
-        puts "vaid ref #{ref}"
-        return y[0]
+        return ref.scan(reg)[0]
     else
         return nil
     end

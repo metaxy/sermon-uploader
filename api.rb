@@ -5,7 +5,6 @@ require 'json'
 require 'taglib'
 
 
-# (\p{Word}+) == (\w+); only for unicode
 def trying(t, func, *args)
     t.times do
         begin
@@ -16,7 +15,6 @@ def trying(t, func, *args)
             puts "It failed"
         end
     end
-    #puts "it failed forever"
     return nil
 end
 
@@ -72,16 +70,5 @@ class Api
     def closePipe()
         @pipe.close();
     end
-    
-    def writeData(data)
-        @pipe.writeData(data)
-    end
-    def writeDataVerse(data)
-        @pipe.writeDataVerse(data)
-    end
-    def execInsert()
-        @pipe.execInsert()
-    end
-
 end
 
