@@ -17,3 +17,4 @@ keys.pub
 .yardoc
 _yardoc
 doc/
+fft/build/*
