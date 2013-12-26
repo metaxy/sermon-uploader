@@ -25,7 +25,7 @@ $paths = Hash[
 $options = {}
 $defLoc = "de-DE"
 $options[:key] = "~/.ssh/id_rsa"
-$options[:api] = "http://media.ecg-berlin.de/api/get.php?"
+$options[:api] = "http://localhost:3000/api/"
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
 $options[:binhome] = "/var/www/vhosts/ecg-berlin.de/"
 $options[:filesHome] = "/home/ecg-media/"
@@ -33,13 +33,12 @@ $options[:newHome] = "/home/ecg-media/downloads/new/"
 $options[:tmp] = "/var/www/vhosts/ecg-berlin.de/media/tmp/"
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
-$options[:addfileDesc] = "Notizen"
 $options[:videoPath] = Hash["hellersdorf-predigt" => "/usr/local/WowzaMediaServer/content/live"]
 #$options[:videoPath] = Hash[]
 
 $options[:autoVideo] = true
-
 $deleteFolders = []
+
 def cleanOptions()
     $options[:files] = Array.new
     $options[:title] = ""
@@ -50,6 +49,7 @@ def cleanOptions()
     $options[:serie] = ""
     $options[:autoVideo] = true
 end
+
 def getOptions()
     optparse = OptionParser.new do|opts|
     opts.banner = "Usage: main.rb [options]"
@@ -63,20 +63,20 @@ def getOptions()
         $options[:title] = x
     end
 
-    opts.on( '-p', '--preacher PREACHER', 'Der Prediger' ) do |x|
-        $options[:preacher] = x
+    opts.on( '-s', '--speaker PREACHER', 'Der Prediger' ) do |x|
+        $options[:speaker] = x
     end
     
-    opts.on( '-c', '--cat FILETYPE', 'Kategorie' ) do |x|
+    opts.on( '-g', '--group NAME', 'Name der Gruppe' ) do |x|
         $options[:cat] = x
     end
     
-    opts.on( '-l', '--lang FILETYPE', 'Sprache' ) do |x|
+    opts.on( '-l', '--lang NAME', 'Sprache' ) do |x|
         $options[:lang] = x
     end
     
 
-    opts.on( '-r', '--ref PATH', 'Bibelstelle' ) do |x|
+    opts.on( '-r', '--ref SCRIPTURE', 'Bibelstelle' ) do |x|
         $options[:ref] = x
     end
     
@@ -85,8 +85,8 @@ def getOptions()
     end
 
 
-    opts.on( '-s', '--serie PATH', 'Alias der Serie' ) do |x|
-        $options[:serie] = x
+    opts.on( '-s', '--series NAME', 'Name der Serie' ) do |x|
+        $options[:series] = x
     end
     
     opts.on( '-a', '--api PATH', 'Path zur API' ) {|x| $options[:api] = x}
@@ -138,17 +138,3 @@ def error_check(options)
     return :ok
 end
 
-def clean_ansi(old)
-    Russian.translit(old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub("ß", "ss"))
-end
-def clean_ref(old)
-    Russian.translit(old.gsub("ä","a").gsub("ö","o").sub("ü","u").gsub("ß", "ss"))
-end
-def clean(old)
-    clean_ansi(old.gsub(" ", "-").gsub(",", "-").gsub("(", "").gsub(")", "").gsub("#", ""))
-end
-
-def more_clean(old)
-     a = clean(old)
-     a.gsub( /[^0-9a-zA-Z\-]/, '' )
-end

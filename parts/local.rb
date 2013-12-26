@@ -17,21 +17,6 @@ class LocalPipe
         FileUtils.cp localName, remoteName
     end
     
-    def writeData(data)
-        #puts "local.rb writeData()"
-        #puts data
-        File.open($options[:home] + '/data.txt', 'w') {|f| f.write(data) }
-    end
-    def writeDataVerse(data)
-        #puts "local.rb writeDataVerse()"
-        #puts data
-        File.open($options[:home] + 'data_verse.txt', 'w') {|f| f.write(data) }
-    end
-    def execInsert()
-        #puts "local.rb execInsert()"
-        system("php #{$options[:home]}api/insert.php"); # insert in the db
-    end
-    
     def close()
         #puts "local.rb close()"
     end
