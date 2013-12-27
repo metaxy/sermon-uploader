@@ -52,14 +52,14 @@ def rename(file_name, file_info)
     
     ref = ""
     if is_valid_ref?(file_info[:ref]) 
-        ref = "["+normalizeRef(file_info[:ref], file_info[:lang]) + "] "
+        ref = "["+normalize_ref(file_info[:ref], file_info[:lang]) + "] "
     end
     suffix = File.extname(file_name).downcase
     dir = File.dirname file_name
     if(suffix == ".mp3" || suffix == ".ogg" || suffix == ".mp4")
         new_file_name = 
                 dir + 
-                "/#{file_info[:date]} #{clean_ref(ref)}#{clean_ansi(file_info[:title])} (#{clean_ansi(file_info[:preacher])})" + 
+                "/#{file_info[:date]} #{clean_ref(ref)}#{clean_ansi(file_info[:title])} (#{clean_ansi(file_info[:speaker])})" + 
                 suffix
     else
         new_file_name = dir + "/" + clean(File.basename(file_name))
@@ -75,5 +75,12 @@ def prepare_file(file_name, file_info)
     rename(file_name, file_info)
 end
     
+def prepare_files(file_info)
+    file_info[:new_file_names] = []
+    file_info[:files].each do |file|
+        file_info[:new_file_names] << prepare_file(file, file_info)
+    end
+    return file_info
+end
 
    

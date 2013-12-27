@@ -17,6 +17,7 @@ $catNames = Hash[
         "spandau-jugend" => "Jugend"]
 $paths = Hash[
         "hellersdorf-predigt" => "downloads/hellersdorf/predigt",
+        "Predigt" => "downloads/Test/predigt",
         "lichtenberg-predigt" => "downloads/lichtenberg/predigt",
         "wartenberg-predigt" => "downloads/wartenberg/predigt",
         "spandau-predigt" => "downloads/spandau/predigt",
@@ -27,14 +28,17 @@ $paths = Hash[
         "spandau-jugend" => "downloads/spandau/jugend"]
 
 $options = {}
-$defLoc = "de-DE"
 $options[:key] = "~/.ssh/id_rsa"
 $options[:api] = "http://localhost:3000/api/"
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
 $options[:binhome] = "/var/www/vhosts/ecg-berlin.de/"
-$options[:filesHome] = "/home/ecg-media/"
-$options[:newHome] = "/home/ecg-media/downloads/new/"
-$options[:tmp] = "/var/www/vhosts/ecg-berlin.de/media/tmp/"
+#$options[:filesHome] = "/home/ecg-media/"
+$options[:filesHome] = "/home/paul/"
+$options[:newHome] = $options[:filesHome] + "downloads/new/"
+$options[:backup_path] = $options[:filesHome] + "downloads/bu/"
+$options[:locale] = "de"
+$options[:tmp] = $options[:filesHome] +"tmp/"
+
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
 $options[:videoPath] = Hash["hellersdorf-predigt" => "/usr/local/WowzaMediaServer/content/live"]
@@ -71,8 +75,8 @@ def getOptions()
         $options[:speaker] = x
     end
     
-    opts.on( '-g', '--groupName NAME', 'Name der Gruppe' ) do |x|
-        $options[:groupName] = x
+    opts.on( '-g', '--group_name NAME', 'Name der Gruppe' ) do |x|
+        $options[:group_name] = x
     end
     
     opts.on( '-l', '--lang NAME', 'Sprache' ) do |x|
@@ -127,7 +131,7 @@ end
 def error_check(hash, neededOptions)
     neededOptions.each do |x|
         if(hash[x] == nil) 
-            puts "Die Variable #{x} fehlt in #{options[:files]}" 
+            puts "Die Variable #{x} fehlt in der Configuration"
             return :failed
         end
     end
@@ -139,10 +143,10 @@ def error_check_options(hash)
 end
 
 def error_check_file(hash)
-    return :failed if error_check(hash, [:title, :speaker, :date, :groupName, :files]) == :failed
+    return :failed if error_check(hash, [:title, :speaker, :date, :group_name, :files]) == :failed
     
-    options[:files].each do |x|
-        if(!File.exists?(x)) 
+     hash[:files].each do |x|
+        if(not File.exists?(x)) 
             puts "Die Datei #{x} existiert nicht" 
             return :failed
         end

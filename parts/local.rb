@@ -1,24 +1,10 @@
 # encoding: utf-8
 require 'fileutils'
-class LocalPipe
-     def initialize()
-    end
-    
-    def init()
-        #puts "local.rb init()"
-    end
-    
-    def upload(localName, remoteName)
-        #puts "local.rb upload()"
-        if(not File.exists?(File.dirname(remoteName)))
-           FileUtils.mkdir_p(File.dirname(remoteName))
-        end
-        
-        FileUtils.cp localName, remoteName
-    end
-    
-    def close()
-        #puts "local.rb close()"
-    end
-end
  
+def local_upload(local_name, remote_name, call)
+    if(not File.exists?(File.dirname(remote_name)))
+        FileUtils.mkdir_p(File.dirname(remote_name))
+    end
+    
+    FileUtils.cp local_name, remote_name
+end

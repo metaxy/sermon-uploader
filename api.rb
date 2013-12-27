@@ -37,38 +37,7 @@ class Api
         #puts json
         json.map { |x| x[2]}
     end
-    
-    def remotePath(local)
-        ext = File.extname(local)
-        cat = $paths[$options[:cat]]
-        type =  case ext.downcase
-                    when ".mp3"
-                        "audio"
-                    when ".ogg"
-                        "audio"
-                    when ".mp4"
-                        "video"
-                    else
-                        "extra" 
-                end
-        
-        year = Date.parse($options[:date]).year.to_s
-        
-        return "#{cat}/#{type}/#{year}"
-    end
 
-    def upload(file)
-        full = remotePath(file) + "/" + File.basename(file)
-        #puts "api.rb upload :::: Uploading";
-        #puts "from #{file} to #{full}"
-        
-        @pipe.upload(file, $options[:filesHome] +  full)
-        
-        return full
-    end
-    
-    def closePipe()
-        @pipe.close();
-    end
+
 end
 

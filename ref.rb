@@ -135,12 +135,8 @@ $book_ru = Hash[0 => ['1Mo','Бытие'],
 65 => ['Откровение']]
 
 $books = Hash[
-    "de-DE" => $book_de.dup,
-    "ru-RU" => $book_ru.dup,
-    "de-DE,ru-RU" => $book_de.dup,
-    "ru-RU,en-GB" => $book_ru.dup,
-    "de-DE,en-GB" => $book_de.dup,
-    "ru-RU,de-DE" => $book_ru.dup]
+    "de" => $book_de.dup,
+    "ru" => $book_ru.dup]
 
 $ref_type4 = /(\p{Word}+)\s(\d+)-(\d+)/
 $ref_type3 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
@@ -151,7 +147,7 @@ $ref_type0 = /(\p{Word}+)\s(\d+)/
 
 def get_book_names
     ret = []
-    $books[$defLoc].each do |id,book_names|
+    $books[$options[:locale]].each do |id,book_names|
         book_names.each do |book_name|
             ret << book_name
         end
@@ -161,10 +157,10 @@ end
 # bookname to book id
 
 def book_id(name)
-    $books[$defLoc].each do |id,book_names|
+    $books[$options[:locale]].each do |id,book_names|
         book_names.each do |book_name|
             if(name == book_name)
-                return i + 1
+                return id + 1
             end
         end       
     end
@@ -172,9 +168,9 @@ def book_id(name)
     return nil
 end
 
-def get_book_name(book_name, lang=$defLoc)
-    #puts "Api::get_book_name [#{lang}][#{book_id(i)}][0]";
-    $books[lang][book_id(book_name)-1][0]
+def get_book_name(book_name, lang=[$options[:locale]])
+    puts "Api::get_book_name [#{lang.first}][#{book_id(book_name)}][0]";
+    $books[lang.first][book_id(book_name)-1][0]
 end
 
 def has_valid_book?(matches)
@@ -208,11 +204,11 @@ def is_valid_ref?(ref)
     return false
 end
 def create_hash(book, cap_1, vers_1, cap_2, vers_2, ref)
-      return Hash['sermonsScriptureBook' => book,
-                'sermonsScriptureChapter1' => cap1,
-                'sermonsScriptureVerse1' => vers_1,
-                'sermonsScriptureChapter2' => cap_2,
-                'sermonsScriptureVerse2' => vers_2,
+      return Hash['sermonsScriptureBook' => book.to_i,
+                'sermonsScriptureChapter1' => cap_1.to_i,
+                'sermonsScriptureVerse1' => vers_1.to_i,
+                'sermonsScriptureChapter2' => cap_2.to_i,
+                'sermonsScriptureVerse2' => vers_2.to_i,
                 'sermonsScriptureText' => ref 
                 ]
     
@@ -261,7 +257,7 @@ def ref_data(ref)
     return nil
 end
 
-def normalize_ref(ref, lang=$defLoc)
+def normalize_ref(ref, lang=$options[:locale])
     if($ref_type4  =~ ref) # BookName 1,1-2,12
         y = ref.scan($ref_type4 )  
         x = y[0]

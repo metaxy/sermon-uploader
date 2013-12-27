@@ -6,6 +6,7 @@ require 'fileutils'
 require_relative 'config'
 require_relative 'upload'
 require_relative 'api'
+require_relative 'file'
 require_relative 'parts/local'
 
 # download/new/cat/lang/[serie]/title/date = stelle = preacher.mp3
@@ -34,8 +35,8 @@ def add_file(path)
     mp3_[$options[:newHome]] = "/"
     if(reg_serie =~ mp3_) 
         y = mp3_.scan(reg_serie)[0]
-        file_info[:groupName] = y[0]
-        file_info[:lang] = translateLang y[1]
+        file_info[:group_name] = y[0]
+        file_info[:lang] = translate_lang y[1]
         file_info[:serie] = y[2]
         file_info[:title] = y[3].strip
         file_info[:date] = y[4].strip
@@ -43,27 +44,30 @@ def add_file(path)
         file_info[:speaker] = y[10]
     elsif(reg =~ mp3_) 
         y = mp3_.scan(reg)[0]
-        file_info[:groupName] = y[0]
-        file_info[:lang] = translateLang y[1]
+        file_info[:group_name] = y[0]
+        file_info[:lang] = translate_lang y[1]
         file_info[:title] = y[2].strip
         file_info[:date] = y[3].strip
         file_info[:ref] = y[6].strip
-        file_info[:preacher] = y[9]
+        file_info[:speaker] = y[9]
     else
         $logger.warn "didnt't match regexp #{path}"
         return nil
     end
     file_info[:mp3] = mp3
     file_info[:files] = files
-    
-    FileUtils.cp_r(path, "/home/ecg-media/downloads/bu")
+    FileUtils.mkpath($options[:backup_path]);
+    FileUtils.cp_r(path, $options[:backup_path])
     return file_info
 end
-def translateLang(x)
-    x.gsub("de", "de-DE").gsub("ru","ru-RU").gsub("en", "en-GB")
+def translate_lang(x)
+    
+   # x.gsub("de", "de-DE").gsub("ru","ru-RU").gsub("en", "en-GB")
+    x.split(",")
 end
 
-def add_video(mp3File);
+def add_video(file_info);
+    mp3File = file_info[:mp3]
    # $logger.debug "addVideo #{path}"
     folder = $options[:tmp] + $options[:date] + "/";
     clear_folder(folder)
@@ -86,7 +90,7 @@ def add_video(mp3File);
     if(file.nil?)
         file = folder + "res.mp4";
     end
-    
+    file_info[:files] << file
     return file
 end
 def clear_folder(folder)
@@ -131,72 +135,79 @@ def run_fft(folder)
     e = e.split(";");
     if(e.size != 3)
         $logger.debug "fft gave strange output #{e}"
-        return (nil,nil,nil)
+        return nil
     end
     file = files[e[2].to_i]
     secs = e[0].to_i;
     len = e[1].to_i;
     
-    return (file,secs,len)
+    return [file,secs,len]
 end
 def cut_file(file,start,length)
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
     $logger.debug `ffmpeg -i '#{file}' -ss #{start} -t #{length}  -acodec libfaac -ab 64k -vcodec copy #{folder + "res.mp4"}`
 end
 
+def parse_videos(file_info, folder)
+    
+    Dir.foreach(folder) do |i|
+        next if i == '.' or i == '..'
+        if (File.extname(i) == ".mp4")
+            $options[:files] << path + '/' + i
+            
+            $logger.debug `ffmpeg -i '#{i}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
+            if(not File.exists? i + "res.mp4")
+                $logger.warn "ffmpeg failed #{item}"
+                next
+            end
+            
+            $logger.debug `qtfaststart #{item + "res.mp4"} #{item + "res2.mp4"}`
+            $logger.debug `chmod +r #{item + "res2.mp4"}`
+            if(File.exists? item + "res2.mp4")
+                $options[:files] << item + "res2.mp4";
+            else
+                $logger.warn "qtfaststart failed #{item}"
+            end
+
+            return :yes
+            break
+        end
+   end
+   return :no
+end
 
 def main
     getOptions()
-    error_check_options($options)
+    return if error_check_options($options) == :failed
     
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
-       
-        next if item == '.' or item == '..' # skip
-        next if(not File.directory? item) # skip files
+        next if item == '.' or item == '..' 
+        next if not File.directory? item # skip files
+        
         cleanOptions() # new option
+        
         file_info = add_file(item)
         next if file_info.nil?
-        
         next if error_check_file(file_info) == :failed
         
         # check first for videos
-        mp4 = nil
-        Dir.foreach(item) do |i|
-            next if i == '.' or i == '..'
-            if (File.extname(i) == ".mp4")
-                $options[:files] << path + '/' + i
-                
-                $logger.debug `ffmpeg -i '#{i}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
-                if(not File.exists? i + "res.mp4")
-                    $logger.warn "ffmpeg failed #{item}"
-                    next
-                end
-                
-                $logger.debug `qtfaststart #{item + "res.mp4"} #{item + "res2.mp4"}`
-                $logger.debug `chmod +r #{item + "res2.mp4"}`
-                if(File.exists? item + "res2.mp4")
-                    $options[:files] << item + "res2.mp4";
-                else
-                    $logger.warn "qtfaststart failed #{item}"
-                end
-    
-                mp4 = true
-                break
-            end
+        has_videos = parse_videos(file_info, item)
+        
+        if($options[:videoPath].has_key?($options[:sermon_group]) && $options[:autoVideo] == true && has_videos == :no)
+            add_video(file_info)
         end
-        $logger.debug "has key #{$options[:videoPath].has_key? $options[:sermonGroup]} autoVideo = #{$options[:autoVideo]} mp4 = #{mp4}"
-
-        if($options[:videoPath].has_key?($options[:sermonGroup]) && $options[:autoVideo] == true && mp4 == nil)
-            addVideo($options[:mp3])
-        end
-        api = Api.new(LocalPipe.new)
-        names = api.do_meta
-        u = Upload.new(api)
-        u.up(names)
+        
+        file_info = prepare_files(file_info)
+        file_info = upload(file_info, method(:local_upload), nil)
+        register(file_info)
+        
         $deleteFolders << item
     end
-    #$logger.debug "done"
     
+    delete_folders()
+end
+
+def delete_folders()
     $deleteFolders.each do |folder|
         if(File.exists? folder)
            $logger.debug "delete #{folder}"
