@@ -4,7 +4,7 @@ needs ruby >= 1.9
 
 ##install
 sudo zypper in libtag-devel ruby-devel
-usdo gem install json net-scp taglib-ruby qtbindings russian rest-client
+sudo gem install json net-scp taglib-ruby qtbindings russian rest-client
 
 #test run#
 

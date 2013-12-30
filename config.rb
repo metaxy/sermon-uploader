@@ -32,6 +32,7 @@ $options[:api] = "http://localhost:3000/api/"
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
 $options[:binhome] = "/var/www/vhosts/ecg-berlin.de/"
 $options[:filesHome] = "/home/ecg-media/"
+$options[:visible_path] = $options[:filesHome]
 #$options[:filesHome] = "/home/paul/"
 $options[:newHome] = $options[:filesHome] + "downloads/new/"
 $options[:backup_path] = $options[:filesHome] + "downloads/bu/"

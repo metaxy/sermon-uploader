@@ -6,8 +6,16 @@ def files_data(file_names)
     ret = []
     file_names.each do |file_name|
         #todo: get file type
+        file_type = "other"
+        file_name[$options[:visible_path]] = ""
+        suffix = File.extname(file_name).downcase
+        if(suffix == "mp3" or suffix == "ogg")
+            file_type = "audio"
+        elsif (suffix == "mp4")
+            file_type = "video"
+        end
         ret << Hash[
-            'sermonsFileType' => "audio",
+            'sermonsFileType' => file_type,
             'sermonsFilePath' => file_name,
             'sermonsFileTitle' => ""
         ]
