@@ -1,66 +1,44 @@
 #encoding: utf-8
+require 'rest_client'
+require 'json'
 
-def convert(string)
-    string.force_encoding('utf-8')
-     #Iconv.conv('UTF-8//IGNORE', 'UTF-8', string + ' ')[0..-2]
+def files_data(file_names)
+    ret = []
+    file_names.each do |file_name|
+        #todo: get file type
+        ret << Hash[
+            'sermonsFileType' => "audio",
+            'sermonsFilePath' => file_name,
+            'sermonsFileTitle' => ""
+        ]
+    end
+    return ret
 end
-
-class Register
-    def initialize(api)
-        @api = api
-    end                           
-    def register(newPaths)
-        #puts "Register.register()";
-        speaker_id = @api.getSpeakerID(convert($options[:preacher]))
-        new_speaker = convert($options[:preacher])
-        new_speaker_alias = convert($options[:preacher])
-
-        series_id = @api.getSeriesID($options[:serie])
-        cat_id = @api.getCatID($options[:cat])
-
-        audiofile = ""
-        videofile = ""
-        addfile = ""
-        oggfile = ""
-        newPaths.each do |x|
-            ext = File.extname(x) rescue ""
-            case ext
-                when ".mp3"
-                    audiofile = x
-                when ".mp4"
-                    videofile = x
-                when ".ogg"
-                    oggfile = x
-                else
-                    addfile = x
-            end
-        end
-        data = Hash['speaker_id' => speaker_id,
-                    'series_id' => series_id,
-                    'audiofile' => convert(audiofile),
-                    'videofile' => convert(videofile),
-                    'title' => convert($options[:title]),
-                    'alias' => more_clean(convert($options[:title])),
-                    'addfile' => addfile,
-                    'addfileDesc' => convert($options[:addfileDesc]),
-                    'catid' => cat_id,
-                    'language' => $options[:lang],
-                    'sermon_date' => $options[:date],
-                    'sermon_time' => "",
-                    'new_speaker' => new_speaker,
-                    'new_speaker_alias' => new_speaker_alias
-                ]
-        #puts data
-        
-        j = data.to_json.to_s
-        @api.writeData(j);
-    
-        
-        if @api.hasRef?($options[:ref])
-            ref = @api.refToJson($options[:ref])
-            @api.writeDataVerse(ref)
-        end
-        @api.execInsert()
-        
+def ref_prepare(ref)
+    hash = ref_data ref
+    if(hash.nil?)
+        return []
+    else
+        return [hash]
     end
 end
+def register(file_info)
+    data = Hash[
+        'title' => convert(file_info[:title]),
+        'lang' => file_info[:lang],
+        'groupName' => file_info[:group_name],
+        'speaker' => convert(file_info[:speaker]),
+        'date' => file_info[:date],
+        'seriesName' => convert(file_info[:series]),
+        'scriptures' => ref_prepare(file_info[:ref]),
+        'files' => files_data(file_info[:remote_file_names])
+    ]
+    begin
+         RestClient.post $options[:api]+"sermons-insert",  data.to_json.to_s, {}  
+    rescue => e
+        puts e.response
+        puts e.to_str
+    end                               
+    
+end
+

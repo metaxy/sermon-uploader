@@ -1,6 +1,10 @@
 # encoding: utf-8
 require 'optparse'
-require 'russian'
+require 'logger'
+require_relative 'strings'
+
+$logger = Logger.new('logfile.log')
+
 $catNames = Hash[
         "hellersdorf-predigt" => "Predigt",
         "lichtenberg-predigt" => "Predigt",
@@ -12,44 +16,47 @@ $catNames = Hash[
         "wartenberg-jugend" => "Jugend",
         "spandau-jugend" => "Jugend"]
 $paths = Hash[
-        "hellersdorf-predigt" => "downloads/hellersdorf/predigt",
-        "lichtenberg-predigt" => "downloads/lichtenberg/predigt",
-        "wartenberg-predigt" => "downloads/wartenberg/predigt",
-        "spandau-predigt" => "downloads/spandau/predigt",
-        "hellersdorf-gemeindeseminar" => "downloads/hellersdorf/gemeindeseminar",
-        "hellersdorf-jugend" => "downloads/hellersdorf/jugend",
-        "lichtenberg-jugend" => "downloads/lichtenberg/jugend",
-        "wartenberg-jugend" => "downloads/wartenberg/jugend",
-        "spandau-jugend" => "downloads/spandau/jugend"]
+        "hellersdorf-predigt" => "downloads/hellersdorf2/predigt",
+        "lichtenberg-predigt" => "downloads/lichtenberg2/predigt",
+        "wartenberg-predigt" => "downloads/wartenberg2/predigt",
+        "spandau-predigt" => "downloads/spandau2/predigt",
+        "hellersdorf-gemeindeseminar" => "downloads/hellersdorf2/gemeindeseminar",
+        "hellersdorf-jugend" => "downloads/hellersdorf2/jugend",
+        "lichtenberg-jugend" => "downloads/lichtenberg2/jugend",
+        "wartenberg-jugend" => "downloads/wartenberg2/jugend",
+        "spandau-jugend" => "downloads/spandau2/jugend"]
 
 $options = {}
-$defLoc = "de-DE"
 $options[:key] = "~/.ssh/id_rsa"
-$options[:api] = "http://media.ecg-berlin.de/api/get.php?"
+$options[:api] = "http://localhost:3000/api/"
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
 $options[:binhome] = "/var/www/vhosts/ecg-berlin.de/"
 $options[:filesHome] = "/home/ecg-media/"
-$options[:newHome] = "/home/ecg-media/downloads/new/"
-$options[:tmp] = "/var/www/vhosts/ecg-berlin.de/media/tmp/"
+#$options[:filesHome] = "/home/paul/"
+$options[:newHome] = $options[:filesHome] + "downloads/new/"
+$options[:backup_path] = $options[:filesHome] + "downloads/bu/"
+$options[:locale] = "de"
+$options[:tmp] = $options[:filesHome] +"tmp/"
+
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
-$options[:addfileDesc] = "Notizen"
 $options[:videoPath] = Hash["hellersdorf-predigt" => "/usr/local/WowzaMediaServer/content/live"]
 #$options[:videoPath] = Hash[]
 
 $options[:autoVideo] = true
-
 $deleteFolders = []
+
 def cleanOptions()
     $options[:files] = Array.new
     $options[:title] = ""
     $options[:preacher] = ""
-    $options[:lang] = "*"
+    $options[:lang] = ["de","ru"]
     $options[:ref] = ""
     $options[:date] = ""
     $options[:serie] = ""
     $options[:autoVideo] = true
 end
+
 def getOptions()
     optparse = OptionParser.new do|opts|
     opts.banner = "Usage: main.rb [options]"
@@ -63,20 +70,20 @@ def getOptions()
         $options[:title] = x
     end
 
-    opts.on( '-p', '--preacher PREACHER', 'Der Prediger' ) do |x|
-        $options[:preacher] = x
+    opts.on( '-s', '--speaker PREACHER', 'Der Prediger' ) do |x|
+        $options[:speaker] = x
     end
     
-    opts.on( '-c', '--cat FILETYPE', 'Kategorie' ) do |x|
-        $options[:cat] = x
+    opts.on( '-g', '--group_name NAME', 'Name der Gruppe' ) do |x|
+        $options[:group_name] = x
     end
     
-    opts.on( '-l', '--lang FILETYPE', 'Sprache' ) do |x|
+    opts.on( '-l', '--lang NAME', 'Sprache' ) do |x|
         $options[:lang] = x
     end
     
 
-    opts.on( '-r', '--ref PATH', 'Bibelstelle' ) do |x|
+    opts.on( '-r', '--ref SCRIPTURE', 'Bibelstelle' ) do |x|
         $options[:ref] = x
     end
     
@@ -85,8 +92,8 @@ def getOptions()
     end
 
 
-    opts.on( '-s', '--serie PATH', 'Alias der Serie' ) do |x|
-        $options[:serie] = x
+    opts.on( '-s', '--series NAME', 'Name der Serie' ) do |x|
+        $options[:series] = x
     end
     
     opts.on( '-a', '--api PATH', 'Path zur API' ) {|x| $options[:api] = x}
@@ -120,17 +127,25 @@ def getOptions()
     end.parse! 
 end
 
-def error_check(options)
-    neededOptions = [:title, :preacher, :date, :cat, :files, :host, :username, :api, :home]
-    
+def error_check(hash, neededOptions)
     neededOptions.each do |x|
-        if(options[x] == nil) 
-            puts "Die Variable #{x} fehlt in #{options[:files]}" 
+        if(hash[x] == nil) 
+            puts "Die Variable #{x} fehlt in der Configuration"
             return :failed
         end
     end
-    options[:files].each do |x|
-        if(!File.exists?(x)) 
+    return :ok
+end
+
+def error_check_options(hash)
+    error_check(hash, [:host, :username, :api, :home])
+end
+
+def error_check_file(hash)
+    return :failed if error_check(hash, [:title, :speaker, :date, :group_name, :files]) == :failed
+    
+     hash[:files].each do |x|
+        if(not File.exists?(x)) 
             puts "Die Datei #{x} existiert nicht" 
             return :failed
         end
@@ -138,17 +153,3 @@ def error_check(options)
     return :ok
 end
 
-def clean_ansi(old)
-    Russian.translit(old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub("ß", "ss"))
-end
-def clean_ref(old)
-    Russian.translit(old.gsub("ä","a").gsub("ö","o").sub("ü","u").gsub("ß", "ss"))
-end
-def clean(old)
-    clean_ansi(old.gsub(" ", "-").gsub(",", "-").gsub("(", "").gsub(")", "").gsub("#", ""))
-end
-
-def more_clean(old)
-     a = clean(old)
-     a.gsub( /[^0-9a-zA-Z\-]/, '' )
-end

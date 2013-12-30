@@ -2,29 +2,23 @@
 require 'rubygems'
 
 require_relative 'config'
-require_relative 'metadata'
 require_relative 'upload'
 require_relative 'api'
 require_relative 'parts/ssh'
+require_relative 'file'
+require_relative 'register'
 
-class CmdBar 
-    def update(name, sent, total)
-        print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
-    end
+def konsole_update(name, sent, total)
+    total += 0.0000000001
+    print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
 end
 
 def main
-
     getOptions()
     # some error checking
-    return if error_check($options) == :failed
-    
-   
-
-    api = Api.new(SshPipe.new(CmdBar.new))
-    names = api.do_meta()
-    u = Upload.new(api)
-    u.up(names)
-    
+    return if error_check_options($options) == :failed
+    $options = prepare_files($options)
+    $options = upload($options, method(:ssh_upload), method(:konsole_update))
+    register($options)
 end
 main()
