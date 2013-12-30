@@ -7,7 +7,7 @@ def files_data(file_names)
     file_names.each do |file_name|
         #todo: get file type
         file_type = "other"
-        file_name[$options[:visible_path]] = ""
+        file_name[$options[:visible_path]] = "./"
         suffix = File.extname(file_name).downcase
         puts "#{suffix} of #{file_name}"
         if(suffix == ".mp3" or suffix == ".ogg")
