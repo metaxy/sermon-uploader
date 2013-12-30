@@ -41,6 +41,7 @@ def register(file_info)
         'scriptures' => ref_prepare(file_info[:ref]),
         'files' => files_data(file_info[:remote_file_names])
     ]
+    puts data.to_s
     begin
          RestClient.post $options[:api]+"sermons-insert",  data.to_json.to_s, {}  
     rescue => e
