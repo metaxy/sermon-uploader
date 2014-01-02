@@ -28,3 +28,4 @@ end
 
 def fix_speaker(old)
     old.gsub("Alex Arzer", "Alexander Arzer").gsub("Willi Walger","Wilhelm Walger")
+end
