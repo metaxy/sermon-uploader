@@ -9,7 +9,7 @@ def files_data(file_names)
         file_type = "other"
         file_name[$options[:visible_path]] = "/"
         suffix = File.extname(file_name).downcase
-        puts "#{suffix} of #{file_name}"
+        #puts "#{suffix} of #{file_name}"
         if(suffix == ".mp3" or suffix == ".ogg")
             file_type = "audio"
         elsif (suffix == ".mp4")
@@ -44,7 +44,7 @@ def register(file_info)
     ]
     puts data.to_s
     begin
-         echo "posting to #{$options[:api]}sermons-insert \n #{data.to_json.to_s}"
+         puts "posting to #{$options[:api]}sermons-insert \n #{data.to_json.to_s}"
          RestClient.post $options[:api]+"sermons-insert",  data.to_json.to_s, {}  
     rescue => e
         puts e.response
