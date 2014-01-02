@@ -11,7 +11,7 @@ def writeid3_mp3(file_name, file_info)
             tag.album = file_info[:serie]
             tag.year = Date.parse(file_info[:date]).year
             tag.comment = "Aufnahme der ECG Berlin http://ecg-berlin.de"
-            tag.artist = file_info[:preacher]
+            tag.artist = file_info[:speaker]
             if is_valid_ref? file_info[:ref]
                 tag.title  = "#{refs_normalize(file_info[:ref], file_info[:lang])} #{file_info[:title]}"
             else
@@ -33,7 +33,7 @@ def writemeta_mp4(file_name, file_info)
             tag.setAlbum(file_info[:serie]);
             tag.setYear(Date.parse(file_info[:date]).year);
             tag.setComment("Aufnahme der ECG Berlin http://ecg-berlin.de");
-            tag.setArtist(file_info[:preacher])
+            tag.setArtist(file_info[:speaker])
             if is_valid_ref? file_info[:ref]
                 tag.setTitle("#{refs_normalize(file_[:ref], file_info[:lang])} #{file_info[:title]}")
             else

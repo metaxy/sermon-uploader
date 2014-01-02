@@ -190,11 +190,17 @@ def is_valid?(reg, ref)
     matches = get_matches(reg, ref)
     return has_valid_book?(matches)
 end
-
-def is_valid_ref?(ref)
+def is_valid_refs?(refs)
     return false if ref.nil?
     return false if ref == ""
     
+    refs.each do |x|
+        return false if not is_valid_ref?(x.strip)
+    end
+    
+    return true
+end
+def is_valid_ref?(ref)
     return true if is_valid?($ref_type4, ref)
     return true if is_valid?($ref_type3, ref)
     return true if is_valid?($ref_type2, ref)
