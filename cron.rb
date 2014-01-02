@@ -192,7 +192,9 @@ def main
         
         # check first for videos
         has_videos = parse_videos(file_info, item)
-        
+        puts $options[:videoPath].has_key?($options[:sermon_group])
+        puts $options[:autoVideo]
+        puts has_videos
         if($options[:videoPath].has_key?($options[:sermon_group]) && $options[:autoVideo] == true && has_videos == :no)
             add_video(file_info)
         end
