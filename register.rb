@@ -37,7 +37,7 @@ def register(file_info)
         'speaker' => convert(file_info[:speaker]),
         'date' => file_info[:date],
         'seriesName' => convert(file_info[:series]),
-        'scriptures' => ref_prepare(file_info[:ref]),
+        'scriptures' => refs_data(file_info[:ref]),
         'files' => files_data(file_info[:remote_file_names])
     ]
     puts data.to_s

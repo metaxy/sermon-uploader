@@ -256,8 +256,10 @@ def ref_data(ref)
     end
     return nil
 end
-
-def normalize_ref(ref, lang=$options[:locale])
+def refs_normalize(ref, lang=$options[:locale])
+    ref.split(";").each {|x| ref_normalize(x)}.join(" ;")
+end
+def normalize_ref(ref, lang)
     if($ref_type4  =~ ref) # BookName 1,1-2,12
         y = ref.scan($ref_type4 )  
         x = y[0]
@@ -286,4 +288,7 @@ def normalize_ref(ref, lang=$options[:locale])
         return "#{get_book_name(x[0],lang)} #{x[1]}"
     end
     return ""
+end
+def refs_data(ref)
+    ref.split(";").each {|x| ref_data(x)}
 end

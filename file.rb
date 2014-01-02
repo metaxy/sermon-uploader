@@ -13,7 +13,7 @@ def writeid3_mp3(file_name, file_info)
             tag.comment = "Aufnahme der ECG Berlin http://ecg-berlin.de"
             tag.artist = file_info[:preacher]
             if is_valid_ref? file_info[:ref]
-                tag.title  = "#{normalize_ref(file_info[:ref], file_info[:lang])} #{file_info[:title]}"
+                tag.title  = "#{refs_normalize(file_info[:ref], file_info[:lang])} #{file_info[:title]}"
             else
                 tag.title = file_info[:title]
             end
@@ -35,7 +35,7 @@ def writemeta_mp4(file_name, file_info)
             tag.setComment("Aufnahme der ECG Berlin http://ecg-berlin.de");
             tag.setArtist(file_info[:preacher])
             if is_valid_ref? file_info[:ref]
-                tag.setTitle("#{normalize_ref(file_[:ref], file_info[:lang])} #{file_info[:title]}")
+                tag.setTitle("#{refs_normalize(file_[:ref], file_info[:lang])} #{file_info[:title]}")
             else
                 tag.setTitle(file_info[:title])
             end
@@ -52,7 +52,7 @@ def rename(file_name, file_info)
     
     ref = ""
     if is_valid_ref?(file_info[:ref]) 
-        ref = "["+normalize_ref(file_info[:ref], file_info[:lang]) + "] "
+        ref = "["+refs_normalize(file_info[:ref], file_info[:lang]) + "] "
     end
     suffix = File.extname(file_name).downcase
     dir = File.dirname file_name

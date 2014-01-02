@@ -56,13 +56,17 @@ def add_file(path)
     end
     file_info[:mp3] = mp3
     file_info[:files] = files
-    FileUtils.mkpath($options[:backup_path]);
-    FileUtils.cp_r(path, $options[:backup_path])
+    make_backup(path, file_info)
     return file_info
 end
+
+def make_backup(path, file_info)
+    b = "#{$options[:backup_path]}#{$options[:user]}/#{file_info[:group_name}/"
+    FileUtils.mkpath(b);
+    FileUtils.cp_r(path, b)
+end
+
 def translate_lang(x)
-    
-   # x.gsub("de", "de-DE").gsub("ru","ru-RU").gsub("en", "en-GB")
     x.split(",")
 end
 
