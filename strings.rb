@@ -25,3 +25,6 @@ def more_clean(old)
      a = clean(old)
      a.gsub( /[^0-9a-zA-Z\-]/, '' )
 end
+
+def fix_speaker(old)
+    old.gsub("Alex Arzer", "Alexander Arzer").gsub("Willi Walger","Wilhelm Walger")

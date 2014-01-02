@@ -41,7 +41,7 @@ def add_file(path)
         file_info[:title] = y[3].strip
         file_info[:date] = y[4].strip
         file_info[:ref] = y[7].strip
-        file_info[:speaker] = y[10]
+        file_info[:speaker] = fix_speaker y[10]
     elsif(reg =~ mp3_) 
         y = mp3_.scan(reg)[0]
         file_info[:group_name] = y[0]
@@ -49,7 +49,7 @@ def add_file(path)
         file_info[:title] = y[2].strip
         file_info[:date] = y[3].strip
         file_info[:ref] = y[6].strip
-        file_info[:speaker] = y[9]
+        file_info[:speaker] = fix_speaker y[9]
     else
         $logger.warn "didnt't match regexp #{path}"
         return nil
