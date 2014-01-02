@@ -158,7 +158,6 @@ def parse_videos(file_info, folder)
     Dir.foreach(folder) do |i|
         next if i == '.' or i == '..'
         if (File.extname(i) == ".mp4")
-            $options[:files] << path + '/' + i
             
             $logger.debug `ffmpeg -i '#{i}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
             if(not File.exists? i + "res.mp4")
