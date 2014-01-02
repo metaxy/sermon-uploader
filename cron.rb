@@ -111,7 +111,7 @@ def faststart(file, new_file)
 end
 def parse_livestreams(date, new_folder)
     files = []
-    path_to_videos =  $options[:videoPath][$options[:sermonsGroup]]
+    path_to_videos =  $options[:videoPath][file_info[:group_name]]
     i = 0
     Dir.foreach(path_to_videos).each do |item|
         fullItem = path_to_videos + "/" + item
