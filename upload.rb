@@ -25,7 +25,7 @@ class Upload
 end
 def remote_path(local, file_info)
     ext = File.extname(local)
-    grp = $paths[file_info[:group_name]]
+    grp = file_info[:group_name]
     type =  case ext.downcase
                 when ".mp3"
                     "audio"
