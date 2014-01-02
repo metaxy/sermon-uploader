@@ -34,6 +34,7 @@ def ref_prepare(ref)
     end
 end
 def register(file_info)
+    puts file_info.to_yaml
     data = Hash[
         'title' => convert(file_info[:title]),
         'lang' => file_info[:lang],
