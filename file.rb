@@ -59,7 +59,12 @@ def rename(file_name, file_info)
     if(suffix == ".mp3" || suffix == ".ogg" || suffix == ".mp4")
         new_file_name = 
                 dir + 
-                "/#{file_info[:date]} #{clean_ref(ref)}#{clean_ansi(file_info[:title])} (#{clean_ansi(file_info[:speaker])})" + 
+                "/#{file_info[:date]} #{clean_ansi(file_info[:title])}" + 
+                suffix
+    else if(suffix == ".mp4")
+         new_file_name = 
+                dir + 
+                "/#{file_info[:date]} #{clean_ref(file_info[:ref])}#{clean_ansi(file_info[:title])} (#{clean_ansi(file_info[:speaker])})" + 
                 suffix
     else
         new_file_name = dir + "/" + clean(File.basename(file_name))
