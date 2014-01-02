@@ -72,7 +72,7 @@ def add_video(file_info);
     folder = $options[:tmp] + file_info[:date] + "/";
     clear_folder(folder)
     
-    return nil if not parse_livestreams(Date.parse(file_info[:date]), folder)
+    return nil if not parse_livestreams(file_info, Date.parse(file_info[:date]), folder)
         
     $logger.debug `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
     
@@ -109,7 +109,7 @@ def faststart(file, new_file)
         return nil;
     end
 end
-def parse_livestreams(date, new_folder)
+def parse_livestreams(file_info, date, new_folder)
     files = []
     path_to_videos =  $options[:videoPath][file_info[:group_name]]
     i = 0
