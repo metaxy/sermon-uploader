@@ -24,7 +24,7 @@ def writeid3_mp3(file_name, file_info)
     end
 end
       
-def writemeta_mp4(file_name)
+def writemeta_mp4(file_name, file_info)
     begin
         frame_factory = TagLib::MP4::FrameFactory.instance
         frame_factory.default_text_encoding = TagLib::String::UTF8
