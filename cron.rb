@@ -69,10 +69,10 @@ end
 def add_video(file_info);
     mp3File = file_info[:mp3]
    # $logger.debug "addVideo #{path}"
-    folder = $options[:tmp] + $options[:date] + "/";
+    folder = $options[:tmp] + file_info[:date] + "/";
     clear_folder(folder)
     
-    return nil if not parse_livestreams(Date.parse($options[:date]), folder)
+    return nil if not parse_livestreams(Date.parse(file_info[:date]), folder)
         
     $logger.debug `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
     
