@@ -267,7 +267,7 @@ def refs_data(ref)
 end
 
 def refs_normalize(ref, lang=$options[:locale])
-    ref.split(";").map! {|x| ref_normalize(x.strip,lang)}.join(" ;")
+    ref.split(";").map! {|x| ref_normalize(x.strip,lang)}.join("; ")
 end
 
 def ref_normalize(ref, lang)

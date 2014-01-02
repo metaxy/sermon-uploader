@@ -168,7 +168,7 @@ def parse_videos(file_info, item)
             $logger.debug `qtfaststart #{item + "res.mp4"} #{item + "res2.mp4"}`
             $logger.debug `chmod +r #{item + "res2.mp4"}`
             if(File.exists? item + "res2.mp4")
-                $options[:files] << item + "res2.mp4";
+                file_info[:files] << item + "res2.mp4";
             else
                 $logger.warn "qtfaststart failed #{item}"
             end
