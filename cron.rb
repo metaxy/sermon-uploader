@@ -153,9 +153,9 @@ def cut_file(file,start,length, folder)
     $logger.debug `ffmpeg -i '#{file}' -ss #{start} -t #{length}  -acodec libfaac -ab 64k -vcodec copy #{folder + "res.mp4"}`
 end
 
-def parse_videos(file_info, folder)
+def parse_videos(file_info, item)
     
-    Dir.foreach(folder) do |i|
+    Dir.foreach(item) do |i|
         next if i == '.' or i == '..'
         if (File.extname(i) == ".mp4")
             
