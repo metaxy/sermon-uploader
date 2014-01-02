@@ -48,7 +48,7 @@ def upload(file_info, upload_method, call)
         full = remote_path(file, file_info) + "/" + File.basename(file)
         upload_method.call(file, $options[:filesHome] +  full, call)
       #  n = trying(3, method(:upload_method), file, $options[:filesHome] +  full, nil)
-        file_info[:remote_file_names] << full
+        file_info[:remote_file_names] << "/" + full
     end
     return file_info
 end
