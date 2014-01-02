@@ -79,7 +79,7 @@ def add_video(file_info);
     (file,secs,len) = run_fft(folder)
     file = files[file]
     return nil if file.nil?
-    cut_file(file, secs, len)
+    cut_file(file, secs, len, folder)
     
     if(not File.exists? folder + "res.mp4")
          $logger.warn "ffmpeg failed #{folder}"
@@ -144,7 +144,7 @@ def run_fft(folder)
     
     return [file,secs,len]
 end
-def cut_file(file,start,length)
+def cut_file(file,start,length, folder)
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
     $logger.debug `ffmpeg -i '#{file}' -ss #{start} -t #{length}  -acodec libfaac -ab 64k -vcodec copy #{folder + "res.mp4"}`
 end
