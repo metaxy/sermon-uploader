@@ -2,47 +2,22 @@
 require 'optparse'
 require 'logger'
 require_relative 'strings'
+require 'yaml'
 
 $logger = Logger.new('logfile.log')
 
-$catNames = Hash[
-        "hellersdorf-predigt" => "Predigt",
-        "lichtenberg-predigt" => "Predigt",
-        "wartenberg-predigt" => "Predigt",
-        "spandau-predigt" => "Predigt",
-        "hellersdorf-gemeindeseminar" => "Gemeindeseminar",
-        "hellersdorf-jugend" => "Jugend",
-        "lichtenberg-jugend" => "Jugend",
-        "wartenberg-jugend" => "Jugend",
-        "spandau-jugend" => "Jugend"]
-$paths = Hash[
-        "hellersdorf-predigt" => "downloads/hellersdorf2/predigt",
-        "lichtenberg-predigt" => "downloads/lichtenberg2/predigt",
-        "wartenberg-predigt" => "downloads/wartenberg2/predigt",
-        "spandau-predigt" => "downloads/spandau2/predigt",
-        "hellersdorf-gemeindeseminar" => "downloads/hellersdorf2/gemeindeseminar",
-        "hellersdorf-jugend" => "downloads/hellersdorf2/jugend",
-        "lichtenberg-jugend" => "downloads/lichtenberg2/jugend",
-        "wartenberg-jugend" => "downloads/wartenberg2/jugend",
-        "spandau-jugend" => "downloads/spandau2/jugend"]
-
 $options = {}
 $options[:key] = "~/.ssh/id_rsa"
-$options[:api] = "http://localhost:3000/api/"
 $options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
 $options[:binhome] = "/var/www/vhosts/ecg-berlin.de/"
 $options[:filesHome] = "/home/ecg-media/"
 $options[:visible_path] = $options[:filesHome]
-#$options[:filesHome] = "/home/paul/"
-$options[:newHome] = $options[:filesHome] + "downloads/new/"
-$options[:backup_path] = $options[:filesHome] + "downloads/bu/"
+
 $options[:locale] = "de"
 $options[:tmp] = $options[:filesHome] +"tmp/"
 
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
-$options[:videoPath] = Hash["hellersdorf-predigt" => "/usr/local/WowzaMediaServer/content/live"]
-#$options[:videoPath] = Hash[]
 
 $options[:autoVideo] = true
 $deleteFolders = []
@@ -62,7 +37,15 @@ def getOptions()
     optparse = OptionParser.new do|opts|
     opts.banner = "Usage: main.rb [options]"
     cleanOptions();
- 
+   
+    opts.on( '-u', '--user NAME', 'Username for m6' ) do |x|
+        $options[:user] = x
+        config = YAML.load_file '#{x}.yml'
+        $options.merge! config
+        $options[:newHome] = $options[:filesHome] + "downloads/new/#{x}/"
+        $options[:backup_path] = $options[:filesHome] + "downloads/bu/#{x}/"
+    end
+    
     opts.on( '-f', '--file FILENAMES', 'Which files to upload' ) do |file|
         $options[:files] << File.expand_path(file)
     end
@@ -104,7 +87,7 @@ def getOptions()
         $options[:home] = x
     end
     
-    opts.on( '-u', '--username NAME', 'Username' ) do |x|
+    opts.on('--username NAME', 'Username' ) do |x|
         $options[:username] = x
     end
     
