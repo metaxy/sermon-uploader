@@ -20,14 +20,6 @@ def files_data(file_names)
     end
     return ret
 end
-def ref_prepare(ref)
-    hash = ref_data ref
-    if(hash.nil?)
-        return []
-    else
-        return [hash]
-    end
-end
 def register(file_info)
     puts file_info.to_yaml
     data = Hash[
