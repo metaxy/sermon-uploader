@@ -61,7 +61,7 @@ def add_file(path)
 end
 
 def make_backup(path, file_info)
-    b = "#{$options[:backup_path]}#{$options[:user]}/#{file_info[:group_name}/"
+    b = "#{$options[:backup_path]}#{$options[:user]}/#{file_info[:group_name]}/"
     FileUtils.mkpath(b);
     FileUtils.cp_r(path, b)
 end
