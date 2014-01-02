@@ -71,12 +71,13 @@ def add_video(file_info);
    # $logger.debug "addVideo #{path}"
     folder = $options[:tmp] + file_info[:date] + "/";
     clear_folder(folder)
-    
-    return nil if not parse_livestreams(file_info, Date.parse(file_info[:date]), folder)
+    files = parse_livestreams(file_info, Date.parse(file_info[:date]), folder)
+    return nil if files.length == 0
         
     $logger.debug `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
     
     (file,secs,len) = run_fft(folder)
+    file = files[file]
     return nil if file.nil?
     cut_file(file, secs, len)
     
@@ -125,7 +126,7 @@ def parse_livestreams(file_info, date, new_folder)
             i += 1
         end
     end
-    return (i > 0)
+    return files
 end
 
 def run_fft(folder)
@@ -137,7 +138,7 @@ def run_fft(folder)
         $logger.debug "fft gave strange output #{e}"
         return nil
     end
-    file = files[e[2].to_i]
+    file = e[2].to_i
     secs = e[0].to_i;
     len = e[1].to_i;
     
