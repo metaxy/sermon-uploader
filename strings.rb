@@ -8,7 +8,8 @@ def convert(string)
     # use this in ruby 1.8 
     #Iconv.conv('UTF-8//IGNORE', 'UTF-8', string + ' ')[0..-2]
 end
-
+def clean_file_name(old)
+    clean_ansi(old).gsub("?","").gsub(":", "").gsub("%","").gsub("\"","'").gsub("|","").gsub("+","")
 def clean_ansi(old)
     Russian.translit(old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub("ß", "ss"))
 end
