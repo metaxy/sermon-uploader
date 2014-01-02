@@ -39,7 +39,7 @@ def remote_path(local, file_info)
     
     year = Date.parse(file_info[:date]).year.to_s
     
-    return "downloads/#{file_info[:user]}#{grp}/#{type}/#{year}"
+    return "downloads/#{$options[:user]}/#{grp}/#{type}/#{year}"
 end
 
 def upload(file_info, upload_method, call) 
