@@ -179,7 +179,7 @@ end
 def main
     getOptions()
     return if error_check_options($options) == :failed
-    
+    puts $options[:newHome].to_yaml
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
         next if item == '.' or item == '..' 
         next if not File.directory? item # skip files
