@@ -9,7 +9,7 @@ def writeid3_mp3(file_name, file_info)
         frame_factory.default_text_encoding = TagLib::String::UTF8
         TagLib::MPEG::File.open file_name do |file|
             tag = file.id3v2_tag
-            tag.album = file_info[:serie]
+            tag.album = file_info[:group_name]
             tag.year = Date.parse(file_info[:date]).year
             tag.comment = "Aufnahme der ECG Berlin http://ecg-berlin.de"
             tag.artist = file_info[:speaker]
@@ -32,7 +32,7 @@ def writemeta_mp4(file_name, file_info)
         frame_factory.default_text_encoding = TagLib::String::UTF8
         TagLib::MP4::File.open file_name do |file|
             tag = file.tag
-            tag.setAlbum(file_info[:serie]);
+            tag.setAlbum(file_info[:group_name]);
             tag.setYear(Date.parse(file_info[:date]).year);
             tag.setComment("Aufnahme der ECG Berlin http://ecg-berlin.de");
             tag.setArtist(file_info[:speaker])
