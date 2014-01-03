@@ -19,7 +19,7 @@ def writeid3_mp3(file_name, file_info)
             end
             file.save
         end
-    rescue e
+    rescue => e
         puts e
         $logger.warn "writing id3-tags failed on #{file_name}"
     end
