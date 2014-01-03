@@ -158,10 +158,10 @@ def parse_videos(file_info, item)
         ii = item + "/" + i;
         next if i == '.' or i == '..'
         if (File.extname(ii) == ".mp4")
-            $logger.debug `qtfaststart '#{ii}' '#{item + "res2.mp4"}'`
-            $logger.debug `chmod +r '#{item + "res2.mp4"}'`
-            if(File.exists? item + "res2.mp4")
-                file_info[:files] << item + "res2.mp4";
+            $logger.debug `qtfaststart '#{ii}' '#{item + "/res2.mp4"}'`
+            $logger.debug `chmod +r '#{item + "/res2.mp4"}'`
+            if(File.exists? item + "/res2.mp4")
+                file_info[:files] << item + "/res2.mp4";
             else
                 file_info[:files] << ii;
                 $logger.warn "qtfaststart failed #{item}"
