@@ -158,14 +158,6 @@ def parse_videos(file_info, item)
         ii = item + "/" + i;
         next if i == '.' or i == '..'
         if (File.extname(ii) == ".mp4")
-            =begin
-            $logger.debug `ffmpeg -i '#{ii}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
-            if(not File.exists? ii + "res.mp4")
-                $logger.warn "ffmpeg failed #{item}"
-                next
-            end
-            =end
-            
             $logger.debug `qtfaststart #{ii} #{item + "res2.mp4"}`
             $logger.debug `chmod +r #{item + "res2.mp4"}`
             if(File.exists? item + "res2.mp4")
