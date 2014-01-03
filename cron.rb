@@ -154,22 +154,24 @@ def cut_file(file,start,length, folder)
 end
 
 def parse_videos(file_info, item)
-    
     Dir.foreach(item) do |i|
+        ii = item + "/" + i;
         next if i == '.' or i == '..'
-        if (File.extname(i) == ".mp4")
-            
-            $logger.debug `ffmpeg -i '#{i}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
-            if(not File.exists? i + "res.mp4")
+        if (File.extname(ii) == ".mp4")
+            =begin
+            $logger.debug `ffmpeg -i '#{ii}'  -acodec libfdk_aac -ab 64k -vcodec copy #{item + "res.mp4"}`
+            if(not File.exists? ii + "res.mp4")
                 $logger.warn "ffmpeg failed #{item}"
                 next
             end
+            =end
             
-            $logger.debug `qtfaststart #{item + "res.mp4"} #{item + "res2.mp4"}`
+            $logger.debug `qtfaststart #{ii} #{item + "res2.mp4"}`
             $logger.debug `chmod +r #{item + "res2.mp4"}`
             if(File.exists? item + "res2.mp4")
                 file_info[:files] << item + "res2.mp4";
             else
+                file_info[:files] << ii;
                 $logger.warn "qtfaststart failed #{item}"
             end
 
