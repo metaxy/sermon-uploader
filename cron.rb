@@ -105,9 +105,9 @@ def clear_folder(folder)
     Dir.mkdir(folder)
 end
 def faststart(file, new_file)
-    puts `qtfaststart #{file} #{new_file}`
+    puts `qtfaststart '#{file}' '#{new_file}'`
     if(File.exists? new_file)
-        puts `chmod +r #{new_file}`
+        puts `chmod +r '#{new_file}'`
         return new_file;
     else
         $logger.warn "qtfaststart failed #{new_file}"
@@ -150,7 +150,7 @@ def run_fft(folder)
 end
 def cut_file(file,start,length, folder)
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
-    $logger.debug `ffmpeg -i '#{file}' -ss #{start} -t #{length}  -acodec libfaac -ab 64k -vcodec copy #{folder + "res.mp4"}`
+    $logger.debug `ffmpeg -i '#{file}' -ss #{start} -t #{length}  -acodec libfaac -ab 64k -vcodec copy '#{folder + "res.mp4"}'`
 end
 
 def parse_videos(file_info, item)
@@ -158,8 +158,8 @@ def parse_videos(file_info, item)
         ii = item + "/" + i;
         next if i == '.' or i == '..'
         if (File.extname(ii) == ".mp4")
-            $logger.debug `qtfaststart #{ii} #{item + "res2.mp4"}`
-            $logger.debug `chmod +r #{item + "res2.mp4"}`
+            $logger.debug `qtfaststart '#{ii}' '#{item + "res2.mp4"}'`
+            $logger.debug `chmod +r '#{item + "res2.mp4"}'`
             if(File.exists? item + "res2.mp4")
                 file_info[:files] << item + "res2.mp4";
             else
