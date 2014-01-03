@@ -6,7 +6,7 @@ def writeid3_mp3(file_name, file_info)
     begin
         frame_factory = TagLib::ID3v2::FrameFactory.instance
         frame_factory.default_text_encoding = TagLib::String::UTF8
-        TagLib::MPEG::File.open file do |file_name|
+        TagLib::MPEG::File.open file_name do |file|
             tag = file.id3v2_tag
             tag.album = file_info[:serie]
             tag.year = Date.parse(file_info[:date]).year
@@ -29,7 +29,7 @@ def writemeta_mp4(file_name, file_info)
     begin
         frame_factory = TagLib::MP4::FrameFactory.instance
         frame_factory.default_text_encoding = TagLib::String::UTF8
-        TagLib::MP4::File.open file do |file_name|
+        TagLib::MP4::File.open file_name do |file|
             tag = file.tag
             tag.setAlbum(file_info[:serie]);
             tag.setYear(Date.parse(file_info[:date]).year);
