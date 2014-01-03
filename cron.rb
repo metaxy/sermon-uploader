@@ -199,7 +199,6 @@ def main
         puts $options[:videoPath].has_key?($options[:group_name])
         puts $options[:autoVideo]
         puts has_videos
-        puts "options ::: !!!!!!!!!!::::!!!!!!!!"
         if($options[:videoPath].has_key?(file_info[:group_name]) && $options[:autoVideo] == true && has_videos == :no)
             add_video(file_info)
         end
