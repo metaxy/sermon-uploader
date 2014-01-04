@@ -190,14 +190,17 @@ def main
         next if file_info.nil?
         next if error_check_file(file_info) == :failed
         
+        puts "file_info at 193 !!!!!!! #{file_info}"
         # check first for videos
         has_videos = parse_videos(file_info, item)
         if($options[:videoPath].has_key?(file_info[:group_name]) && $options[:autoVideo] == true && has_videos == :no)
             add_video(file_info)
         end
         
+        puts "file_info at 200 !!!!!!! #{file_info}"
         file_info = prepare_files(file_info)
         file_info = upload(file_info, method(:local_upload), nil)
+        puts "file_info at 203 !!!!!!! #{file_info}"
         register(file_info)
         
         $deleteFolders << item
