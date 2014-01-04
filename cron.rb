@@ -22,7 +22,7 @@ end
 def add_file(path)
     file_info = Hash[]
     files = find_all_files(path)
-    files = files.select! { |f| File.extname(f).downcase != ".mp4" }
+    files.select! { |f| File.extname(f).downcase != ".mp4" }
     mp3s = files.select { |f| File.extname(f).downcase == ".mp3" }                  
     return nil if mp3s.empty?
     mp3 = mp3s.first
