@@ -50,6 +50,7 @@ def writemeta_mp4(file_name, file_info)
 end
 # gets a Path to a file and some info about it, and renames it to be pretty
 def rename(file_name, file_info)
+    
     new_file_name = file_name.dup
     
     ref = ""
@@ -67,6 +68,7 @@ def rename(file_name, file_info)
     else
         new_file_name = dir + "/" + clean(File.basename(file_name))
     end
+    puts "renaming #{file_name} to #{new_file_name}" 
     File.rename(file_name, new_file_name)
     return new_file_name
 end
