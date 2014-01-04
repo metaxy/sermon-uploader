@@ -138,11 +138,11 @@ $books = Hash[
     "de" => $book_de.dup,
     "ru" => $book_ru.dup]
 
-$ref_type4 = /(\p{Word}+)\s(\d+)-(\d+)/
-$ref_type3 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/
-$ref_type2 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)/
-$ref_type1 = /(\p{Word}+)\s(\d+)\,(\d+)/
-$ref_type0 = /(\p{Word}+)\s(\d+)/
+$ref_type4 = /(\p{Word}+)\s(\d+)-(\d+)/ # Book Chapter-Chapter
+$ref_type3 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)\,(\d+)/ # Book Chaper,Verse-Chaper,Verse
+$ref_type2 = /(\p{Word}+)\s(\d+)\,(\d+)-(\d+)/ # Bookm Chaper,Verse-Verse
+$ref_type1 = /(\p{Word}+)\s(\d+)\,(\d+)/ # Book CHaper,Verse
+$ref_type0 = /(\p{Word}+)\s(\d+)/ # Book Chaper
 # (\p{Word}+) == (\w+); only for unicode
 
 def get_book_names
@@ -169,7 +169,7 @@ def book_id(name)
 end
 
 def get_book_name(book_name, lang=[$options[:locale]])
-    puts "Api::get_book_name [#{lang.first}][#{book_id(book_name)}][0]";
+    #puts "Api::get_book_name [#{lang.first}][#{book_id(book_name)}][0]";
     $books[lang.first][book_id(book_name)-1][0]
 end
 

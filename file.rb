@@ -3,7 +3,7 @@
 require_relative 'ref'
 
 def writeid3_mp3(file_name, file_info)
-    puts "writeid3 ::: #{file_name} #{file_info}"
+    #puts "writeid3 ::: #{file_name} #{file_info}"
     begin
         frame_factory = TagLib::ID3v2::FrameFactory.instance
         frame_factory.default_text_encoding = TagLib::String::UTF8

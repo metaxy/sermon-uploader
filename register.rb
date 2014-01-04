@@ -32,9 +32,8 @@ def register(file_info)
         'scriptures' => refs_data(file_info[:ref]),
         'files' => files_data(file_info[:remote_file_names])
     ]
-    puts data.to_s
+    puts "register() :: #{data.to_s}"
     begin
-         puts "posting to #{$options[:api]}sermons-insert \n #{data.to_json.to_s}"
          RestClient.post $options[:api]+"sermons-insert",  data.to_json.to_s, {}  
     rescue => e
         puts e.response

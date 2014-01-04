@@ -22,6 +22,8 @@ end
 def add_file(path)
     file_info = Hash[]
     files = find_all_files(path)
+    files.keep_if! { |f| File.extname(f).downcase != ".mp4" }
+    puts "all files #{files}"
     mp3s = files.keep_if { |f| File.extname(f).downcase == ".mp3" }                  
     return nil if mp3s.empty?
     mp3 = mp3s.first
@@ -136,7 +138,7 @@ end
 def run_fft(folder)
     $logger.debug "#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'"
     e = `#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'`
-    puts e
+    #puts e
     e = e.split(";");
     if(e.size != 3)
         $logger.debug "fft gave strange output #{e}"
@@ -177,7 +179,7 @@ end
 def main
     getOptions()
     return if error_check_options($options) == :failed
-    puts $options.to_yaml
+    #puts $options.to_yaml
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
         next if item == '.' or item == '..' 
         next if not File.directory? item # skip files
@@ -190,9 +192,6 @@ def main
         
         # check first for videos
         has_videos = parse_videos(file_info, item)
-        puts $options[:videoPath].has_key?($options[:group_name])
-        puts $options[:autoVideo]
-        puts has_videos
         if($options[:videoPath].has_key?(file_info[:group_name]) && $options[:autoVideo] == true && has_videos == :no)
             add_video(file_info)
         end

@@ -34,7 +34,7 @@ def remote_path(local, file_info)
                 when ".mp4"
                     "video"
                 else
-                    "extra" 
+                    "other" 
             end
     
     year = Date.parse(file_info[:date]).year.to_s
