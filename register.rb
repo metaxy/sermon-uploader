@@ -28,7 +28,7 @@ def register(file_info)
         'groupName' => file_info[:group_name],
         'speaker' => convert(file_info[:speaker]),
         'date' => file_info[:date],
-        'seriesName' => convert(file_info[:series]),
+        'seriesName' => convert(file_info[:serie]),
         'scriptures' => refs_data(file_info[:ref]),
         'files' => files_data(file_info[:remote_file_names])
     ]
