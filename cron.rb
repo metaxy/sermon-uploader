@@ -57,7 +57,7 @@ def add_file(path)
     end
     file_info[:mp3] = mp3
     file_info[:files] = files
-    make_backup(path, file_info)
+    #make_backup(path, file_info)
     return file_info
 end
 
