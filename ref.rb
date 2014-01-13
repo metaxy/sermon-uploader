@@ -220,6 +220,7 @@ def create_hash(book, cap_1, vers_1, cap_2, vers_2, ref)
     
 end
 def ref_data(ref)
+    ref_n = 
     t4 = get_matches($ref_type4, ref)
     t3 = get_matches($ref_type3, ref)
     t2 = get_matches($ref_type2, ref)
@@ -263,7 +264,7 @@ def ref_data(ref)
     return nil
 end
 def refs_data(ref)
-    ref.split(";").map! {|x| ref_data(x.strip)}
+    ref.split(";").map! {|x| ref_data(x.strip)}.delete_if {|x| x == nil}
 end
 
 def refs_normalize(ref, lang=$options[:locale])
