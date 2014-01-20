@@ -88,7 +88,7 @@ def add_video(file_info);
     
     if(not File.exists? folder + "res.mp4")
          $logger.warn "ffmpeg failed #{folder}"
-         return
+         return nil
     end
     $deleteFolders << folder
     
@@ -96,7 +96,12 @@ def add_video(file_info);
     if(file.nil?)
         file = folder + "res.mp4";
     end
-    file_info[:files] << file
+    if(File.size?(file) != nil && File.size?(file) > 1024*1024*8)
+        file_info[:files] << file
+        puts "Video failed !!!!!!!!"
+        $logger.warn "video failed#{folder}"
+        return nil
+    end
     return file
 end
 def clear_folder(folder)
