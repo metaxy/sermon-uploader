@@ -73,13 +73,12 @@ end
 
 def add_video(file_info);
     mp3File = file_info[:mp3]
-   # $logger.debug "addVideo #{path}"
     folder = $options[:tmp] + file_info[:date] + "/";
     clear_folder(folder)
     files = parse_livestreams(file_info, Date.parse(file_info[:date]), folder)
     return nil if files.length == 0
         
-    $logger.debug `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
+    `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
     
     (file,secs,len) = run_fft(folder)
     file = files[file]
@@ -96,13 +95,17 @@ def add_video(file_info);
     if(file.nil?)
         file = folder + "res.mp4";
     end
+    
     if(File.size?(file) != nil && File.size?(file) > 1024*1024*8)
         file_info[:files] << file
+        return file
+    else
         puts "Video failed !!!!!!!!"
         $logger.warn "video failed#{folder}"
         return nil
     end
-    return file
+    
+    return 
 end
 def clear_folder(folder)
      if(File.exists? folder)
