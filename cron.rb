@@ -183,10 +183,21 @@ def parse_videos(file_info, item)
    return :no
 end
 
+def is_active_upload?(path)
+    f = `du -s #{path}`
+    sleep 5
+    s = `du -s #{path}`
+    
+    return s != f
+end
+
 def main
     getOptions()
     return if error_check_options($options) == :failed
     #puts $options.to_yaml
+    while is_active_upload $options[:newHome] do
+        puts "There is a upload going on waiting…"
+    end
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
         next if item == '.' or item == '..' 
         next if not File.directory? item # skip files
