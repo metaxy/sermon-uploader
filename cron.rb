@@ -195,7 +195,7 @@ def main
     getOptions()
     return if error_check_options($options) == :failed
     #puts $options.to_yaml
-    while is_active_upload $options[:newHome] do
+    while is_active_upload? $options[:newHome] do
         puts "There is a upload going on waiting…"
     end
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
