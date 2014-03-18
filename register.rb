@@ -25,8 +25,8 @@ end
 def register(file_info)
     puts file_info.to_yaml
     random = SecureRandom.urlsafe_base64
-    DIGEST  = OpenSSL::Digest::Digest.new('sha1')
-    hash = OpenSSL::HMAC.digest(DIGEST, $options[:secretKey], random)
+    digest  = OpenSSL::Digest::Digest.new('sha1')
+    hash = OpenSSL::HMAC.digest(digest, $options[:secretKey], random)
     
     data = Hash[
         'title' => convert(file_info[:title]),
