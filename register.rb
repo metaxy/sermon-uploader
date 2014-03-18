@@ -44,7 +44,7 @@ def register(file_info)
     ]
     puts "register() :: #{data.to_s}"
     begin
-         RestClient.post $options[:api]+"sermons-insert",  data.to_json.to_s, {}  
+         RestClient.post $options[:api]+"sermons/insert",  data.to_json.to_s, {}  
     rescue => e
         puts e.response
         puts e.to_str
