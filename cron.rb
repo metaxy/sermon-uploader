@@ -192,11 +192,12 @@ def is_active_upload?(path)
 end
 
 def main
+    puts "checking environment…"
     getOptions()
     return if error_check_options($options) == :failed
     #puts $options.to_yaml
     while is_active_upload? $options[:newHome] do
-        puts "There is a upload going on waiting…"
+        puts "There is a upload going on. I'm waiting…"
     end
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
         next if item == '.' or item == '..' 

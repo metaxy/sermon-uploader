@@ -1,6 +1,8 @@
 #encoding: utf-8
 require 'rest_client'
 require 'json'
+require 'securerandom'
+require 'openssl'
 
 def files_data(file_names)
     ret = []
@@ -22,6 +24,10 @@ def files_data(file_names)
 end
 def register(file_info)
     puts file_info.to_yaml
+    random = SecureRandom.urlsafe_base64
+    DIGEST  = OpenSSL::Digest::Digest.new('sha1')
+    hash = OpenSSL::HMAC.digest(DIGEST, $options[:secretKey], random)
+    
     data = Hash[
         'title' => convert(file_info[:title]),
         'lang' => file_info[:lang],
@@ -30,7 +36,11 @@ def register(file_info)
         'date' => file_info[:date],
         'seriesName' => convert(file_info[:serie]),
         'scriptures' => refs_data(file_info[:ref]),
-        'files' => files_data(file_info[:remote_file_names])
+        'files' => files_data(file_info[:remote_file_names]),
+        'random' => random,
+        'hash' => hash,
+        'notes' => '',
+        'visibility' => 1
     ]
     puts "register() :: #{data.to_s}"
     begin
