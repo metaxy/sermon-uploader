@@ -40,7 +40,7 @@ def register(file_info)
         'random' => random,
         'hash' => hash,
         'notes' => '',
-        'visibility' => 1,
+        'visibility' => 0,
         'extra' => nil
     ]
     puts "register() :: #{data.to_s}"

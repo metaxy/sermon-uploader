@@ -131,7 +131,7 @@ def parse_livestreams(file_info, date, new_folder)
         fullItem = path_to_videos + "/" + item
         fileTime = File.mtime(fullItem)
         
-        next if !item.include? "source" or !item.include? ".mp4" # filter by source and .mp4
+        next if !item.include? "ecg" or !item.include? ".mp4" # filter by source and .mp4
         
         if(fileTime.year == date.year && fileTime.yday == date.yday)
             $logger.debug `ffmpeg -y -i '#{fullItem}' -ar 5000 -ac 1 '#{new_folder}out.wav#{i}.wav'`

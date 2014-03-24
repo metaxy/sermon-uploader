@@ -2,4 +2,4 @@
 :api: http://hellersdorf-medien.ecg-berlin.de/api/
 :secretKey: Ip8crjBmqPNzYvh3gLwo
 :videoPath:
-  Predigt: /usr/local/WowzaMediaServer-3.1.2/content/live
+  Predigt: /usr/local/WowzaStreamingEngine/content
