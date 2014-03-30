@@ -114,9 +114,9 @@ def clear_folder(folder)
     Dir.mkdir(folder)
 end
 def faststart(file, new_file)
-    puts `qtfaststart '#{file}' '#{new_file}'`
+    `qtfaststart '#{file}' '#{new_file}'`
     if(File.exists? new_file)
-        puts `chmod +r '#{new_file}'`
+        `chmod +r '#{new_file}'`
         return new_file;
     else
         $logger.warn "qtfaststart failed #{new_file}"
@@ -192,12 +192,12 @@ def is_active_upload?(path)
 end
 
 def main
-    puts "checking environment…"
+    #puts "checking environment…"
     getOptions()
     return if error_check_options($options) == :failed
     #puts $options.to_yaml
     while is_active_upload? $options[:newHome] do
-        puts "There is a upload going on. I'm waiting…"
+        #puts "There is a upload going on. I'm waiting…"
     end
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
         next if item == '.' or item == '..' 
@@ -230,7 +230,7 @@ def delete_folders()
         if(File.exists? folder)
            $logger.debug "delete #{folder}"
 
-            puts "delete #{folder}"
+            #puts "delete #{folder}"
             FileUtils.rm_rf(folder)
         end
      end

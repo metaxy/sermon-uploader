@@ -68,7 +68,7 @@ def rename(file_name, file_info)
     else
         new_file_name = dir + "/" + clean(File.basename(file_name))
     end
-    puts "renaming #{file_name} to #{new_file_name}" 
+    #puts "renaming #{file_name} to #{new_file_name}" 
     File.rename(file_name, new_file_name)
     return new_file_name
 end

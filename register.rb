@@ -23,7 +23,7 @@ def files_data(file_names)
     return ret
 end
 def register(file_info)
-    puts file_info.to_yaml
+    #puts file_info.to_yaml
     random = SecureRandom.urlsafe_base64
     digest  = OpenSSL::Digest::Digest.new('sha1')
     hash = OpenSSL::HMAC.hexdigest(digest, $options[:secretKey], random)
@@ -43,7 +43,7 @@ def register(file_info)
         'visibility' => 0,
         'extra' => nil
     ]
-    puts "register() :: #{data.to_s}"
+    #puts "register() :: #{data.to_s}"
     begin
          RestClient.post $options[:api]+"sermons/insert",  data.to_json.to_s, {}  
     rescue => e
