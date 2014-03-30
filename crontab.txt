@@ -1,1 +1,1 @@
-1,31 * * * * ruby1.9.1 /var/www/vhosts/ecg-berlin.de/sermon-uploader/cron.rb
+1,31 * * * * ruby /var/www/vhosts/ecg-berlin.de/sermon-uploader/cron.rb -u hellersdorf
