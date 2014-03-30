@@ -40,7 +40,7 @@ def getOptions()
    
     opts.on( '-u', '--user NAME', 'Username for m6' ) do |x|
         $options[:user] = x
-        config = YAML.load_file "#{x}.yml"
+        config = YAML.load_file "#{File.dirname(__FILE__)}/#{x}.yml"
         $options.merge! config
         $options[:newHome] = $options[:filesHome] + "downloads/new/#{x}/"
         $options[:backup_path] = $options[:filesHome] + "downloads/bu/#{x}/"
