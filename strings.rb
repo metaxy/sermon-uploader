@@ -12,10 +12,10 @@ def clean_filename(old)
     clean_ansi(old).gsub("?","").gsub(":", "").gsub("%","").gsub("\"","'").gsub("|","").gsub("+","")
 end
 def clean_ansi(old)
-    Russian.translit(old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub("ß", "ss"))
+    Russian.translit(old.gsub("ä","ae").gsub("ö","oe").sub("ü","ue").gsub("Ä","Ae").gsub("Ö","Oe").sub("Ü","Ue").gsub("ß", "ss"))
 end
 def clean_ref(old)
-    Russian.translit(old.gsub("ä","a").gsub("ö","o").sub("ü","u").gsub("ß", "ss"))
+    Russian.translit(old.gsub("ä","a").gsub("ö","o").sub("ü","u").gsub("Ä","A").gsub("Ö","o").sub("Ü","u").gsub("ß", "ss"))
 end
 def clean(old)
     clean_ansi(old.gsub(" ", "-").gsub(",", "-").gsub("(", "").gsub(")", "").gsub("#", ""))
