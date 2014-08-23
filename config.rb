@@ -8,9 +8,9 @@ $logger = Logger.new('logfile.log')
 
 $options = {}
 $options[:key] = "~/.ssh/id_rsa"
-$options[:home] = "/var/www/vhosts/ecg-berlin.de/media/"
-$options[:binhome] = "/var/www/vhosts/ecg-berlin.de/"
-$options[:filesHome] = "/home/ecg-media/"
+$options[:home] = "/var/www/vhosts/ecg-berlin.de/httpdocs/"
+$options[:binhome] = "/var/www/vhosts/ecg-berlin.de/bin/"
+$options[:filesHome] = $options[:home]
 $options[:visible_path] = $options[:filesHome]
 
 $options[:locale] = "de"
