@@ -71,8 +71,9 @@ def translate_lang(x)
     x.split(",")
 end
 
-def add_video(file_info);
+def add_video(file_info)
     mp3File = file_info[:mp3]
+	$logger.debug "add_video " + mp3File
     folder = $options[:tmp] + file_info[:date] + "/";
     clear_folder(folder)
     files = parse_livestreams(file_info, Date.parse(file_info[:date]), folder)
@@ -148,7 +149,7 @@ def run_fft(folder)
     #puts e
     e = e.split(";");
     if(e.size != 3)
-        $logger.debug "fft gave strange output #{e}"
+        $logger.warn "fft gave strange output #{e}"
         return nil
     end
     file = e[2].to_i
@@ -191,6 +192,7 @@ def is_active_upload?(path)
 end
 
 def main()
+	$logger.debug "checking enviroment"
     #puts "checking environment…"
     getOptions()
     return if error_check_options($options) == :failed
@@ -208,6 +210,7 @@ def main()
         next if file_info.nil?
         next if error_check_file(file_info) == :failed
         
+		$logger.debug "adding file "+ item
         # check first for videos
         has_videos = parse_videos(file_info, item)
         if($options[:videoPath].has_key?(file_info[:group_name]) && $options[:autoVideo] == true && has_videos == :no)

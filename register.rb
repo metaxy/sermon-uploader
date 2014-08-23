@@ -43,12 +43,13 @@ def register(file_info)
         'visibility' => 0,
         'extra' => nil
     ]
+	$logger.debug "register" + data.to_s
     #puts "register() :: #{data.to_s}"
     begin
-         RestClient.post $options[:api]+"sermons/insert",  data.to_json.to_s, {}  
+		RestClient.post $options[:api]+"sermons/insert",  data.to_json.to_s, {}  
     rescue => e
-        puts e.response
-        puts e.to_str
+		$logger.warn e.reponse
+		$logger.warn e.to_str
     end                               
     
 end
