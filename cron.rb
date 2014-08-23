@@ -78,7 +78,7 @@ def add_video(file_info);
     files = parse_livestreams(file_info, Date.parse(file_info[:date]), folder)
     return nil if files.length == 0
         
-    `ffmpeg -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
+    `avconv -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
     
     (file,secs,len) = run_fft(folder)
     file = files[file]
@@ -134,7 +134,7 @@ def parse_livestreams(file_info, date, new_folder)
         next if !item.include? "ecg" or !item.include? ".mp4" # filter by source and .mp4
         
         if(fileTime.year == date.year && fileTime.yday == date.yday)
-            $logger.debug `ffmpeg -y -i '#{fullItem}' -ar 5000 -ac 1 '#{new_folder}out.wav#{i}.wav'`
+            $logger.debug `avconv -y -i '#{fullItem}' -ar 5000 -ac 1 '#{new_folder}out.wav#{i}.wav'`
             files << fullItem
             i += 1
         end
@@ -159,7 +159,7 @@ def run_fft(folder)
 end
 def cut_file(file,start,length, folder)
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
-    $logger.debug `ffmpeg -i '#{file}' -ss #{start} -t #{length}  -acodec libfaac -ab 64k -vcodec copy '#{folder + "res.mp4"}'`
+    $logger.debug `avconv -i '#{file}' -ss #{start} -t #{length}  -acodec libfaac -ab 64k -vcodec copy '#{folder + "res.mp4"}'`
 end
 
 def parse_videos(file_info, item)
