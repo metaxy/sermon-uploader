@@ -19,7 +19,7 @@ $options[:tmp] = $options[:filesHome] +"tmp/"
 $options[:username] = "technik_upload"
 $options[:host] = "5.9.58.75"
 
-$options[:autoVideo] = true
+$options[:autoVideo] = false
 $deleteFolders = []
 
 def cleanOptions()
