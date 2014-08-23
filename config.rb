@@ -30,7 +30,7 @@ def cleanOptions()
     $options[:ref] = ""
     $options[:date] = ""
     $options[:serie] = ""
-    $options[:autoVideo] = true
+    $options[:autoVideo] = false
 end
 
 def getOptions()
