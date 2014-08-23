@@ -187,11 +187,10 @@ def is_active_upload?(path)
     f = `du -s #{path}`
     sleep 5
     s = `du -s #{path}`
-    
     return s != f
 end
 
-def main
+def main()
     #puts "checking environment…"
     getOptions()
     return if error_check_options($options) == :failed
