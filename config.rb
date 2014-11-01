@@ -16,10 +16,10 @@ $options[:visible_path] = $options[:filesHome]
 $options[:locale] = "de"
 $options[:tmp] = $options[:filesHome] +"tmp/"
 
-$options[:username] = "technik_upload"
-$options[:host] = "5.9.58.75"
+$options[:username] = ""
+$options[:host] = ""
 
-$options[:autoVideo] = false
+$options[:autoVideo] = true
 $deleteFolders = []
 
 def cleanOptions()
