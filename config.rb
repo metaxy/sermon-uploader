@@ -20,6 +20,7 @@ $options[:username] = ""
 $options[:host] = ""
 
 $options[:autoVideo] = true
+$options[:fft_resolution] = 500
 $deleteFolders = []
 
 def cleanOptions()
