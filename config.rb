@@ -19,7 +19,7 @@ $options[:tmp] = $options[:filesHome] +"tmp/"
 $options[:username] = ""
 $options[:host] = ""
 
-$options[:autoVideo] = true
+$options[:autoVideo] = false
 $options[:fft_resolution] = 500
 $options[:fft_path] = $options[:binhome] +"findPartWav/findPartWav"
 $options[:vaudio_codec] = "libvo_aacenc"
@@ -34,7 +34,6 @@ def cleanOptions()
     $options[:ref] = ""
     $options[:date] = ""
     $options[:serie] = ""
-    $options[:autoVideo] = true
 end
 
 def getOptions()
