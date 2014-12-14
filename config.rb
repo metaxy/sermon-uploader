@@ -21,7 +21,8 @@ $options[:host] = ""
 
 $options[:autoVideo] = true
 $options[:fft_resolution] = 500
-$options[:vaudio_codec] = "aac"
+$options[:fft_path] = $options[:binhome] +"fft/fft"
+$options[:vaudio_codec] = "libvo_aacenc"
 $options[:vaudio_resolution] = "64k"
 $deleteFolders = []
 
