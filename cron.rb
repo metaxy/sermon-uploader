@@ -229,7 +229,8 @@ def main()
         if($options[:videoPath].has_key?(file_info[:group_name]) && $options[:autoVideo] == true && has_videos == :no)
             add_video(file_info)
         else
-            $logger.debug("videos are disabled")
+            $logger.debug($options[:videoPath])
+            $logger.debug("videos are disabled group name = #{file_info[:group_name]} auto video = #{$options[:autoVideo]}  has videos = #{has_videos} ")
         end
         
         file_info = prepare_files(file_info)
