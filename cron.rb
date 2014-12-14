@@ -160,8 +160,8 @@ end
 
 def run_fft(folder)
     $logger.debug("run fft #{folder}")
-    $logger.debug "#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'"
-    e = `#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'`
+    $logger.debug "#{$options[:fft_path]} --file '#{folder}out.wav'"
+    e = `#{$options[:fft_path]} --file '#{folder}out.wav'`
     #puts e
     e = e.split(";");
     if(e.size != 3)
