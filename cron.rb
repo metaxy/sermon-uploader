@@ -53,6 +53,7 @@ def add_file(path)
         file_info[:speaker] = fix_speaker y[9]
     else
         $logger.warn "didnt't match regexp #{path}"
+        print("malformed file in #{path}")
         return nil
     end
     file_info[:mp3] = mp3
@@ -90,9 +91,11 @@ def add_video(file_info)
          $logger.warn "ffmpeg failed #{folder}"
          return nil
     end
+    
     $deleteFolders << folder
     
     file = faststart(folder + "res.mp4", folder + "res2.mp4")
+    
     if(file.nil?)
         file = folder + "res.mp4";
     end
@@ -108,14 +111,16 @@ def add_video(file_info)
     
     return 
 end
+
 def clear_folder(folder)
      if(File.exists? folder)
         FileUtils.rm_rf(folder) # remove everything
     end
     Dir.mkdir(folder)
 end
+
 def faststart(file, new_file)
-    `qtfaststart '#{file}' '#{new_file}'`
+    `qt-faststart '#{file}' '#{new_file}'`
     if(File.exists? new_file)
         `chmod +r '#{new_file}'`
         return new_file;
@@ -124,6 +129,7 @@ def faststart(file, new_file)
         return nil;
     end
 end
+
 def parse_livestreams(file_info, date, new_folder)
     files = []
     path_to_videos =  $options[:videoPath][file_info[:group_name]]
@@ -135,7 +141,7 @@ def parse_livestreams(file_info, date, new_folder)
         next if !item.include? "ecg" or !item.include? ".mp4" # filter by source and .mp4
         
         if(fileTime.year == date.year && fileTime.yday == date.yday)
-            $logger.debug `avconv -y -i '#{fullItem}' -ar 5000 -ac 1 '#{new_folder}out.wav#{i}.wav'`
+            `avconv -y -i '#{fullItem}' -ar 5000 -ac 1 '#{new_folder}out.wav#{i}.wav'`
             files << fullItem
             i += 1
         end
@@ -192,14 +198,13 @@ def is_active_upload?(path)
 end
 
 def main()
-	$logger.debug "checking enviroment"
-    #puts "checking environment…"
     getOptions()
     return if error_check_options($options) == :failed
-    #puts $options.to_yaml
+    
     while is_active_upload? $options[:newHome] do
-        #puts "There is a upload going on. I'm waiting…"
+        sleep 1
     end
+    
     Dir.glob($options[:newHome] + "**/*").each do |item| # scan all folders
         next if item == '.' or item == '..' 
         next if not File.directory? item # skip files
@@ -230,9 +235,7 @@ end
 def delete_folders()
     $deleteFolders.each do |folder|
         if(File.exists? folder)
-           $logger.debug "delete #{folder}"
-
-            #puts "delete #{folder}"
+            $logger.debug "delete #{folder}"
             FileUtils.rm_rf(folder)
         end
      end

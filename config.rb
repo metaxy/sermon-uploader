@@ -38,7 +38,7 @@ def getOptions()
     opts.banner = "Usage: main.rb [options]"
     cleanOptions();
    
-    opts.on( '-u', '--user NAME', 'Username for m6' ) do |x|
+    opts.on( '-u', '--user NAME', 'Username for m8' ) do |x|
         $options[:user] = x
         config = YAML.load_file "#{File.dirname(__FILE__)}/#{x}.yml"
         $options.merge! config
