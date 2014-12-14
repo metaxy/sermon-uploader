@@ -1,5 +1,4 @@
 #encoding: utf-8
-
 require 'russian'
 
 def convert(string)

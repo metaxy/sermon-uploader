@@ -11,8 +11,6 @@ $title = 3;
 $path = 4;
 $date = 5;
 
-
-
 def main()
     out = ""
     CSV.foreach($csvFile) do |row|

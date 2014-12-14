@@ -73,6 +73,7 @@ def translate_lang(x)
 end
 
 def add_video(file_info)
+    $logger.debug("add video ")
     mp3File = file_info[:mp3]
 	$logger.debug "add_video " + mp3File
     folder = $options[:tmp] + file_info[:date] + "/";
@@ -113,6 +114,7 @@ def add_video(file_info)
 end
 
 def clear_folder(folder)
+    
      if(File.exists? folder)
         FileUtils.rm_rf(folder) # remove everything
     end
@@ -120,6 +122,7 @@ def clear_folder(folder)
 end
 
 def faststart(file, new_file)
+    $logger.debug("faststart on #{file}")
     `qt-faststart '#{file}' '#{new_file}'`
     if(File.exists? new_file)
         `chmod +r '#{new_file}'`
@@ -133,6 +136,7 @@ end
 def parse_livestreams(file_info, date, new_folder)
     files = []
     path_to_videos =  $options[:videoPath][file_info[:group_name]]
+    $logger.debug("parse parse_livestreams #{path_to_videos}")
     i = 0
     Dir.foreach(path_to_videos).each do |item|
         fullItem = path_to_videos + "/" + item
@@ -150,6 +154,7 @@ def parse_livestreams(file_info, date, new_folder)
 end
 
 def run_fft(folder)
+    $logger.debug("run fft #{folder}")
     $logger.debug "#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'"
     e = `#{$options[:binhome]}sermon-uploader/fft_bin --file '#{folder}out.wav'`
     #puts e
@@ -165,11 +170,13 @@ def run_fft(folder)
     return [file,secs,len]
 end
 def cut_file(file,start,length, folder)
+    $logger.debug("cut file #{file} from #{start} '{length}")
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
     $logger.debug `avconv -i '#{file}' -ss #{start} -t #{length}  -acodec libfaac -ab 64k -vcodec copy '#{folder + "res.mp4"}'`
 end
 
 def parse_videos(file_info, item)
+    $logger.debug("parse videos #{item}")
     Dir.foreach(item) do |i|
         ii = item + "/" + i;
         next if i == '.' or i == '..'
@@ -218,8 +225,11 @@ def main()
 		$logger.debug "adding file "+ item
         # check first for videos
         has_videos = parse_videos(file_info, item)
+        
         if($options[:videoPath].has_key?(file_info[:group_name]) && $options[:autoVideo] == true && has_videos == :no)
             add_video(file_info)
+        else
+            $logger.debug("videos are disabled")
         end
         
         file_info = prepare_files(file_info)
