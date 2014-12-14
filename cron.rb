@@ -177,7 +177,7 @@ end
 def cut_file(file,start,length, folder)
     $logger.debug("cut file #{file} from #{start} '{length}")
     #  puts `../bin/ffmpeg -ss #{secs} -t #{len} -i '#{file}' -acodec libfdk_aac -ab 64k -vcodec copy #{folder + "res.mp4"}`
-    $logger.debug `avconv -i '#{file}' -ss #{start} -t #{length}  -acodec libfaac -ab 64k -vcodec copy '#{folder + "res.mp4"}'`
+    $logger.debug `avconv -i '#{file}' -ss #{start} -t #{length}  -acodec #{$options[:vaudio_codec]} -ab #{$options[:vaudio_resolution]}  -vcodec copy '#{folder + "res.mp4"}'`
 end
 
 def parse_videos(file_info, item)

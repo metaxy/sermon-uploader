@@ -21,6 +21,8 @@ $options[:host] = ""
 
 $options[:autoVideo] = true
 $options[:fft_resolution] = 500
+$options[:vaudio_codec] = "aac"
+$options[:vaudio_resolution] = "64k"
 $deleteFolders = []
 
 def cleanOptions()
