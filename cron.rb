@@ -84,6 +84,10 @@ def add_video(file_info)
     `avconv -i '#{mp3File}' -ar 5000 -ac 1 '#{folder}out.wav'`
     
     (file,secs,len) = run_fft(folder)
+    if(file == nil)
+        $logger.warn "fft failed #{folder}"
+        return nil
+    end
     file = files[file]
     return nil if file.nil?
     cut_file(file, secs, len, folder)
@@ -161,7 +165,7 @@ def run_fft(folder)
     e = e.split(";");
     if(e.size != 3)
         $logger.warn "fft gave strange output #{e}"
-        return nil
+        return [nil,nil,nil]
     end
     file = e[2].to_i
     secs = e[0].to_i;
