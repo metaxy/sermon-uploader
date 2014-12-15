@@ -81,7 +81,7 @@ def add_video(file_info)
     files = parse_livestreams(file_info, Date.parse(file_info[:date]), folder)
     return nil if files.length == 0
         
-    `avconv  -i '#{mp3File}' -ar #{$options[:fft_resolution]} -ac 1 -y '#{folder}out.wav'`
+    `avconv -i '#{mp3File}' -acodec pcm_s16le -ar #{$options[:fft_resolution]} -ac 1 -y '#{folder}out.wav'`
     
     (file,secs,len) = run_fft(folder)
     if(file.nil?)
@@ -150,7 +150,7 @@ def parse_livestreams(file_info, date, new_folder)
         next if !item.include? "ecg" or !item.include? ".mp4" # filter by source and .mp4
         
         if(fileTime.year == date.year && fileTime.yday == date.yday)
-            `avconv -y -i '#{fullItem}' -ar #{$options[:fft_resolution]} -ac 1 -y '#{new_folder}out.wav#{i}.wav'`
+            `avconv -y -i '#{fullItem}' -acodec pcm_s16le -ar #{$options[:fft_resolution]} -ac 1 -y '#{new_folder}out.wav#{i}.wav'`
             files << fullItem
             i += 1
         end
