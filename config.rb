@@ -19,8 +19,8 @@ $options[:tmp] = $options[:filesHome] +"tmp/"
 $options[:username] = ""
 $options[:host] = ""
 
-$options[:autoVideo] = false
-$options[:fft_resolution] = 500
+$options[:autoVideo] = true
+$options[:fft_resolution] = 1024
 $options[:fft_path] = $options[:binhome] +"findPartWav/findPartWav"
 $options[:vaudio_codec] = "libvo_aacenc"
 $options[:vaudio_resolution] = "64k"
