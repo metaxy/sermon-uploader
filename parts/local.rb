@@ -7,4 +7,5 @@ def local_upload(local_name, remote_name, call)
     end
     
     FileUtils.cp local_name, remote_name
+    FileUtils.chmod 0644, remote_name
 end
