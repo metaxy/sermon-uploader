@@ -8,7 +8,7 @@ def ssh_upload(local_name, remote_name, call)
     dir = File.dirname(remote_name)
     ssh.exec "mkdir -p #{dir}"
     ssh.scp.upload!(local_name, remote_name, :chunk_size => 2048 * 32) do|ch, name, sent, total|
-            call.call(name, sent, total) if call != nil
+        call.call(name, sent, total) if call != nil
     end
     ssh.close()
 end
